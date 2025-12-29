@@ -3,6 +3,7 @@ import { DropdownComponent } from '../../ui/dropdown/dropdown.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DropdownItemTwoComponent } from '../../ui/dropdown/dropdown-item/dropdown-item.component-two';
+import { AppCustomer } from '../../../types/user.type';
 
 @Component({
   selector: 'app-user-dropdown',
@@ -11,7 +12,7 @@ import { DropdownItemTwoComponent } from '../../ui/dropdown/dropdown-item/dropdo
 })
 export class UserDropdownComponent {
   isOpen = false;
-
+  currentuser:AppCustomer = JSON.parse(localStorage.getItem('currentUser') || '{}');
   toggleDropdown() {
     this.isOpen = !this.isOpen;
   }

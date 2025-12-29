@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, model } from '@angular/core';
-import { FormValueControl } from '@angular/forms/signals';
+import { Component, Input, Output, EventEmitter, model, InputSignal, InputSignalWithTransform, ModelSignal, OutputRef } from '@angular/core';
+import { DisabledReason, FormValueControl, ValidationError, WithOptionalField } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-input-field',
@@ -13,8 +13,8 @@ import { FormValueControl } from '@angular/forms/signals';
         [placeholder]="placeholder"
         [step]="step"
         [ngClass]="inputClasses"
-        (input)="value.set($event.target.value)"
         [value]="value()"
+        (input)="value.set($event.target.value)"
       />
 
       @if (hint) {
@@ -31,6 +31,7 @@ import { FormValueControl } from '@angular/forms/signals';
   `,
 })
 export class InputFieldComponent implements FormValueControl<string | number> {
+  value: ModelSignal<string | number> = model<string | number>('');
 
   @Input() type: string = 'text';
   @Input() id?: string = '';
@@ -40,9 +41,7 @@ export class InputFieldComponent implements FormValueControl<string | number> {
   @Input() error: boolean = false;
   @Input() hint?: string;
   @Input() className: string = '';
-  value = model<string | number>('');
 
-  @Output() valueChange = new EventEmitter<string | number>();
 
   get inputClasses(): string {
     let inputClasses = `h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 ${this.className}`;
@@ -59,6 +58,7 @@ export class InputFieldComponent implements FormValueControl<string | number> {
 
   onInput(event: Event) {
     const input = event.target as HTMLInputElement;
-    this.valueChange.emit(this.type === 'number' ? +input.value : input.value);
+    // 3. Setting the model signal updates the Form State automatically
+    this.value.set(input.value);
   }
 }

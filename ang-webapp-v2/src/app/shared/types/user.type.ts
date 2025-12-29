@@ -15,7 +15,7 @@ export interface Organization {
   nimb_id: string;
   name: string;
   address: string;
-  audit: Audit;
+  audit?: Audit;
 }
 
 export interface Role {

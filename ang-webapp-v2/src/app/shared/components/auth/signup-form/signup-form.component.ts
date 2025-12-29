@@ -4,7 +4,7 @@ import { email, form, required, Field } from '@angular/forms/signals';
 import { LabelComponent } from '../../form/label/label.component';
 import { CheckboxComponent } from '../../form/input/checkbox.component';
 import { InputFieldComponent } from '../../form/input/input-field.component';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { AppCustomer } from '../../../types/user.type';
@@ -29,6 +29,7 @@ export class SignupFormComponent {
 
   authService = inject(AuthenticationService)
   notificationService = inject(NotificationService)
+  router = inject(Router)
 
   showPassword = false;
   isChecked = false;
@@ -39,16 +40,13 @@ export class SignupFormComponent {
     organization: {
       nimb_id: '',
       name: '',
-      address: '',
-      audit: {
-        created_at: '',
-        updated_at: ''
-      }
+      address: ''
     },
     email: '',
     password: '',
     nimb_id: '',
   })
+  
   formGroup = form(this.formModel, (schemaPath) => {
     required(schemaPath.fname, { message: 'First Name is required' });
     required(schemaPath.lname, { message: 'Last Name is required' });
@@ -64,8 +62,19 @@ export class SignupFormComponent {
   }
 
   onSignIn() {
+    console.log(this.formGroup().value());
+    if(this.formGroup().invalid()){
+      this.notificationService.error('Please fill all required fields correctly.', 5);
+      return;
+    }
+    if(!this.isChecked){
+      this.notificationService.error('You must agree to the Terms and Conditions.', 5);
+      return;
+    }
     this.authService.signUpUser(<AppCustomer>this.formGroup().value()).subscribe((response:ApiResponse<AppCustomer>) => {
       this.notificationService.success(response.message, 5);
+      this.formGroup().reset();
+      this.router.navigate(['/auth/sign-in']);
     });
   }
 }

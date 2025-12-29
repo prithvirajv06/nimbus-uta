@@ -13,6 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/prithvirajv06/nimbus-uta/go/core/config"
 	"github.com/prithvirajv06/nimbus-uta/go/core/internal/handler"
+	"github.com/prithvirajv06/nimbus-uta/go/core/internal/middleware"
 	"github.com/prithvirajv06/nimbus-uta/go/core/internal/service"
 	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/cache"
 	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/database"
@@ -59,11 +60,15 @@ func main() {
 
 	// Set up Gin router and handlers
 	router := gin.Default()
-
+	router.Use(middleware.CORS())
+	router.Use(middleware.RequestLogger())
+	router.Use(middleware.AuthMiddleware())
+	router.Use(middleware.ErrorHandler())
+	apiV1 := router.Group("/api/v1")
 	// Customer Service and Handler
 	customerService := service.NewCustomerService(mongoDB, rabbitMQ, cfg)
 	customerHandler := handler.NewCustomerHandler(customerService)
-	customerHandler.RegisterRoutes(router)
+	customerHandler.RegisterRoutes(apiV1)
 
 	// Create HTTP server
 	srv := &http.Server{

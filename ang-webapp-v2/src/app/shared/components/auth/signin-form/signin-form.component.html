@@ -72,10 +72,8 @@
           <app-input-field
             type="email"
             placeholder="info@gmail.com"
-            [value]="email"
-            name="email"
+            [field]="formGroup.email"
             class="form-input"
-            required
           />
         </div>
 
@@ -85,10 +83,8 @@
             <app-input-field
               [type]="showPassword ? 'text' : 'password'"
               placeholder="Enter your password"
-              [value]="password"
-              name="password"
+              [field]="formGroup.password"
               class="form-input"
-              required
             />
             <span
               (click)="togglePasswordVisibility()"
@@ -131,7 +127,7 @@
         <p class="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
           Don't have an account?
           <a
-            routerLink="/signup"
+            routerLink="/auth/sign-up"
             class="text-brand-500 hover:text-brand-600 dark:text-brand-400"
           >
             Sign Up

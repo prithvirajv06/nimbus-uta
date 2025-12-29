@@ -5,5 +5,5 @@ import { NotificationService } from "./notification.service";
 export class CommonService {
     notificationService = inject(NotificationService)
     httpClient = inject(HttpClient);
-    baseApiUrl = "http://localhost:8080/api/v1/";
+    baseApiUrl = "http://localhost:8080/api/v1";
 }

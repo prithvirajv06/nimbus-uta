@@ -32,3 +32,89 @@
 {"time":"2025-12-29T21:04:47.5857056+05:30","level":"INFO","msg":"Looking for error"}
 {"time":"2025-12-29T21:04:55.1409023+05:30","level":"INFO","msg":"Looking for error"}
 {"time":"2025-12-29T21:04:55.1409023+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"User created successfully"}
+{"time":"2025-12-29T23:24:13.8413026+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2025-12-29T23:26:00.2692329+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2025-12-29T23:30:10.4658204+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2025-12-29T23:30:36.8318941+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:30:36.8334683+05:30","level":"ERROR","msg":"error occurred","error":"parsing time \"\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"2006\""}
+{"time":"2025-12-29T23:30:36.8334683+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Unabe unmarshel JSON"}
+{"time":"2025-12-29T23:31:12.6158137+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:31:12.6158137+05:30","level":"ERROR","msg":"error occurred","error":"parsing time \"\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"2006\""}
+{"time":"2025-12-29T23:31:12.6158137+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Unabe unmarshel JSON"}
+{"time":"2025-12-29T23:31:32.0556026+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:31:32.0556026+05:30","level":"ERROR","msg":"error occurred","error":"parsing time \"\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"2006\""}
+{"time":"2025-12-29T23:31:32.0556026+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Unabe unmarshel JSON"}
+{"time":"2025-12-29T23:32:37.0332692+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:32:37.0332692+05:30","level":"ERROR","msg":"error occurred","error":"parsing time \"\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"2006\""}
+{"time":"2025-12-29T23:32:37.0332692+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Unabe unmarshel JSON"}
+{"time":"2025-12-29T23:33:57.9064147+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:33:57.9064147+05:30","level":"ERROR","msg":"error occurred","error":"parsing time \"\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"2006\""}
+{"time":"2025-12-29T23:33:57.9064147+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Unabe unmarshel JSON"}
+{"time":"2025-12-29T23:37:06.3840219+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:37:06.384526+05:30","level":"ERROR","msg":"error occurred","error":"parsing time \"\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"2006\""}
+{"time":"2025-12-29T23:37:06.384526+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Unabe unmarshel JSON"}
+{"time":"2025-12-29T23:38:14.4279913+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:38:14.4279913+05:30","level":"ERROR","msg":"error occurred","error":"parsing time \"\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"2006\""}
+{"time":"2025-12-29T23:38:14.4279913+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Unabe unmarshel JSON"}
+{"time":"2025-12-29T23:38:29.9044973+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:38:29.9044973+05:30","level":"ERROR","msg":"error occurred","error":"parsing time \"\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"2006\""}
+{"time":"2025-12-29T23:38:29.9044973+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Unabe unmarshel JSON"}
+{"time":"2025-12-29T23:39:39.3959674+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:39:39.3959674+05:30","level":"ERROR","msg":"error occurred","error":"parsing time \"\" as \"2006-01-02T15:04:05Z07:00\": cannot parse \"\" as \"2006\""}
+{"time":"2025-12-29T23:39:39.3959674+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Unabe unmarshel JSON"}
+{"time":"2025-12-29T23:40:14.9935145+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:40:15.0559673+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:40:15.0565368+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:40:15.0565368+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"User created successfully"}
+{"time":"2025-12-29T23:40:36.0628161+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:40:36.1207984+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:40:36.1207984+05:30","level":"ERROR","msg":"error occurred","error":"crypto/bcrypt: hashedPassword is not the hash of the given password"}
+{"time":"2025-12-29T23:40:36.1207984+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Invalid email or password"}
+{"time":"2025-12-29T23:41:31.6377515+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:41:31.6957118+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:41:31.6957118+05:30","level":"ERROR","msg":"error occurred","error":"crypto/bcrypt: hashedPassword is not the hash of the given password"}
+{"time":"2025-12-29T23:41:31.6957118+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Invalid email or password"}
+{"time":"2025-12-29T23:42:30.761701+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:45:02.6950197+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:45:02.6950197+05:30","level":"ERROR","msg":"error occurred","error":"crypto/bcrypt: hashedPassword is not the hash of the given password"}
+{"time":"2025-12-29T23:45:02.6950197+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Invalid email or password"}
+{"time":"2025-12-29T23:46:42.950452+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:50:24.003081+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2025-12-29T23:50:55.3554665+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:50:55.4179643+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:50:55.4184852+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"User created successfully"}
+{"time":"2025-12-29T23:51:00.3898199+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:51:02.0497087+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:51:02.0497087+05:30","level":"ERROR","msg":"error occurred","error":"crypto/bcrypt: hashedPassword is not the hash of the given password"}
+{"time":"2025-12-29T23:51:02.0497087+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Invalid email or password"}
+{"time":"2025-12-29T23:51:23.7980181+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:53:14.7949865+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2025-12-29T23:53:51.9968977+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:53:52.063018+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:53:52.063018+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"User created successfully"}
+{"time":"2025-12-29T23:54:05.122983+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:54:07.055093+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T23:54:07.055093+05:30","level":"ERROR","msg":"error occurred","error":"crypto/bcrypt: hashedPassword is not the hash of the given password"}
+{"time":"2025-12-29T23:54:07.055093+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Invalid email or password"}
+{"time":"2025-12-30T00:00:16.1246424+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-30T00:00:48.6911404+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2025-12-30T00:00:53.0761249+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-30T00:03:22.6139715+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2025-12-30T00:03:52.7746209+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-30T00:03:52.8351542+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-30T00:03:52.8351542+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"User created successfully"}
+{"time":"2025-12-30T00:04:09.010102+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-30T00:04:19.6257661+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-30T00:04:19.6257661+05:30","level":"ERROR","msg":"error occurred","error":"crypto/bcrypt: hashedPassword is not the hash of the given password"}
+{"time":"2025-12-30T00:04:19.6257661+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Invalid email or password"}
+{"time":"2025-12-30T00:04:35.9693613+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2025-12-30T00:04:41.7149483+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-30T00:04:47.2604136+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-30T00:04:47.2604136+05:30","level":"ERROR","msg":"error occurred","error":"crypto/bcrypt: hashedPassword is not the hash of the given password"}
+{"time":"2025-12-30T00:04:47.2609294+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Invalid email or password"}
+{"time":"2025-12-30T00:06:09.0857431+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2025-12-30T00:06:13.4005531+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-30T00:06:15.6158339+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-30T00:06:15.6158339+05:30","level":"ERROR","msg":"error occurred","error":"crypto/bcrypt: hashedPassword is not the hash of the given password"}
+{"time":"2025-12-30T00:06:15.6158339+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Invalid email or password"}
+{"time":"2025-12-30T00:10:28.0024453+05:30","level":"INFO","msg":"Starting server on port 8080"}

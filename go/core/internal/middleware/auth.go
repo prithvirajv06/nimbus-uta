@@ -13,7 +13,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			c.Next()
 			return
 		}
-		authHeader := c.GetHeader("Seer-user-name")
+		authHeader := c.GetHeader("user_id")
 		if authHeader == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "User name header required"})
 			c.Abort()
@@ -21,7 +21,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 
 		// Example: Bearer token validation
-		orgId := c.GetHeader("Seer-org-id")
+		orgId := c.GetHeader("org_id")
 		if orgId == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "ORG ID header required"})
 			c.Abort()

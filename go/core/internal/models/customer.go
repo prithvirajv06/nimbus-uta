@@ -29,8 +29,8 @@ type Role struct {
 	Permissions []string `bson:"permissions" json:"permissions"`
 }
 
-func NewOrganization(c *gin.Context, name, address string) *Organization {
-	org := &Organization{
+func NewOrganization(c *gin.Context, name, address string) Organization {
+	org := Organization{
 		NIMB_ID: utils.GenerateNIMBID("N_ORG"),
 		Name:    name,
 		Address: address,
@@ -43,13 +43,13 @@ func NewOrganization(c *gin.Context, name, address string) *Organization {
 	return org
 }
 
-func NewUser(c *gin.Context, fname, lname, email, password, organization string, role Role) *User {
-	u := &User{
+func NewUser(c *gin.Context, fname, lname, email string, hashedPassword []byte, organization string, role Role) User {
+	u := User{
 		NIMB_ID:      utils.GenerateNIMBID("N_USER"),
 		Fname:        fname,
 		Lname:        lname,
 		Email:        email,
-		Password:     password,
+		Password:     string(hashedPassword),
 		Organization: Organization{Name: organization},
 		Role:         role,
 		Audit: Audit{Active: "ACTIVE",

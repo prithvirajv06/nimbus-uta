@@ -44,7 +44,7 @@ export class NotificationService {
   }
 
   error(message: string, duration?: number, actionLabel?: string): void {
-    this.sendNotification('error', message, 0, actionLabel); // Errors don't auto-dismiss by default
+    this.sendNotification('error', message, duration, actionLabel); // Errors don't auto-dismiss by default
   }
 
   warning(message: string, duration?: number, actionLabel?: string): void {

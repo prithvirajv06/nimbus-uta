@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -50,25 +51,23 @@ func (s *CustomerService) RegisterNewUser(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
 		return
 	}
-	payload.Password = string(hashedPassword)
 	defaultRole := models.CreateDefaultAdminRole()
-	newUser := models.NewUser(c, payload.Fname, payload.Lname, payload.Email, payload.Password, payload.Organization.Name, defaultRole)
-	payload = *newUser
+	newUser := models.NewUser(c, payload.Fname, payload.Lname, payload.Email, hashedPassword, payload.Organization.Name, defaultRole)
 
 	//Create Organization if not exists
 	orgRepo := repository.NewGenericRepository[models.Organization](c.Request.Context(), s.mongo.Database, "organizations")
 	existingOrg, _ := orgRepo.FindOne(bson.M{"name": payload.Organization.Name})
 	if existingOrg == nil {
 		newOrg := models.NewOrganization(c, payload.Organization.Name, payload.Organization.Address)
-		_, err := orgRepo.InsertOne(*newOrg)
+		_, err := orgRepo.InsertOne(newOrg)
 		if HandleError(c, err, "Failed to create organization") {
 			return
 		}
-		payload.Organization = *newOrg
+		newUser.Organization = newOrg
 	}
 
 	// Insert new user
-	_, err = repo.InsertOne(payload)
+	_, err = repo.InsertOne(newUser)
 	if HandleError(c, err, "Failed to create user") {
 		return
 	}
@@ -99,6 +98,8 @@ func (s *CustomerService) LoginUser(c *gin.Context) {
 	if HandleError(c, err, "Invalid email or password") {
 		return
 	}
+	fmt.Println("DB hash:", user.Password)
+	fmt.Println("Input password:", payload.Password)
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
 	if HandleError(c, err, "Invalid email or password") {
 		return
