@@ -1,8 +1,7 @@
 package models
 
 import (
-	"time"
-
+	"github.com/gin-gonic/gin"
 	"github.com/prithvirajv06/nimbus-uta/go/core/internal/utils"
 )
 
@@ -14,6 +13,7 @@ type User struct {
 	Password     string       `bson:"password" json:"-"`
 	Organization Organization `bson:"organization" json:"organization"`
 	Role         Role         `bson:"role" json:"role"`
+	JWTToken     string       `bson:"-" json:"token,omitempty"`
 	Audit        Audit        `bson:"audit" json:"audit"`
 }
 
@@ -29,25 +29,22 @@ type Role struct {
 	Permissions []string `bson:"permissions" json:"permissions"`
 }
 
-func NewOrganization(name, address string) *Organization {
-	return &Organization{
+func NewOrganization(c *gin.Context, name, address string) *Organization {
+	org := &Organization{
 		NIMB_ID: utils.GenerateNIMBID("N_ORG"),
 		Name:    name,
 		Address: address,
 		Audit: Audit{Active: "ACTIVE",
 			IsArchived: false,
 			Version:    1, MinorVersion: 0,
-			IsProdCandidate: false,
-			CreatedAt:       time.Now().Unix(),
-			CreatedBy:       "APP_REQUEST",
-			ModifiedAt:      time.Now().Unix(),
-			ModifiedBy:      "NONE"},
+			IsProdCandidate: false},
 	}
+	org.Audit.SetInitialAudit(c)
+	return org
 }
 
-func NewUser(fname, lname, email, password, organization string, role Role) *User {
-
-	return &User{
+func NewUser(c *gin.Context, fname, lname, email, password, organization string, role Role) *User {
+	u := &User{
 		NIMB_ID:      utils.GenerateNIMBID("N_USER"),
 		Fname:        fname,
 		Lname:        lname,
@@ -58,12 +55,10 @@ func NewUser(fname, lname, email, password, organization string, role Role) *Use
 		Audit: Audit{Active: "ACTIVE",
 			IsArchived: false,
 			Version:    1, MinorVersion: 0,
-			IsProdCandidate: false,
-			CreatedAt:       time.Now().Unix(),
-			CreatedBy:       "APP_REQUEST",
-			ModifiedAt:      time.Now().Unix(),
-			ModifiedBy:      "NONE"},
+			IsProdCandidate: false},
 	}
+	u.Audit.SetInitialAudit(c)
+	return u
 }
 
 func (u *User) FullName() string {

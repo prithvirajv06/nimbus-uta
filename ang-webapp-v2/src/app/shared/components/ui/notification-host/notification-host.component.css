@@ -1,0 +1,159 @@
+/* 1. HOST CONTAINER: Fixed position to Bottom-Right */
+.notification-container {
+  position: fixed;
+  top: 20px;
+  /* Shift to bottom */
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column-reverse;
+  /* STACKING: New notifications appear at the bottom */
+  gap: 12px;
+}
+
+/* 2. KEYFRAME ANIMATION: Slide up from the bottom */
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 3. CARD BASE STYLE */
+.notification-card {
+  width: 320px;
+  min-height: 70px;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #333333;
+  /* Dark background for a sleek look */
+  color: #ffffff;
+  /* White text */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+
+  /* Apply animation on load */
+  animation: slide-in-right 0.5s ease-out;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  /* Icon | Content | Dismiss */
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  /* For the progress bar */
+}
+
+/* 4. TYPE-SPECIFIC STYLING (The Bold Visual Cue) */
+.icon-container {
+  font-size: 1.4rem;
+  padding-top: 3px;
+}
+
+.success .icon-container {
+  color: #50c878;
+}
+
+/* Emerald Green */
+.error .icon-container {
+  color: #ff6347;
+}
+
+/* Tomato Red */
+.warning .icon-container {
+  color: #ffd700;
+}
+
+/* Gold Yellow */
+.info .icon-container {
+  color: #4682b4;
+}
+
+/* Steel Blue */
+
+/* 5. CONTENT AREA */
+.content-area {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: 600;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.message {
+  font-size: 0.9rem;
+  color: #cccccc;
+  margin-top: 4px;
+}
+
+/* 6. DISMISS BUTTON */
+.dismiss-button {
+  background: none;
+  border: none;
+  color: #999999;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  height: 20px;
+}
+
+.dismiss-button:hover {
+  color: #ffffff;
+}
+
+/* 7. PROGRESS BAR (Creative Auto-Dismiss Indicator) */
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.progress-indicator {
+  height: 100%;
+  /* The animation name is defined in the component's TypeScript based on duration */
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* Color coding the progress indicator */
+.success .progress-indicator {
+  background-color: #50c878;
+}
+
+.error .progress-indicator {
+  background-color: #ff6347;
+}
+
+.warning .progress-indicator {
+  background-color: #ffd700;
+}
+
+.info .progress-indicator {
+  background-color: #4682b4;
+}
+
+/* Add this to notification-host.component.css */
+@keyframes progress-fade {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0%;
+  }
+}
+
+.progress-indicator {
+  animation-name: progress-fade;
+  /* other styles defined above */
+}

@@ -9,5 +9,16 @@ func GenerateNIMBID(prefix string) string {
 	return prefix + "_" + uid
 }
 func generateUID(length int) string {
-	return uuid.New().String()[:length]
+	uid := uuid.New()
+	// Remove hyphens for a more compact ID
+	compact := ""
+	for _, c := range uid.String() {
+		if c != '-' {
+			compact += string(c)
+		}
+	}
+	if length > len(compact) {
+		length = len(compact)
+	}
+	return compact[:length]
 }

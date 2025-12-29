@@ -17,8 +17,8 @@ func NewVariableHandler(svc *service.VariablePackageService) *VariableHandler {
 
 func (h *VariableHandler) RegisterRoutes(router *gin.Engine) {
 	router.POST("/variables/packages", h.service.CreateNewVariablePackageFromJSON)
-	router.PUT("/variables/packages/:id", h.service.UpdateVariablePackage)
-	router.GET("/variables/package/:id", h.service.GetVariablePackageByNIMBID)
-	router.POST("/variables/packages/list", h.service.ListAllVariablePackages)
-	router.DELETE("/variables/package/:id", h.service.ArchiveVariablePackage)
+	router.PUT("/variables/packages", h.service.UpdateVariablePackage)
+	router.GET("/variables/package", h.service.GetVariablePackageByNIMBID)
+	router.POST("/variables/packages/list", h.service.GetAllVariablePackages)
+	router.DELETE("/variables/package", h.service.ArchiveVariablePackage)
 }

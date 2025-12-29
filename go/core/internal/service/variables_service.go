@@ -3,6 +3,7 @@ package service
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"strings"
 	"unicode"
 
@@ -13,6 +14,7 @@ import (
 	"github.com/prithvirajv06/nimbus-uta/go/core/internal/utils"
 	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/database"
 	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/messaging"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type VariablePackageService struct {
@@ -38,6 +40,7 @@ func (s *VariablePackageService) CreateNewVariablePackageFromJSON(c *gin.Context
 		Description: payload.Description,
 		Variables:   variables,
 	}
+	varPackage.Audit.SetInitialAudit(c)
 	varPackage.Audit.Version, _ = GetNextVersionNumber(c, s.mongo.Database, newNimId)
 	varPackage.Audit.MinorVersion = 1
 	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
@@ -56,11 +59,11 @@ func (s *VariablePackageService) UpdateVariablePackage(c *gin.Context) {
 	}
 	// Archive Old Version and Create New Version
 	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
-	err = ArchiveEntity(repo, payload.NIMB_ID)
+	err = ArchiveEntity(c, repo, payload.NIMB_ID, payload.Audit.Version)
 	if HandleError(c, err, "Failed to archive old version of variable package") {
 		return
 	}
-	payload.Audit.MinorVersion += 1
+	payload.Audit.SetModifiedAudit(c)
 	_, err = repo.InsertOne(payload)
 	if HandleError(c, err, "Failed to create new version of variable package") {
 		return
@@ -69,9 +72,11 @@ func (s *VariablePackageService) UpdateVariablePackage(c *gin.Context) {
 }
 
 func (s *VariablePackageService) GetVariablePackageByNIMBID(c *gin.Context) {
-	nimbID := c.Param("nimb_id")
+	nimbID := c.Query("nimb_id")
+	versionStr := c.Query("version")
+	version, _ := strconv.Atoi(versionStr)
 	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
-	varPackage, err := repo.FindOne(map[string]interface{}{"nimb_id": nimbID, "audit.is_archived": false})
+	varPackage, err := repo.FindOne(map[string]interface{}{"nimb_id": nimbID, "audit.is_archived": false, "audit.version": version})
 	if HandleError(c, err, "Failed to retrieve variable package") {
 		return
 	}
@@ -80,22 +85,23 @@ func (s *VariablePackageService) GetVariablePackageByNIMBID(c *gin.Context) {
 
 func (s *VariablePackageService) ArchiveVariablePackage(c *gin.Context) {
 	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
-	err := ArchiveEntity(repo, c.Param("nimb_id"))
+	versionStr := c.Query("version")
+	version, _ := strconv.Atoi(versionStr)
+	err := ArchiveEntity(c, repo, c.Query("nimb_id"), version)
 	if HandleError(c, err, "Failed to archive variable package") {
 		return
 	}
 	RespondJSON(c, 200, "success", "Variable package archived successfully", nil)
 }
 
-func (s *VariablePackageService) ListAllVariablePackages(c *gin.Context) {
-	var filter models.VariablePackage
-	err := c.ShouldBindQuery(&filter)
-	if HandleError(c, err, "Invalid query parameters") {
+func (s *VariablePackageService) GetAllVariablePackages(c *gin.Context) {
+	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
+	option := options.Find().SetSort(map[string]int{"audit.version": -1, "audit.minor_version": -1, "audit.updated_at": -1})
+	option.SetProjection(map[string]int{"variables": 0})
+	varPackages, err := repo.FindMany(map[string]interface{}{"audit.is_archived": false}, option)
+	if HandleError(c, err, "Failed to fetch variable packages") {
 		return
 	}
-	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
-	varPackages, err := repo.FindMany(filter)
-	HandleError(c, err, "Failed to retrieve variable packages")
 	RespondJSON(c, 200, "success", "Variable packages retrieved successfully", varPackages)
 }
 
@@ -122,9 +128,10 @@ func extractVariables(data interface{}, prefix string, variables *[]models.Varia
 			valueType := getType(value)
 
 			// If it's an object, recurse into it
-			if valueType == "object" {
+			switch valueType {
+			case "object":
 				extractVariables(value, fullKey, variables)
-			} else if valueType == "array" {
+			case "array":
 				// Add the array itself
 				*variables = append(*variables, models.Variables{
 					VarKey:     fullKey,
@@ -141,7 +148,7 @@ func extractVariables(data interface{}, prefix string, variables *[]models.Varia
 						extractVariables(arr[0], fullKey+"[]", variables)
 					}
 				}
-			} else {
+			default:
 				// It's a primitive type (string, number, boolean, null)
 				*variables = append(*variables, models.Variables{
 					VarKey:     fullKey,

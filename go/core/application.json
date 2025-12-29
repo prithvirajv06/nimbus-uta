@@ -7,3 +7,28 @@
 {"time":"2025-12-29T16:52:52.0805761+05:30","level":"INFO","msg":"Starting server on port 8080"}
 {"time":"2025-12-29T16:59:18.6475168+05:30","level":"INFO","msg":"Starting server on port 8080"}
 {"time":"2025-12-29T17:01:47.2722271+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2025-12-29T18:54:05.8965085+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2025-12-29T18:54:22.4362415+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T18:54:22.4386413+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T18:54:22.4386413+05:30","level":"ERROR","msg":"error occurred","error":"mongo: no documents in result"}
+{"time":"2025-12-29T18:54:22.4386413+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"User with this email already exists in the organization"}
+{"time":"2025-12-29T18:54:40.6994987+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T18:54:40.7010094+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T18:54:40.7010094+05:30","level":"ERROR","msg":"error occurred","error":"mongo: no documents in result"}
+{"time":"2025-12-29T18:54:40.7010094+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"User with this email already exists in the organization"}
+{"time":"2025-12-29T18:55:29.1067394+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T18:55:40.8986545+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T18:55:40.8986545+05:30","level":"ERROR","msg":"error occurred","error":"mongo: no documents in result"}
+{"time":"2025-12-29T18:55:40.8986545+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"User with this email already exists in the organization"}
+{"time":"2025-12-29T18:56:25.6544266+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2025-12-29T18:56:34.0386209+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T18:56:34.1022897+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T18:56:37.9995076+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T18:56:38.0000283+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"User created successfully"}
+{"time":"2025-12-29T21:03:24.8230105+05:30","level":"INFO","msg":"Failed to connect to RabbitMQ: dial tcp [::1]:5672: connectex: No connection could be made because the target machine actively refused it."}
+{"time":"2025-12-29T21:03:50.3660965+05:30","level":"INFO","msg":"Failed to connect to RabbitMQ: dial tcp [::1]:5672: connectex: No connection could be made because the target machine actively refused it."}
+{"time":"2025-12-29T21:04:41.809061+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2025-12-29T21:04:47.5205709+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T21:04:47.5857056+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T21:04:55.1409023+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2025-12-29T21:04:55.1409023+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"User created successfully"}

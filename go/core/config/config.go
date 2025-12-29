@@ -20,7 +20,8 @@ type Config struct {
 }
 
 type AuthConfig struct {
-	JWTToken string
+	JWTToken            string
+	JWTTokenExpiryHours int
 }
 type ServerConfig struct {
 	Port string
@@ -68,7 +69,8 @@ func Load() *Config {
 
 	return &Config{
 		Auth: AuthConfig{
-			JWTToken: getEnv("JWT_TOKEN", "ABCDSASFAFHJKEHRJKHESKFHSIUIOASUDKLSAJDKKFJDKLJ"),
+			JWTToken:            getEnv("JWT_TOKEN", "ABCDSASFAFHJKEHRJKHESKFHSIUIOASUDKLSAJDKKFJDKLJ"),
+			JWTTokenExpiryHours: 24,
 		},
 		Server: ServerConfig{
 			Port: getEnv("SERVER_PORT", "8080"),

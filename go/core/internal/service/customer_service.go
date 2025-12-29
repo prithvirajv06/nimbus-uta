@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 	"github.com/prithvirajv06/nimbus-uta/go/core/config"
 	"github.com/prithvirajv06/nimbus-uta/go/core/internal/models"
 	"github.com/prithvirajv06/nimbus-uta/go/core/internal/repository"
@@ -39,8 +40,9 @@ func (s *CustomerService) RegisterNewUser(c *gin.Context) {
 	repo := repository.NewGenericRepository[models.User](c.Request.Context(), s.mongo.Database, "users")
 
 	// Check if user with the same email already exists in the organization
-	_, err = repo.FindOne(bson.M{"email": payload.Email, "organization": payload.Organization})
-	if HandleError(c, err, "User with this email already exists in the organization") {
+	result, err := repo.FindOne(bson.M{"email": payload.Email, "organization": payload.Organization})
+	if result != nil {
+		RespondJSON(c, http.StatusConflict, "failure", "User with the same email already exists in the organization", nil)
 		return
 	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(payload.Password), bcrypt.DefaultCost)
@@ -50,14 +52,14 @@ func (s *CustomerService) RegisterNewUser(c *gin.Context) {
 	}
 	payload.Password = string(hashedPassword)
 	defaultRole := models.CreateDefaultAdminRole()
-	newUser := models.NewUser(payload.Fname, payload.Lname, payload.Email, payload.Password, payload.Organization.Name, defaultRole)
+	newUser := models.NewUser(c, payload.Fname, payload.Lname, payload.Email, payload.Password, payload.Organization.Name, defaultRole)
 	payload = *newUser
 
 	//Create Organization if not exists
 	orgRepo := repository.NewGenericRepository[models.Organization](c.Request.Context(), s.mongo.Database, "organizations")
 	existingOrg, _ := orgRepo.FindOne(bson.M{"name": payload.Organization.Name})
 	if existingOrg == nil {
-		newOrg := models.NewOrganization(payload.Organization.Name, payload.Organization.Address)
+		newOrg := models.NewOrganization(c, payload.Organization.Name, payload.Organization.Address)
 		_, err := orgRepo.InsertOne(*newOrg)
 		if HandleError(c, err, "Failed to create organization") {
 			return
@@ -101,5 +103,21 @@ func (s *CustomerService) LoginUser(c *gin.Context) {
 	if HandleError(c, err, "Invalid email or password") {
 		return
 	}
-	RespondJSON(c, http.StatusOK, "success", "Login successful", nil)
+	user.JWTToken, err = GenerateJWTToken(s.cfg.Auth.JWTToken, user.NIMB_ID, user.Email, user.Role.Name, s.cfg.Auth.JWTTokenExpiryHours)
+	if HandleError(c, err, "Failed to generate JWT token") {
+		return
+	}
+	RespondJSON(c, http.StatusOK, "success", "Login successful", user)
+}
+
+func GenerateJWTToken(secret, nimbID, email, role string, expiryHours int) (string, error) {
+	claims := jwt.MapClaims{
+		"nimb_id": nimbID,
+		"email":   email,
+		"role":    role,
+		"exp":     time.Now().Add(time.Duration(expiryHours) * time.Hour).Unix(),
+		"iat":     time.Now().Unix(),
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(secret))
 }

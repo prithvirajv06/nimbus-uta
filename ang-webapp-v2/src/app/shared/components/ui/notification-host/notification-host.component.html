@@ -1,0 +1,29 @@
+<div class="notification-container">
+  @for (notification of notifications; track $index) {
+  <div class="notification-card {{ notification.type }}" [attr.data-id]="notification.id">
+
+    <div class="icon-container">
+      <i class="fa-solid {{ getIconClass(notification.type) }}"></i>
+    </div>
+
+    <div class="content-area">
+      <div class="title">{{ getTitle(notification.type) }}</div>
+      <div class="message">{{ notification.message }}</div>
+      @if (notification.actionLabel) {
+      <button class="action-button" (click)="performAction(notification)">
+        {{ notification.actionLabel }}
+      </button>
+      }
+    </div>
+
+    <button class="dismiss-button" (click)="dismiss(notification.id)">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    @if (notification.duration && notification.duration > 0) {
+    <div class="progress-bar">
+      <div class="progress-indicator" [ngStyle]="{'animation-duration': notification.duration + 'ms'}"></div>
+    </div>
+    }
+  </div>
+  }
+</div>

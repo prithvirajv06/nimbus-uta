@@ -2,6 +2,7 @@ package service
 
 import (
 	"log/slog"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/prithvirajv06/nimbus-uta/go/core/internal/models"
@@ -10,8 +11,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func ArchiveEntity[T any](repo *repository.GenericRepository[T], nimbID string) error {
-	archiveResult, err := repo.UpdateOne(map[string]interface{}{"nimb_id": nimbID, "audit.is_archived": false},
+func ArchiveEntity[T any](c *gin.Context, repo *repository.GenericRepository[T], nimbID string, version int) error {
+	userID := c.GetHeader("user_id")
+	slog.Info("Archiving entity", "nimbID", nimbID, "userID", userID)
+	archiveResult, err := repo.UpdateOne(map[string]interface{}{"nimb_id": nimbID, "audit.is_archived": false, "audit.version": version, "audit.modified_by": userID, "audit.modified_at": time.Now()},
 		bson.M{"$set": bson.M{"audit.is_archived": true}})
 	if err != nil || archiveResult.MatchedCount == 0 {
 		return err
@@ -20,6 +23,7 @@ func ArchiveEntity[T any](repo *repository.GenericRepository[T], nimbID string) 
 }
 
 func RespondJSON(c *gin.Context, statusCode int, status, message string, data interface{}) {
+	slog.Info("Responding JSON", "status", status, "message", message)
 	c.JSON(statusCode, models.ApiResponse{
 		Status:  status,
 		Message: message,
@@ -38,6 +42,7 @@ func HandleError(c *gin.Context, err error, message string) bool {
 }
 
 func GetNextVersionNumber(c *gin.Context, db *mongo.Database, nimbID string) (int, error) {
+	slog.Info("Getting next version number for", "nimbID", nimbID)
 	repo := repository.NewGenericRepository[models.IdVersionMapping](c.Request.Context(), db, "id_version_mappings")
 	reposult, err := repo.FindOne(bson.M{"nimb_id": nimbID})
 	if err != nil {
