@@ -6,8 +6,98 @@ import (
 	"strings"
 	"unicode"
 
+	"github.com/gin-gonic/gin"
+	"github.com/prithvirajv06/nimbus-uta/go/core/config"
 	"github.com/prithvirajv06/nimbus-uta/go/core/internal/models"
+	"github.com/prithvirajv06/nimbus-uta/go/core/internal/repository"
+	"github.com/prithvirajv06/nimbus-uta/go/core/internal/utils"
+	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/database"
+	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/messaging"
 )
+
+type VariablePackageService struct {
+	mongo    *database.MongoDB
+	rabbitMQ *messaging.RabbitMQ
+	cfg      *config.Config
+}
+
+func (s *VariablePackageService) CreateNewVariablePackageFromJSON(c *gin.Context) {
+	var payload models.VariablePackageRequet
+	err := c.ShouldBindJSON(&payload)
+	if HandleError(c, err, "Unable to unmarshel payload") {
+		return
+	}
+	variables, err := extractVariablesFromJSON(payload.JSONStr)
+	if HandleError(c, err, "Failed to extract variables from JSON") {
+		return
+	}
+	var newNimId = utils.GenerateNIMBID("VAR_PKG")
+	varPackage := models.VariablePackage{
+		NIMB_ID:     newNimId,
+		PackageName: payload.PackageName,
+		Description: payload.Description,
+		Variables:   variables,
+	}
+	varPackage.Audit.Version, _ = GetNextVersionNumber(c, s.mongo.Database, newNimId)
+	varPackage.Audit.MinorVersion = 1
+	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
+	_, err = repo.InsertOne(varPackage)
+	if HandleError(c, err, "Failed to create variable package") {
+		return
+	}
+	RespondJSON(c, 201, "success", "Variable pacakage created", varPackage)
+}
+
+func (s *VariablePackageService) UpdateVariablePackage(c *gin.Context) {
+	var payload models.VariablePackage
+	err := c.ShouldBindJSON(&payload)
+	if HandleError(c, err, "Unable to unmarshel payload") {
+		return
+	}
+	// Archive Old Version and Create New Version
+	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
+	err = ArchiveEntity(repo, payload.NIMB_ID)
+	if HandleError(c, err, "Failed to archive old version of variable package") {
+		return
+	}
+	payload.Audit.MinorVersion += 1
+	_, err = repo.InsertOne(payload)
+	if HandleError(c, err, "Failed to create new version of variable package") {
+		return
+	}
+	RespondJSON(c, 200, "success", "Variable package updated successfully", payload)
+}
+
+func (s *VariablePackageService) GetVariablePackageByNIMBID(c *gin.Context) {
+	nimbID := c.Param("nimb_id")
+	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
+	varPackage, err := repo.FindOne(map[string]interface{}{"nimb_id": nimbID, "audit.is_archived": false})
+	if HandleError(c, err, "Failed to retrieve variable package") {
+		return
+	}
+	RespondJSON(c, 200, "success", "Variable package retrieved successfully", varPackage)
+}
+
+func (s *VariablePackageService) ArchiveVariablePackage(c *gin.Context) {
+	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
+	err := ArchiveEntity(repo, c.Param("nimb_id"))
+	if HandleError(c, err, "Failed to archive variable package") {
+		return
+	}
+	RespondJSON(c, 200, "success", "Variable package archived successfully", nil)
+}
+
+func (s *VariablePackageService) ListAllVariablePackages(c *gin.Context) {
+	var filter models.VariablePackage
+	err := c.ShouldBindQuery(&filter)
+	if HandleError(c, err, "Invalid query parameters") {
+		return
+	}
+	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
+	varPackages, err := repo.FindMany(filter)
+	HandleError(c, err, "Failed to retrieve variable packages")
+	RespondJSON(c, 200, "success", "Variable packages retrieved successfully", varPackages)
+}
 
 func extractVariablesFromJSON(jsonStr string) ([]models.Variables, error) {
 	var data interface{}

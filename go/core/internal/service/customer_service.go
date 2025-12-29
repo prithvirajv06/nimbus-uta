@@ -31,75 +31,59 @@ func NewCustomerService(db *database.MongoDB, rabbitMQ *messaging.RabbitMQ, cfg 
 
 func (s *CustomerService) RegisterNewUser(c *gin.Context) {
 	var payload models.User
-	if err := c.ShouldBindJSON(&payload); err != nil {
+	err := c.ShouldBindJSON(&payload)
+	if HandleError(c, err, "Unabe unmarshel JSON") {
 		return
 	}
 
 	repo := repository.NewGenericRepository[models.User](c.Request.Context(), s.mongo.Database, "users")
 
 	// Check if user with the same email already exists in the organization
-	existingUser, _ := repo.FindOne(bson.M{"email": payload.Email, "organization": payload.Organization})
-	if existingUser != nil {
-		apiReponse := models.ApiResponse{
-			Status:  "failure",
-			Message: "User with this email already exists in the organization",
-		}
-		c.JSON(http.StatusConflict, apiReponse)
+	_, err = repo.FindOne(bson.M{"email": payload.Email, "organization": payload.Organization})
+	if HandleError(c, err, "User with this email already exists in the organization") {
 		return
 	}
-
-	//Create Organization if not exists
-	orgRepo := repository.NewGenericRepository[models.Organization](c.Request.Context(), s.mongo.Database, "organizations")
-	existingOrg, _ := orgRepo.FindOne(bson.M{"name": payload.Organization.Name})
-	if existingOrg == nil {
-		newOrg := models.Organization{
-			Name:   payload.Organization.Name,
-			Active: true,
-			Audit:  models.Audit{},
-		}
-		_, err := orgRepo.InsertOne(newOrg)
-		if err != nil {
-			apiResponse := models.ApiResponse{
-				Status:  "failure",
-				Message: "Failed to create organization",
-			}
-			c.JSON(http.StatusInternalServerError, apiResponse)
-			return
-		}
-		payload.Organization.ID = newOrg.ID
-	}
-
-	// Insert new user
-
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(payload.Password), bcrypt.DefaultCost)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
 		return
 	}
 	payload.Password = string(hashedPassword)
-	payload.Active = true
-	_, err = repo.InsertOne(payload)
-	if err != nil {
-		apiResponse := models.ApiResponse{
-			Status:  "failure",
-			Message: "Failed to create user",
+	defaultRole := models.CreateDefaultAdminRole()
+	newUser := models.NewUser(payload.Fname, payload.Lname, payload.Email, payload.Password, payload.Organization.Name, defaultRole)
+	payload = *newUser
+
+	//Create Organization if not exists
+	orgRepo := repository.NewGenericRepository[models.Organization](c.Request.Context(), s.mongo.Database, "organizations")
+	existingOrg, _ := orgRepo.FindOne(bson.M{"name": payload.Organization.Name})
+	if existingOrg == nil {
+		newOrg := models.NewOrganization(payload.Organization.Name, payload.Organization.Address)
+		_, err := orgRepo.InsertOne(*newOrg)
+		if HandleError(c, err, "Failed to create organization") {
+			return
 		}
-		c.JSON(http.StatusInternalServerError, apiResponse)
-		return
+		payload.Organization = *newOrg
 	}
-	apiReponse := models.ApiResponse{
-		Status:  "success",
-		Message: "User created successfully",
+
+	// Insert new user
+	_, err = repo.InsertOne(payload)
+	if HandleError(c, err, "Failed to create user") {
+		return
 	}
 	var notificationPayload models.MessageEvent = models.MessageEvent{
 		EventType: "USER_CREATED",
 		Payload:   payload,
 		Timestamp: int64(time.Now().Unix()),
 	}
-	s.rabbitMQ.Publish(c.Request.Context(), payload.ID, notificationPayload)
-	c.JSON(http.StatusCreated, apiReponse)
+	s.rabbitMQ.Publish(c.Request.Context(), payload.NIMB_ID, notificationPayload)
+	RespondJSON(c, http.StatusCreated, "success", "User created successfully", payload)
 }
 
+/*
+*
+LoginUser handles user login requests. It verifies the provided email and password,
+and responds with a success message if the credentials are valid.
+*/
 func (s *CustomerService) LoginUser(c *gin.Context) {
 	var payload struct {
 		Email    string `json:"email"`
@@ -110,26 +94,12 @@ func (s *CustomerService) LoginUser(c *gin.Context) {
 	}
 	repo := repository.NewGenericRepository[models.User](c.Request.Context(), s.mongo.Database, "users")
 	user, err := repo.FindOne(bson.M{"email": payload.Email})
-	if err != nil || user == nil {
-		apiResponse := models.ApiResponse{
-			Status:  "failure",
-			Message: "Invalid email or password",
-		}
-		c.JSON(http.StatusUnauthorized, apiResponse)
+	if HandleError(c, err, "Invalid email or password") {
 		return
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
-	if err != nil {
-		apiResponse := models.ApiResponse{
-			Status:  "failure",
-			Message: "Invalid email or password",
-		}
-		c.JSON(http.StatusUnauthorized, apiResponse)
+	if HandleError(c, err, "Invalid email or password") {
 		return
 	}
-	apiResponse := models.ApiResponse{
-		Status:  "success",
-		Message: "Login successful",
-	}
-	c.JSON(http.StatusOK, apiResponse)
+	RespondJSON(c, http.StatusOK, "success", "Login successful", nil)
 }

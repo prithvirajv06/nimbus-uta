@@ -1,22 +1,26 @@
 package models
 
+import (
+	"time"
+
+	"github.com/prithvirajv06/nimbus-uta/go/core/internal/utils"
+)
+
 type User struct {
-	ID           string       `bson:"_id,omitempty" json:"id"`
+	NIMB_ID      string       `bson:"nimb_id" json:"nimb_id"`
 	Fname        string       `bson:"fname" json:"fname"`
 	Lname        string       `bson:"lname" json:"lname"`
 	Email        string       `bson:"email" json:"email"`
 	Password     string       `bson:"password" json:"-"`
 	Organization Organization `bson:"organization" json:"organization"`
 	Role         Role         `bson:"role" json:"role"`
-	Active       bool         `bson:"active" json:"active"`
 	Audit        Audit        `bson:"audit" json:"audit"`
 }
 
 type Organization struct {
-	ID      string `bson:"_id,omitempty" json:"id"`
+	NIMB_ID string `bson:"nimb_id" json:"nimb_id"`
 	Name    string `bson:"name" json:"name"`
 	Address string `bson:"address" json:"address"`
-	Active  bool   `bson:"active" json:"active"`
 	Audit   Audit  `bson:"audit" json:"audit"`
 }
 
@@ -25,28 +29,40 @@ type Role struct {
 	Permissions []string `bson:"permissions" json:"permissions"`
 }
 
-func (r Role) CreateDefaultAdminRole() Role {
-	return Role{
-		Name: "admin",
-		Permissions: []string{
-			"create_user",
-			"delete_user",
-			"update_user",
-			"view_user",
-			"manage_roles",
-		},
+func NewOrganization(name, address string) *Organization {
+	return &Organization{
+		NIMB_ID: utils.GenerateNIMBID("N_ORG"),
+		Name:    name,
+		Address: address,
+		Audit: Audit{Active: "ACTIVE",
+			IsArchived: false,
+			Version:    1, MinorVersion: 0,
+			IsProdCandidate: false,
+			CreatedAt:       time.Now().Unix(),
+			CreatedBy:       "APP_REQUEST",
+			ModifiedAt:      time.Now().Unix(),
+			ModifiedBy:      "NONE"},
 	}
 }
 
 func NewUser(fname, lname, email, password, organization string, role Role) *User {
+
 	return &User{
+		NIMB_ID:      utils.GenerateNIMBID("N_USER"),
 		Fname:        fname,
 		Lname:        lname,
 		Email:        email,
 		Password:     password,
 		Organization: Organization{Name: organization},
 		Role:         role,
-		Active:       true,
+		Audit: Audit{Active: "ACTIVE",
+			IsArchived: false,
+			Version:    1, MinorVersion: 0,
+			IsProdCandidate: false,
+			CreatedAt:       time.Now().Unix(),
+			CreatedBy:       "APP_REQUEST",
+			ModifiedAt:      time.Now().Unix(),
+			ModifiedBy:      "NONE"},
 	}
 }
 
@@ -65,4 +81,46 @@ func (u *User) HasPermission(permission string) bool {
 		}
 	}
 	return false
+}
+
+func CreateDefaultAdminRole() Role {
+	return Role{
+		Name: "admin",
+		Permissions: []string{
+			"create_user",
+			"delete_user",
+			"update_user",
+			"view_user",
+			"manage_roles",
+		},
+	}
+}
+func CreateDefaultManagerRole() Role {
+	return Role{
+		Name: "manager",
+		Permissions: []string{
+			"create_user",
+			"update_user",
+			"view_user",
+		},
+	}
+}
+
+func CreateDefaultEditorRole() Role {
+	return Role{
+		Name: "editor",
+		Permissions: []string{
+			"update_user",
+			"view_user",
+		},
+	}
+}
+
+func CreateDefaultUserRole() Role {
+	return Role{
+		Name: "user",
+		Permissions: []string{
+			"view_user",
+		},
+	}
 }

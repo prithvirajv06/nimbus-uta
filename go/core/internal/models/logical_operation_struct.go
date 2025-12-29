@@ -1,7 +1,7 @@
 package models
 
 type LogicFlow struct {
-	ID              string          `bson:"_id,omitempty" json:"id"`
+	NIMB_ID         string          `bson:"nimb_id" json:"nimb_id"`
 	Name            string          `bson:"name" json:"name"`
 	Description     string          `bson:"description" json:"description"`
 	Active          bool            `bson:"active" json:"active"`

@@ -1,7 +1,7 @@
 package models
 
 type DecisionTable struct {
-	ID              string          `bson:"_id,omitempty" json:"id"`
+	NIMB_ID         string          `bson:"nimb_id" json:"nimb_id"`
 	Description     string          `json:"description" gorm:"type:text" bson:"description"`
 	NoOfRows        int             `json:"no_of_rows" gorm:"not null" bson:"no_of_rows"` //
 	NoOfInputs      int             `json:"no_of_inputs" gorm:"not null" bson:"no_of_inputs"`
