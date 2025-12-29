@@ -1,0 +1,8 @@
+{"time":"2025-12-29T13:27:27.2154531+05:30","level":"INFO","msg":"No .env file found, using environment variables"}
+{"time":"2025-12-29T13:27:27.2738834+05:30","level":"INFO","msg":"Failed to connect to MongoDB: connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism \"SCRAM-SHA-1\": (AuthenticationFailed) Authentication failed."}
+{"time":"2025-12-29T13:28:07.3335566+05:30","level":"INFO","msg":"No .env file found, using environment variables"}
+{"time":"2025-12-29T13:28:53.4970836+05:30","level":"INFO","msg":"Failed to connect to MongoDB: connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism \"SCRAM-SHA-1\": (AuthenticationFailed) Authentication failed."}
+{"time":"2025-12-29T13:29:08.644555+05:30","level":"INFO","msg":"No .env file found, using environment variables"}
+{"time":"2025-12-29T13:29:32.7328963+05:30","level":"INFO","msg":"Failed to connect to MongoDB: connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism \"SCRAM-SHA-1\": (AuthenticationFailed) Authentication failed."}
+{"time":"2025-12-29T13:29:57.0150775+05:30","level":"INFO","msg":"Failed to start consumer: Exception (404) Reason: \"NOT_FOUND - no queue 'user.events' in vhost '/'\""}
+{"time":"2025-12-29T13:31:34.0090023+05:30","level":"INFO","msg":"Failed to start consumer: Exception (404) Reason: \"NOT_FOUND - no queue 'user.events' in vhost '/'\""}
