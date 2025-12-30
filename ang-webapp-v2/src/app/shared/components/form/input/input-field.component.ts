@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, model, InputSignal, InputSignalWithTransform, ModelSignal, OutputRef } from '@angular/core';
-import { DisabledReason, FormValueControl, ValidationError, WithOptionalField } from '@angular/forms/signals';
+import { Component, Input } from '@angular/core';
+import { CommonControlComponent } from './common-control';
 
 @Component({
   selector: 'app-input-field',
@@ -17,21 +17,19 @@ import { DisabledReason, FormValueControl, ValidationError, WithOptionalField } 
         (input)="value.set($event.target.value)"
       />
 
-      @if (hint) {
-      <p class="mt-1.5 text-xs"
-        [ngClass]="{
-          'text-error-500': error,
-          'text-success-500': success,
-          'text-gray-500': !error && !success
-        }">
-        {{ hint }}
+      @if (errors().length > 0 && dirty()) {
+      <p
+        class="mt-2 text-sm"
+        [ngClass]="errors().length > 0 ? 'text-error-500' : 'text-gray-500 dark:text-gray-400'">
+        @for (err of errors(); track $index) {
+        {{ err.message }}
+        }
       </p>
       }
     </div>
   `,
 })
-export class InputFieldComponent implements FormValueControl<string | number> {
-  value: ModelSignal<string | number> = model<string | number>('');
+export class InputFieldComponent extends CommonControlComponent{
 
   @Input() type: string = 'text';
   @Input() id?: string = '';
@@ -41,7 +39,6 @@ export class InputFieldComponent implements FormValueControl<string | number> {
   @Input() error: boolean = false;
   @Input() hint?: string;
   @Input() className: string = '';
-
 
   get inputClasses(): string {
     let inputClasses = `h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 ${this.className}`;
@@ -56,9 +53,4 @@ export class InputFieldComponent implements FormValueControl<string | number> {
     return inputClasses;
   }
 
-  onInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    // 3. Setting the model signal updates the Form State automatically
-    this.value.set(input.value);
-  }
 }

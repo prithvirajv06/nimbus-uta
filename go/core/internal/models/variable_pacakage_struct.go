@@ -7,11 +7,12 @@ type VariablePackageRequet struct {
 }
 
 type VariablePackage struct {
-	NIMB_ID     string      `bson:"nimb_id" json:"nimb_id"`
-	PackageName string      `bson:"package_name" json:"package_name"`
-	Description string      `bson:"description" json:"description"`
-	Variables   []Variables `bson:"variables" json:"variables"`
-	Audit       Audit       `bson:"audit" json:"audit"`
+	NIMB_ID       string      `bson:"nimb_id" json:"nimb_id"`
+	PackageName   string      `bson:"package_name" json:"package_name"`
+	Description   string      `bson:"description" json:"description"`
+	NoOfVariables int         `bson:"no_of_variables" json:"no_of_variables"`
+	Variables     []Variables `bson:"variables" json:"variables"`
+	Audit         Audit       `bson:"audit" json:"audit"`
 }
 
 type Variables struct {

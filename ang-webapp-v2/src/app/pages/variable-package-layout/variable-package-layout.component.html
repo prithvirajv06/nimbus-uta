@@ -1,0 +1,5 @@
+@if (viewMode() == 'list') {
+<app-variable-package-table (edit)="editVariablePackage($event)"></app-variable-package-table>
+} @else {
+<app-variable-package-editor></app-variable-package-editor>
+}

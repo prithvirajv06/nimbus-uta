@@ -1,13 +1,15 @@
 export interface Audit {
-    created_at?: string;
-    created_by ?: string;
-    updated_at?: string;
-    updated_by ?: string;
-    is_prod_candidate?: boolean;
-    active?: string;
-    is_archived?: boolean;
-    version?: number;
-    minor_version?: number;
+    created_at: string;
+    created_by: string;
+    modified_at: string;
+    modified_by: string;
+    is_prod_candidate: boolean;
+    status: string
+    active: string;
+    is_archived: boolean;
+    restore_archive: boolean
+    version: number;
+    minor_version: number;
 }
 
 export interface PaginatedResponse<T> {

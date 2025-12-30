@@ -10,7 +10,7 @@ import (
 	"github.com/prithvirajv06/nimbus-uta/go/core/internal/utils"
 	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/database"
 	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/messaging"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 type OrcestartionService struct {
@@ -78,9 +78,9 @@ func (os *OrcestartionService) GetOrcestartionByNIMBID(c *gin.Context) {
 
 func (os *OrcestartionService) GetAllOrcestartions(c *gin.Context) {
 	repo := repository.NewGenericRepository[models.Orcestartion](c.Request.Context(), os.mongo.Database, "orcestartions")
-	option := options.Find().SetSort(map[string]int{"audit.version": -1, "audit.minor_version": -1, "audit.updated_at": -1})
-	option.SetProjection(map[string]int{"workflow": 0})
-	orcestartions, err := repo.FindMany(map[string]interface{}{"audit.is_archived": false}, option)
+	option := GetCommonSortOption()
+	option.SetProjection(bson.M{"workflow": 0})
+	orcestartions, err := repo.FindMany(bson.M{"audit.is_archived": false}, option)
 	if HandleError(c, err, "Failed to fetch orcestartions") {
 		return
 	}

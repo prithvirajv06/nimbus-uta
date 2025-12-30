@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
@@ -52,8 +51,8 @@ func (s *CustomerService) RegisterNewUser(c *gin.Context) {
 		return
 	}
 	defaultRole := models.CreateDefaultAdminRole()
-	newUser := models.NewUser(c, payload.Fname, payload.Lname, payload.Email, hashedPassword, payload.Organization.Name, defaultRole)
-
+	newUser := models.NewUser(c, payload.Fname, payload.Lname, payload.Email, payload.Organization.Name, defaultRole)
+	newUser.Password = string(hashedPassword)
 	//Create Organization if not exists
 	orgRepo := repository.NewGenericRepository[models.Organization](c.Request.Context(), s.mongo.Database, "organizations")
 	existingOrg, _ := orgRepo.FindOne(bson.M{"name": payload.Organization.Name})
@@ -98,8 +97,6 @@ func (s *CustomerService) LoginUser(c *gin.Context) {
 	if HandleError(c, err, "Invalid email or password") {
 		return
 	}
-	fmt.Println("DB hash:", user.Password)
-	fmt.Println("Input password:", payload.Password)
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
 	if HandleError(c, err, "Invalid email or password") {
 		return

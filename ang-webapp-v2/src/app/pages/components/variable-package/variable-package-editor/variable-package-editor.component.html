@@ -1,0 +1,127 @@
+<div>
+    <app-page-breadcrumb pageTitle="Variable Package Editor" />
+    <div
+        class="min-h-screen rounded-2xl border border-gray-200 bg-white px-5 py-7 dark:border-gray-800 dark:bg-white/[0.03] xl:px-10 xl:py-12">
+        <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03]">
+            <div class="p-4 sm:p-6 dark:border-gray-800">
+                <div class="flex items-left justify-between gap-3 py-3 sm:items-center sm:py-0 mb-4">
+                    <app-button size="sm" color="secondary" variant="outline" (click)="cancelEdit()"
+                        startIcon="<i class='fa fa-arrow-left'></i>">
+                        Back to List
+                    </app-button>
+                    <app-button size="sm" color="primary" (click)="saveVariablePackage()"
+                        [disabled]="formGroup().invalid()">
+                        Save Package
+                    </app-button>
+                </div>
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <span class="text-lg font-medium text-gray-800 dark:text-white">
+                                Variable Package Details
+                            </span>
+                        </mat-expansion-panel-header>
+                        <div class="p-4 sm:p-6 dark:border-gray-800">
+                            <form>
+                                <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+                                    <div>
+                                        <app-label for="package-name">Package Name</app-label>
+                                        <app-input-field id="package-name" placeholder="Enter package name"
+                                            [field]="formGroup.package_name"></app-input-field>
+                                    </div>
+                                    <div>
+                                        <app-label for="description">Description</app-label>
+                                        <app-text-area id="description" placeholder="Enter description"
+                                            [field]="formGroup.description"></app-text-area>
+                                    </div>
+                                    <div class="flex items-left justify-start gap-3">
+                                        <app-label for="version">Version</app-label>
+                                        <app-label class="block text-gray-700 text-theme-sm dark:text-gray-400">
+                                            v{{ formGroup.audit.version().value() }}.{{
+                                            formGroup.audit.minor_version().value() }}
+                                        </app-label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+
+            <hr class="border-gray-200 dark:border-gray-800" />
+            <br>
+            <!--Table Start-->
+            <div class="flex flex-col gap-2 px-5 mb-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
+                        Variable List
+                    </h3>
+                </div>
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <form>
+                        <div class="relative">
+                            <button class="absolute -translate-y-1/2 left-4 top-1/2" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <input type="text" placeholder="Search..."
+                                class="dark:bg-dark-900 h-[42px] w-full rounded-lg border border-gray-300 bg-transparent py-2.5 pl-[42px] pr-4 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[300px]" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="overflow-hidden">
+                <div class="max-w-full px-5 overflow-x-auto sm:px-6">
+                    <table class="min-w-full">
+                        <thead class="border-gray-100 border-y dark:border-white/[0.05]">
+                            <tr>
+                                <th
+                                    class="px-4 py-3 font-normal text-gray-500 text-start text-theme-sm dark:text-gray-400 w-32">
+                                    Is mandatory</th>
+                                <th
+                                    class="px-4 py-3 font-normal text-gray-500 text-start text-theme-sm dark:text-gray-400 w-60">
+                                    Label</th>
+                                <th
+                                    class="px-4 py-3 font-normal text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                                    Variable Key</th>
+                                <th
+                                    class="px-4 py-3 font-normal text-gray-500 text-start text-theme-sm dark:text-gray-400 w-60">
+                                    Variable Type</th>
+                                <th
+                                    class="px-4 py-3 font-normal text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                                    Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 dark:divide-white/[0.05]">
+                            @for (variable of formGroup.variables; track $index) {
+                            <tr>
+                                <td class="px-4 py-4 text-gray-700 text-theme-sm dark:text-gray-400">
+                                    <app-checkbox [field]="variable.is_required"></app-checkbox>
+                                </td>
+                                <td class="px-4 py-4 text-gray-700 text-theme-sm dark:text-gray-400">
+                                    <app-input-field [field]="variable.label"></app-input-field>
+                                </td>
+                                <td class="px-4 py-4 text-gray-700 text-theme-sm dark:text-gray-400">
+                                    <app-input-field [field]="variable.var_key"></app-input-field>
+                                </td>
+                                <td class="px-4 py-4 text-gray-700 text-theme-sm dark:text-gray-400">
+                                    <app-select (valueChange)="variable.type().setControlValue($event)"
+                                        [value]="variable.type().value()" [options]="variableTypeOptions"></app-select>
+                                </td>
+                                <td class="px-4 py-4 text-gray-700 text-theme-sm dark:text-gray-400">
+                                    <div class="relative inline-block">
+                                        <app-button size="sm" color="red" variant="outline" (click)="removeVariable($index)"
+                                            endIcon="<i class='fa fa-trash'></i>">
+                                        </app-button>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--Table End-->
+        </div>
+    </div>
+</div>

@@ -60,6 +60,7 @@ export class SigninFormComponent {
     this.authService.singInUser(this.formModel().email, this.formModel().password).subscribe((response: ApiResponse<AppCustomer>) => {
       this.notificationService.success(response.message, 5);
       this.formGroup().reset();
+      this.authService.clearCurrentUser();
       this.authService.setCurrentUser(response.data!);
       this.router.navigate(['/app/dashboard']);
     });

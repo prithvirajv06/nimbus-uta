@@ -1,0 +1,45 @@
+{
+    "policyInfo": {
+        "customerInfo": [
+            {
+                "name": "Primary User",
+                "age": 45,
+                "creditScore": 720,
+                "riskProfile": {
+                    "category": "LOW"
+                },
+                "financials": {
+                    "monthlyDebt": 1200
+                }
+            },
+            {
+                "name": "Co-Applicant",
+                "age": 20,
+                "creditScore": 680,
+                "riskProfile": {
+                    "category": "MEDIUM"
+                },
+                "financials": {
+                    "monthlyDebt": 400
+                }
+            }
+        ],
+        "collateralItems": [
+            {
+                "type": "REAL_ESTATE",
+                "marketValue": 350000
+            },
+            {
+                "type": "CASH_DEPOSIT",
+                "marketValue": 15000
+            }
+        ],
+        "offer": {
+            "tier": "PENDING",
+            "rate": 0
+        },
+        "internal_meta": {
+            "priority_score": 0
+        }
+    }
+}

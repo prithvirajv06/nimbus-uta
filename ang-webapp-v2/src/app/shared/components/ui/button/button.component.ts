@@ -17,7 +17,7 @@ import { SafeHtmlPipe } from '../../../pipe/safe-html.pipe';
 export class ButtonComponent {
 
   @Input() size: 'sm' | 'md' = 'md';
-  @Input() variant: 'primary' | 'outline' = 'primary';
+  @Input() variant: 'primary' | 'outline' | 'danger' | 'success' | 'secondary' = 'primary';
   @Input() disabled = false;
   @Input() className = '';
   @Input() startIcon?: string; // SVG or icon class, or use ng-content for more flexibility
@@ -32,9 +32,20 @@ export class ButtonComponent {
   }
 
   get variantClasses(): string {
-    return this.variant === 'primary'
-      ? 'bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300'
-      : 'bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-300';
+    switch (this.variant) {
+      case 'primary':
+      return 'bg-brand-500 text-white shadow-theme-xs hover:bg-brand-600 disabled:bg-brand-300';
+      case 'outline':
+      return 'bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-300';
+      case 'danger':
+      return 'bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300';
+      case 'success':
+      return 'bg-green-600 text-white hover:bg-green-700 disabled:bg-green-300';
+      case 'secondary':
+      return 'bg-gray-100 text-gray-800 hover:bg-gray-200 disabled:bg-gray-300';
+      default:
+      return '';
+    }
   }
 
   get disabledClasses(): string {

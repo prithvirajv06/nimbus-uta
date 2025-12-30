@@ -14,8 +14,9 @@ type Audit struct {
 	IsProdCandidate bool      `bson:"is_prod_candidate" json:"is_prod_candidate"`
 
 	//Status fields
-	Active     string `bson:"active" json:"active"`
-	IsArchived bool   `bson:"is_archived" json:"is_archived,omitempty"`
+	Active         string `bson:"active" json:"active"`
+	IsArchived     bool   `bson:"is_archived" json:"is_archived,omitempty"`
+	RestoreArchive bool   `bson:"-" json:"restore_archive,omitempty"`
 
 	//Versioning fields
 	Version      int `bson:"version" json:"version,omitempty"`
@@ -42,4 +43,14 @@ func (a *Audit) SetModifiedAudit(c *gin.Context) {
 	a.ModifiedBy = userID
 	a.ModifiedAt = time.Now()
 	a.MinorVersion += 1
+}
+
+func (a *Audit) SetRestoreArchive(c *gin.Context) {
+	userID := c.GetHeader("user_id")
+	if userID == "" {
+		userID = "SYSTEM"
+	}
+	a.ModifiedBy = userID
+	a.ModifiedAt = time.Now()
+	a.IsArchived = false
 }

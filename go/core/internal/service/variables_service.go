@@ -14,13 +14,22 @@ import (
 	"github.com/prithvirajv06/nimbus-uta/go/core/internal/utils"
 	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/database"
 	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/messaging"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 type VariablePackageService struct {
 	mongo    *database.MongoDB
 	rabbitMQ *messaging.RabbitMQ
 	cfg      *config.Config
+}
+
+func NewVariablePackageService(db *database.MongoDB, rabbitMQ *messaging.RabbitMQ, cfg *config.Config) *VariablePackageService {
+	rabbitMQ.DeclareQueue("variablepackage.event", true)
+	return &VariablePackageService{
+		mongo:    db,
+		rabbitMQ: rabbitMQ,
+		cfg:      cfg,
+	}
 }
 
 func (s *VariablePackageService) CreateNewVariablePackageFromJSON(c *gin.Context) {
@@ -43,6 +52,7 @@ func (s *VariablePackageService) CreateNewVariablePackageFromJSON(c *gin.Context
 	varPackage.Audit.SetInitialAudit(c)
 	varPackage.Audit.Version, _ = GetNextVersionNumber(c, s.mongo.Database, newNimId)
 	varPackage.Audit.MinorVersion = 1
+	varPackage.NoOfVariables = len(variables)
 	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
 	_, err = repo.InsertOne(varPackage)
 	if HandleError(c, err, "Failed to create variable package") {
@@ -63,11 +73,22 @@ func (s *VariablePackageService) UpdateVariablePackage(c *gin.Context) {
 	if HandleError(c, err, "Failed to archive old version of variable package") {
 		return
 	}
-	payload.Audit.SetModifiedAudit(c)
-	_, err = repo.InsertOne(payload)
-	if HandleError(c, err, "Failed to create new version of variable package") {
-		return
+	payload.NoOfVariables = len(payload.Variables)
+	if payload.Audit.RestoreArchive {
+		payload.Audit.SetRestoreArchive(c)
+		_, err = repo.UpdateOne(bson.M{"nimb_id": payload.NIMB_ID, "audit.version": payload.Audit.Version, "audit.minor_version": payload.Audit.MinorVersion},
+			bson.M{"$set": bson.M{"audit.is_archived": false}})
+		if HandleError(c, err, "Failed to restore archived variable package") {
+			return
+		}
+	} else {
+		payload.Audit.SetModifiedAudit(c)
+		_, err = repo.InsertOne(payload)
+		if HandleError(c, err, "Failed to create new version of variable package") {
+			return
+		}
 	}
+
 	RespondJSON(c, 200, "success", "Variable package updated successfully", payload)
 }
 
@@ -95,10 +116,19 @@ func (s *VariablePackageService) ArchiveVariablePackage(c *gin.Context) {
 }
 
 func (s *VariablePackageService) GetAllVariablePackages(c *gin.Context) {
+	var payload struct {
+		PackageName string `json:"package_name"`
+		IsArchived  bool   `json:"is_archived"`
+	}
+	err := c.ShouldBindJSON(&payload)
+	if HandleError(c, err, "Unable to unmarshel payload") {
+		return
+	}
+	filter := bson.M{"audit.is_archived": payload.IsArchived}
 	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
-	option := options.Find().SetSort(map[string]int{"audit.version": -1, "audit.minor_version": -1, "audit.updated_at": -1})
-	option.SetProjection(map[string]int{"variables": 0})
-	varPackages, err := repo.FindMany(map[string]interface{}{"audit.is_archived": false}, option)
+	option := GetCommonSortOption()
+	option.SetProjection(bson.M{"variables": 0})
+	varPackages, err := repo.FindMany(filter, option)
 	if HandleError(c, err, "Failed to fetch variable packages") {
 		return
 	}
@@ -145,7 +175,7 @@ func extractVariables(data interface{}, prefix string, variables *[]models.Varia
 					// Analyze first element to understand array structure
 					firstElemType := getType(arr[0])
 					if firstElemType == "object" {
-						extractVariables(arr[0], fullKey+"[]", variables)
+						extractVariables(arr[0], fullKey+"[*]", variables)
 					}
 				}
 			default:

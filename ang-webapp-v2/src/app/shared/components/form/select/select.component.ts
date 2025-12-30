@@ -1,5 +1,6 @@
 
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 export interface Option {
   value: string;
@@ -8,7 +9,7 @@ export interface Option {
 
 @Component({
   selector: 'app-select',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './select.component.html',
 })
 export class SelectComponent implements OnInit {

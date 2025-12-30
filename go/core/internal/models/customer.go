@@ -6,27 +6,27 @@ import (
 )
 
 type User struct {
-	NIMB_ID      string       `bson:"nimb_id" json:"nimb_id"`
-	Fname        string       `bson:"fname" json:"fname"`
-	Lname        string       `bson:"lname" json:"lname"`
-	Email        string       `bson:"email" json:"email"`
-	Password     string       `bson:"password" json:"-"`
-	Organization Organization `bson:"organization" json:"organization"`
-	Role         Role         `bson:"role" json:"role"`
+	NIMB_ID      string       `bson:"nimb_id" json:"nimb_id,omitempty"`
+	Fname        string       `bson:"fname" json:"fname,omitempty"`
+	Lname        string       `bson:"lname" json:"lname,omitempty"`
+	Email        string       `bson:"email" json:"email,omitempty"`
+	Password     string       `bson:"password" json:"password,omitempty"`
+	Organization Organization `bson:"organization" json:"organization,omitempty"`
+	Role         Role         `bson:"role" json:"role,omitempty"`
 	JWTToken     string       `bson:"-" json:"token,omitempty"`
 	Audit        Audit        `bson:"audit" json:"audit"`
 }
 
 type Organization struct {
-	NIMB_ID string `bson:"nimb_id" json:"nimb_id"`
-	Name    string `bson:"name" json:"name"`
-	Address string `bson:"address" json:"address"`
+	NIMB_ID string `bson:"nimb_id" json:"nimb_id,omitempty"`
+	Name    string `bson:"name" json:"name,omitempty"`
+	Address string `bson:"address" json:"address,omitempty"`
 	Audit   Audit  `bson:"audit" json:"audit"`
 }
 
 type Role struct {
-	Name        string   `bson:"name" json:"name"`
-	Permissions []string `bson:"permissions" json:"permissions"`
+	Name        string   `bson:"name" json:"name,omitempty"`
+	Permissions []string `bson:"permissions" json:"permissions,omitempty"`
 }
 
 func NewOrganization(c *gin.Context, name, address string) Organization {
@@ -43,13 +43,12 @@ func NewOrganization(c *gin.Context, name, address string) Organization {
 	return org
 }
 
-func NewUser(c *gin.Context, fname, lname, email string, hashedPassword []byte, organization string, role Role) User {
+func NewUser(c *gin.Context, fname, lname, email string, organization string, role Role) User {
 	u := User{
 		NIMB_ID:      utils.GenerateNIMBID("N_USER"),
 		Fname:        fname,
 		Lname:        lname,
 		Email:        email,
-		Password:     string(hashedPassword),
 		Organization: Organization{Name: organization},
 		Role:         role,
 		Audit: Audit{Active: "ACTIVE",

@@ -10,7 +10,7 @@ import (
 	"github.com/prithvirajv06/nimbus-uta/go/core/internal/utils"
 	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/database"
 	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/messaging"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 type DecisionTableService struct {
@@ -77,9 +77,9 @@ func (dts *DecisionTableService) GetDecisionTableByNIMBID(c *gin.Context) {
 
 func (dts *DecisionTableService) GetAllDecisionTables(c *gin.Context) {
 	repo := repository.NewGenericRepository[models.DecisionTable](c.Request.Context(), dts.mongo.Database, "decision_tables")
-	option := options.Find().SetSort(map[string]int{"audit.version": -1, "audit.minor_version": -1, "audit.updated_at": -1})
-	option.SetProjection(map[string]int{"variable_package": 0, "rules": 0, "input_columns": 0, "output_columns": 0})
-	tables, err := repo.FindMany(map[string]interface{}{}, option)
+	option := GetCommonSortOption()
+	option.SetProjection(bson.M{"variable_package": 0, "rules": 0, "input_columns": 0, "output_columns": 0})
+	tables, err := repo.FindMany(bson.M{"audit.is_archived": false}, option)
 	if HandleError(c, err, "Failed to fetch decision tables") {
 		return
 	}

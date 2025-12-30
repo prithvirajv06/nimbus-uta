@@ -16,8 +16,8 @@ export class AuthenticationService extends CommonService {
         const url = `${this.baseApiUrl}/customers/register`;
         return this.httpClient.post<ApiResponse<AppCustomer>>(url, userdata).pipe(
             catchError((httpError: any) => {
-                this.notificationService.error(httpError.error.message, 5);
-                throw httpError;
+               this.handleError(httpError);
+               throw httpError;
             })
         );
     }
@@ -37,6 +37,11 @@ export class AuthenticationService extends CommonService {
         localStorage.setItem('currentUser', JSON.stringify(user));
     }
 
+    clearCurrentUser(): void {
+        localStorage.removeItem('currentUser');
+        this.currentUser = null;
+    }
+    
     getCurrentUserValue(): AppCustomer | null {
         if (!this.currentUser) {
             const userData = localStorage.getItem('currentUser');

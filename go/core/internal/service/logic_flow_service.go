@@ -10,7 +10,7 @@ import (
 	"github.com/prithvirajv06/nimbus-uta/go/core/internal/utils"
 	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/database"
 	"github.com/prithvirajv06/nimbus-uta/go/core/pkg/messaging"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 type LogicFlowService struct {
@@ -79,9 +79,9 @@ func (lfs *LogicFlowService) GetLogicFlowByNIMBID(c *gin.Context) {
 
 func (lfs *LogicFlowService) GetAllLogicFlows(c *gin.Context) {
 	repo := repository.NewGenericRepository[models.LogicFlow](c.Request.Context(), lfs.mongo.Database, "logic_flows")
-	option := options.Find().SetSort(map[string]int{"audit.version": -1, "audit.minor_version": -1, "audit.updated_at": -1})
-	option.SetProjection(map[string]int{"variable_packages": 0, "logical_steps": 0})
-	logicFlows, err := repo.FindMany(map[string]interface{}{"audit.is_archived": false}, option)
+	option := GetCommonSortOption()
+	option.SetProjection(bson.M{"variable_packages": 0, "logical_steps": 0})
+	logicFlows, err := repo.FindMany(bson.M{"audit.is_archived": false}, option)
 	if HandleError(c, err, "Failed to fetch logic flows") {
 		return
 	}

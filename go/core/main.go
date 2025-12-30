@@ -70,6 +70,10 @@ func main() {
 	customerHandler := handler.NewCustomerHandler(customerService)
 	customerHandler.RegisterRoutes(apiV1)
 
+	variableService := service.NewVariablePackageService(mongoDB, rabbitMQ, cfg)
+	variableHandler := handler.NewVariableHandler(variableService)
+	variableHandler.RegisterRoutes(apiV1)
+
 	// Create HTTP server
 	srv := &http.Server{
 		Addr:    ":" + cfg.Server.Port,
