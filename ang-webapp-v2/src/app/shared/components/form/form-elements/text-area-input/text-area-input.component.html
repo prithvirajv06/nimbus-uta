@@ -5,7 +5,6 @@
       <app-label>Description</app-label>
       <app-text-area
         [value]="message"
-        (valueChange)="message = $event"
         [rows]="6"
       ></app-text-area>
     </div>
@@ -23,7 +22,6 @@
         [rows]="6"
         [value]="messageTwo"
         [error]="true"
-        (valueChange)="messageTwo = $event"
         hint="Please enter a valid message."
       ></app-text-area>
     </div>

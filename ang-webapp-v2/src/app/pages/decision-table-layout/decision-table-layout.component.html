@@ -1,5 +1,5 @@
 @if (viewMode() == 'list') {
-<app-dt-table (edit)="edit($event)"></app-dt-table>
+<app-dt-table (edit)="handleEdit($event)"></app-dt-table>
 } @else {
-<!-- <app-dt-editor [decisionTable]="decisionTable"></app-dt-editor> -->
+<app-dt-editor></app-dt-editor>
 }

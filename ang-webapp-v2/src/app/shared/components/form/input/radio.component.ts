@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { CommonControlComponent } from './common-control';
 
 @Component({
   selector: 'app-radio',
@@ -11,7 +12,7 @@ import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/cor
   [attr.for]="id"
   [ngClass]="
     'relative flex cursor-pointer select-none items-center gap-3 text-sm font-medium ' +
-    (disabled
+    (disabled()
       ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed'
       : 'text-gray-700 dark:text-gray-400') +
     ' ' +
@@ -22,11 +23,11 @@ import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/cor
     [id]="id"
     [name]="name"
     type="radio"
-    [value]="value"
+    [value]="value()"
     [checked]="checked"
-    (change)="onChange()"
+    (change)="onChange($event)"
     class="sr-only"
-    [disabled]="disabled"
+    [disabled]="disabled()"
   />
   <span
     [ngClass]="
@@ -35,7 +36,7 @@ import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/cor
         ? 'border-brand-500 bg-brand-500'
         : 'bg-transparent border-gray-300 dark:border-gray-700') +
       ' ' +
-      (disabled
+      (disabled()
         ? 'bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-700'
         : '')
     "
@@ -50,21 +51,11 @@ import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/cor
 </label>
   `,
 })
-export class RadioComponent {
+export class RadioComponent extends CommonControlComponent {
 
   @Input() id!: string;
   @Input() name!: string;
-  @Input() value!: string;
   @Input() checked: boolean = false;
   @Input() label!: string;
   @Input() className: string = '';
-  @Input() disabled: boolean = false;
-
-  @Output() valueChange = new EventEmitter<string>();
-
-  onChange() {
-    if (!this.disabled) {
-      this.valueChange.emit(this.value);
-    }
-  }
 }

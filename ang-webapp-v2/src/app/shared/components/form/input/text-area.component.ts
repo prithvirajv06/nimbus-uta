@@ -12,7 +12,7 @@ import { CommonControlComponent } from './common-control';
         [placeholder]="placeholder"
         [rows]="rows"
         [value]="value()"
-        (input)="onInput($event)"
+        (input)="onChange($event)"
         [ngClass]="textareaClasses"
       ></textarea>
       @if (errors().length > 0 && dirty()) {

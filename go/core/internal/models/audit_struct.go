@@ -32,7 +32,8 @@ func (a *Audit) SetInitialAudit(c *gin.Context) {
 	a.ModifiedBy = userID
 	a.CreatedAt = time.Now()
 	a.ModifiedAt = time.Now()
-	a.MinorVersion = 0
+	a.Version = 1
+	a.MinorVersion = 1
 }
 
 func (a *Audit) SetModifiedAudit(c *gin.Context) {

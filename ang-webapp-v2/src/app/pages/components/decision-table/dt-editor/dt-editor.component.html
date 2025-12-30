@@ -1,1 +1,52 @@
-<p>dt-editor works!</p>
+<div>
+    <app-page-breadcrumb pageTitle="Decision Table" />
+    <div
+        class="min-h-screen rounded-2xl border border-gray-200 bg-white px-5 py-7 dark:border-gray-800 dark:bg-white/[0.03] xl:px-10 xl:py-12">
+
+        <div class="p-4 sm:p-6 dark:border-gray-800">
+            <div class="flex items-left justify-between gap-3 py-3 sm:items-center sm:py-0 mb-4">
+                <app-button size="sm" color="secondary" variant="outline" (click)="cancelEdit()"
+                    startIcon="<i class='fa fa-arrow-left'></i>">
+                    Back to List
+                </app-button>
+                <app-button size="sm" color="primary" (click)="saveVariablePackage()"
+                    [disabled]="formGroup().invalid()">
+                    Save Package
+                </app-button>
+            </div>
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <span class="text-lg font-medium text-gray-800 dark:text-white">
+                            Variable Package Details
+                        </span>
+                    </mat-expansion-panel-header>
+                    <div class="p-4 sm:p-6 dark:border-gray-800">
+                        <form>
+                            <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+                                <div>
+                                    <app-label for="name">Name</app-label>
+                                    <app-input-field id="name" placeholder="Enter name"
+                                        [field]="formGroup.name"></app-input-field>
+                                </div>
+                                <div>
+                                    <app-label for="description">Description</app-label>
+                                    <app-text-area id="description" placeholder="Enter description"
+                                        [field]="formGroup.description"></app-text-area>
+                                </div>
+                                <div class="flex items-left justify-start gap-3">
+                                    <app-label for="version">Version</app-label>
+                                    <app-label class="block text-gray-700 text-theme-sm dark:text-gray-400">
+                                        v{{ formGroup.audit.version().value() }}.{{
+                                        formGroup.audit.minor_version().value() }}
+                                    </app-label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+
+    </div>
+</div>

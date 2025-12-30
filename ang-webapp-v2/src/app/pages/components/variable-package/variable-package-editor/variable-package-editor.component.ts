@@ -17,6 +17,8 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatDatepickerModule } from "@angular/material/datepicker";
+import { SwitchComponent } from "../../../../shared/components/form/input/switch.component";
+import { RadioComponent } from "../../../../shared/components/form/input/radio.component";
 
 @Component({
   selector: 'app-variable-package-editor',
@@ -26,7 +28,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDatepickerModule,],
+    MatDatepickerModule, SwitchComponent, RadioComponent],
   templateUrl: './variable-package-editor.component.html',
   styleUrl: './variable-package-editor.component.css',
 })
@@ -34,7 +36,7 @@ export class VariablePackageEditorComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getVariablepackage();
+    this.getDetails();
   }
 
   variablePack!: VariablePackage | null;
@@ -47,8 +49,8 @@ export class VariablePackageEditorComponent implements OnInit {
     variables: [] as Variable[],
     audit: {
       version: 0,
-      created_at: '',
-      modified_at: '',
+      created_at: new Date(),
+      modified_at: new Date(),
       created_by: '',
       modified_by: '',
       status:'DRAFT',
@@ -82,7 +84,7 @@ export class VariablePackageEditorComponent implements OnInit {
   ];
 
 
-  getVariablepackage() {
+  getDetails() {
     this.activatedRoute.queryParams.subscribe(params => {
       const editId = params['nimb_id'];
       const editVersion = params['version'];

@@ -4,9 +4,9 @@ import { Component, Input, Output, EventEmitter, model, InputSignal, InputSignal
     selector: 'app-common-control',
     template: ``
 })
-export class CommonControlComponent implements FormValueControl<string | number> {
+export class CommonControlComponent implements FormValueControl<string | number | boolean> {
 
-    value: ModelSignal<string | number> = model<string | number>('');
+    value: ModelSignal<string | number | boolean> = model<string | number | boolean>('');
 
     disabled = input<boolean>(false);
     readonly = input<boolean>(false);
@@ -16,7 +16,7 @@ export class CommonControlComponent implements FormValueControl<string | number>
     errors = input<readonly WithOptionalField<ValidationError>[]>([]);
     dirty = input<boolean>(false);
 
-    onInput(event: Event) {
+    onChange(event: Event) {
         const val = (event.target as HTMLTextAreaElement).value;
         this.value.set(val);
     }

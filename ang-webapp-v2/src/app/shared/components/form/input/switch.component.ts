@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { CommonControlComponent } from './common-control';
 
 @Component({
   selector: 'app-switch',
@@ -9,14 +10,14 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
   template: `
    <label
       class="flex cursor-pointer select-none items-center gap-3 text-sm font-medium"
-      [ngClass]="disabled ? 'text-gray-400' : 'text-gray-700 dark:text-gray-400'"
+      [ngClass]="disabled() ? 'text-gray-400' : 'text-gray-700 dark:text-gray-400'"
       (click)="handleToggle()"
     >
       <div class="relative">
         <div
           class="block transition duration-150 ease-linear h-6 w-11 rounded-full"
           [ngClass]="
-            (disabled
+            (disabled()
               ? 'bg-gray-100 pointer-events-none dark:bg-gray-800'
               : switchColors.background)
           "
@@ -30,14 +31,12 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
     </label>
   `
 })
-export class SwitchComponent {
+export class SwitchComponent extends CommonControlComponent implements OnInit {
 
   @Input() label!: string;
   @Input() defaultChecked: boolean = false;
-  @Input() disabled: boolean = false;
   @Input() color: 'blue' | 'gray' = 'blue';
 
-  @Output() valueChange = new EventEmitter<boolean>();
 
   isChecked: boolean = false;
 
@@ -46,9 +45,8 @@ export class SwitchComponent {
   }
 
   handleToggle() {
-    if (this.disabled) return;
+    if (this.disabled()) return;
     this.isChecked = !this.isChecked;
-    this.valueChange.emit(this.isChecked);
   }
 
   get switchColors() {

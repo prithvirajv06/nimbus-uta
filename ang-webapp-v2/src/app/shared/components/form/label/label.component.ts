@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component,Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-label',
@@ -10,4 +10,5 @@ import { Component,Input } from '@angular/core';
 export class LabelComponent {
   @Input() for?: string;
   @Input() className = '';
+  @Input() required: boolean = false;
 }

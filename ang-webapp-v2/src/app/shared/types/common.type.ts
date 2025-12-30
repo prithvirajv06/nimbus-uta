@@ -1,7 +1,7 @@
 export interface Audit {
-    created_at: string;
+    created_at: Date;
     created_by: string;
-    modified_at: string;
+    modified_at: Date;
     modified_by: string;
     is_prod_candidate: boolean;
     status: string
@@ -25,7 +25,7 @@ export interface SelectOption {
 }
 
 export interface ApiResponse<T> {
-    success: boolean;
+    status: string;
     message: string;
     data: T;
 }

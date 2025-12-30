@@ -22,7 +22,7 @@ export const routes: Routes = [
         component: VariablePackageLayoutComponent,
         title: 'Variable Packages'
       }, {
-        path: 'decisition-tables',
+        path: 'decision-tables',
         component: DecisionTableLayoutComponent
       }
     ],

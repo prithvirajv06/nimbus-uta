@@ -11,13 +11,14 @@ import { ButtonComponent } from "../../../../shared/components/ui/button/button.
 import { ModalComponent } from "../../../../shared/components/ui/modal/modal.component";
 import { VariablePackageService } from "../../../../shared/services/variable-package.service";
 import { VariablePackage, VariablePackageRequest } from "../../../../shared/types/variable_package";
+import { TableActionHeaderComponent } from "../../../../shared/components/table-action-header/table-action-header.component";
 
 
 @Component({
   selector: 'app-variable-package-table',
   imports: [PageBreadcrumbComponent, NgClass, ButtonComponent,
     ModalComponent, Field, InputFieldComponent, LabelComponent,
-    TextAreaComponent, FileInputComponent, DatePipe],
+    TextAreaComponent, FileInputComponent, DatePipe, TableActionHeaderComponent],
   templateUrl: './variable-package-table.component.html',
   styleUrl: './variable-package-table.component.css',
 })
