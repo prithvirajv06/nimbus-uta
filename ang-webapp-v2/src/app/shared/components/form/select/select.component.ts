@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 export interface Option {
-  value: string;
+  value: string|boolean|number;
   label: string;
 }
 

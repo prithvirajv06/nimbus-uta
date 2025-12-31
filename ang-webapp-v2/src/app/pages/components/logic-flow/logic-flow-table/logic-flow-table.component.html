@@ -1,12 +1,12 @@
 <div>
-    <app-page-breadcrumb pageTitle="Decision Tables" />
+    <app-page-breadcrumb pageTitle="Logic Flows" />
     <div
         class="min-h-screen rounded-2xl border border-gray-200 bg-white px-5 py-7 dark:border-gray-800 dark:bg-white/[0.03] xl:px-10 xl:py-12">
 
 
         <!--Table Start-->
         <div class="rounded-2xl border border-gray-200 bg-white pt-4 dark:border-white/[0.05] dark:bg-white/[0.03]">
-            <app-table-action-header [title]="'Decision Tables'" [showArchive]="showArchive"
+            <app-table-action-header [title]="'Logic Flows'" [showArchive]="showArchive"
                 (loadtableView)="loadtableView()" (loadtableArchivedView)="loadtableArchivedView()"
                 (openNewFormModal)="isNewModalOpen = true"></app-table-action-header>
 
@@ -20,9 +20,6 @@
                                 <th
                                     class="px-4 py-3 font-normal text-gray-500 text-start text-theme-sm dark:text-gray-400">
                                     Description</th>
-                                <th
-                                    class="px-4 py-3 font-normal text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                                    Hit Policy</th>
                                 <th
                                     class="px-4 py-3 font-normal text-gray-500 text-start text-theme-sm dark:text-gray-400">
                                     Last updated at</th>
@@ -59,14 +56,12 @@
                                 <td class="px-4 py-4 text-gray-700 whitespace-nowrap text-theme-sm dark:text-gray-400">
                                     {{ item.description }}
                                 </td>
-                                <td class="px-4 py-4 text-gray-700 whitespace-nowrap text-theme-sm dark:text-gray-400">
-                                    {{ item.hit_policy }}
-                                </td>
+
                                 <td class="px-4 py-4 text-gray-700 whitespace-nowrap text-theme-sm dark:text-gray-400">
                                     {{ item.audit.modified_at |date:'dd/MM/yyyy HH:mm' }}
                                 </td>
                                 <td class="px-4 py-4 text-gray-700 text-theme-sm dark:text-gray-400">
-                                    {{ item.no_of_rows }}
+                                    {{ item.no_of_branches }}
                                 </td>
                                 <td class="px-4 py-4 text-gray-700 text-theme-sm dark:text-gray-400">
                                     <!-- <div class="relative inline-block">
@@ -160,10 +155,10 @@
     <div>
         <div class="px-1">
             <h4 class="text-title-xs mb-1 font-semibold text-gray-800 dark:text-white/90">
-                New Decision Table
+              New Logic Flow
             </h4>
             <p class="mb-7 text-sm leading-6 text-gray-500 dark:text-gray-400">
-                Create a new decision table by filling in the details below.
+                Create a new logic flow by filling in the details below.
             </p>
         </div>
 
@@ -172,23 +167,15 @@
                 <div class="grid grid-cols-1 gap-4 ">
                     <div>
                         <app-label class="mb-4" [required]="true">Name</app-label>
-                        <app-input-field label="Package Name" type="text" placeholder="Enter package name"
-                            id="packageName" [field]="formGroup.name" class="mb-4" />
+                        <app-input-field label="Name" type="text" placeholder="Enter name"
+                            id="name" [field]="formGroup.name" class="mb-4" />
                     </div>
                 </div>
                 <div class="grid grid-cols-1 gap-4 ">
                     <div>
                         <app-label class="mb-4" [required]="true">Description</app-label>
-                        <app-text-area label="Description" placeholder="Enter package description" id="description"
+                        <app-text-area label="Description" placeholder="Enter description" id="description"
                             [field]="formGroup.description" class="mb-4"></app-text-area>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 gap-4 ">
-                    <div>
-                        <app-label class="mb-4" [required]="true">Hit Policy</app-label>
-                        <app-select label="Hit Policy" placeholder="Choose a hit policy" id="hitPolicy"
-                            [options]="hitPolicyOptions" (valueChange)="formGroup.hit_policy().setControlValue($event)"
-                            class="mb-4"></app-select>
                     </div>
                 </div>
                 <div class="grid grid-cols-1 gap-4 ">
@@ -196,7 +183,8 @@
                         <app-label class="mb-4" [required]="true">Variable Package</app-label>
                         <app-select label="Variable Package" placeholder="Choose a variable package"
                             id="variablePackage" [options]="variablePackagesOptions"
-                            (valueChange)="setVariablePackage($event)" class="mb-4"></app-select>
+                            (valueChange)="setVariablePackage($event)"
+                             class="mb-4"></app-select>
                     </div>
                 </div>
                 <div class="flex justify-end gap-3 mt-6">
@@ -211,4 +199,3 @@
         </div>
     </div>
 </app-modal>
-

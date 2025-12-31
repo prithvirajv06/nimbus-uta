@@ -30,7 +30,7 @@ export class NotificationHostComponent implements OnInit, OnDestroy {
 
     // Set an auto-dismiss timer if a duration is specified and not zero
     if (notification.duration && notification.duration > 0) {
-      notification.duration = Math.max(notification.duration, 2000); // Minimum duration of 2 seconds
+      notification.duration = Math.max(notification.duration * 1000, 2000); // Minimum duration of 2 seconds
       setTimeout(() => this.dismiss(notification.id), (notification.duration));
     }
   }

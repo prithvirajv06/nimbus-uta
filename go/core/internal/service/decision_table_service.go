@@ -76,10 +76,22 @@ func (dts *DecisionTableService) GetDecisionTableByNIMBID(c *gin.Context) {
 }
 
 func (dts *DecisionTableService) GetAllDecisionTables(c *gin.Context) {
+	var payload struct {
+		Name       string `json:"name"`
+		IsArchived bool   `json:"is_archived"`
+	}
+	err := c.ShouldBindJSON(&payload)
+	if HandleError(c, err, "Unable to unmarshel payload") {
+		return
+	}
+	filter := bson.M{"audit.is_archived": payload.IsArchived}
+	if payload.Name != "" {
+		filter["name"] = payload.Name
+	}
 	repo := repository.NewGenericRepository[models.DecisionTable](c.Request.Context(), dts.mongo.Database, "decision_tables")
 	option := GetCommonSortOption()
 	option.SetProjection(bson.M{"variable_package": 0, "rules": 0, "input_columns": 0, "output_columns": 0})
-	tables, err := repo.FindMany(bson.M{"audit.is_archived": false}, option)
+	tables, err := repo.FindMany(filter, option)
 	if HandleError(c, err, "Failed to fetch decision tables") {
 		return
 	}

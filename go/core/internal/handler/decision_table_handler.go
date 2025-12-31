@@ -22,4 +22,7 @@ func (h *DecisionTableHandler) RegisterRoutes(router gin.IRoutes) {
 	router.POST("/decision-tables/list", h.service.GetAllDecisionTables)
 	router.DELETE("/decision-table", h.service.ArchiveDecisionTable)
 	router.PUT("/decision-table/clone", h.service.CloneDecisionTable)
+	//TODO: Add routes to export/import decision table
+	//router.GET("/decision-table/export", h.service.ExportDecisionTable)
+	//router.POST("/decision-table/import", h.service.ImportDecisionTable)
 }

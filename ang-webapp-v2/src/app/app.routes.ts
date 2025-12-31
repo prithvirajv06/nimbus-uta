@@ -6,6 +6,7 @@ import { SignInComponent } from './pages/auth-pages/sign-in/sign-in.component';
 import { SignUpComponent } from './pages/auth-pages/sign-up/sign-up.component';
 import { VariablePackageLayoutComponent } from './pages/variable-package-layout/variable-package-layout.component';
 import { DecisionTableLayoutComponent } from './pages/decision-table-layout/decision-table-layout.component';
+import { LogicFlowLayoutComponent } from './pages/logic-flow-layout/logic-flow-layout.component';
 
 export const routes: Routes = [
   {
@@ -21,9 +22,16 @@ export const routes: Routes = [
         path: 'variable-packages',
         component: VariablePackageLayoutComponent,
         title: 'Variable Packages'
-      }, {
+      },
+      {
         path: 'decision-tables',
-        component: DecisionTableLayoutComponent
+        component: DecisionTableLayoutComponent,
+        title: 'Decision Tables'
+      },
+      {
+        path: 'logic-flows',
+        component: LogicFlowLayoutComponent,
+        title: 'Logic Flows'
       }
     ],
   },

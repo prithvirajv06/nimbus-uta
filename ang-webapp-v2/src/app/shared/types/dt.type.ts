@@ -1,8 +1,8 @@
 // DecisionTableStruct.ts
 
 import { Signal, signal, WritableSignal } from "@angular/core";
-import { Audit } from "./common.type";
-import { VariablePackage } from "./variable_package";
+import { Audit, FormGroupUtilsContract } from "./common.type";
+import { Variable, VariablePackage } from "./variable_package";
 import { apply, applyEach, form, required, schema } from "@angular/forms/signals";
 
 export interface DecisionTable {
@@ -13,28 +13,18 @@ export interface DecisionTable {
   no_of_outputs: number;
   name: string;
   hit_policy: string;
-  input_columns: TableInput[];
-  output_columns: TableOutput[];
+  input_columns: Variable[];
+  output_columns: Variable[];
   variable_package: VariablePackage;
-  rules: string[][];
+  rules: Variable[][];
   audit: Audit;
 }
 
-export interface TableInput {
-  variable: string;
-  label: string;
+export interface DTRuleUtilsContract extends FormGroupUtilsContract<DecisionTable> {
+  createEmptyRule(inputColumns: Variable[], outputColumns: Variable[]): Variable[];
 }
 
-export interface TableOutput {
-  variable: string;
-  label: string;
-  allowed_values?: string[];
-  is_priority: boolean;
-}
-
-
-
-export const DTModelutils = {
+export const DTUtils: DTRuleUtilsContract = {
   signalModel(): WritableSignal<DecisionTable> {
     return signal<DecisionTable>({
       nimb_id: '',
@@ -82,7 +72,7 @@ export const DTModelutils = {
       }
     });
   },
-  basicFormGroup(formModel: WritableSignal<DecisionTable>) {
+  basicFormGroup(formModel: WritableSignal<DecisionTable>): any {
     return form<DecisionTable>(formModel, (schema) => {
       required(schema.name, { message: 'Decision Table Name is required' });
       required(schema.description, { message: 'Description is required' });
@@ -91,7 +81,7 @@ export const DTModelutils = {
     });
   },
 
-  detailsFormGroup(formModel: WritableSignal<DecisionTable>) {
+  detailsFormGroup(formModel: WritableSignal<DecisionTable>): any {
     return form<DecisionTable>(formModel, (schema) => {
       required(schema.name, { message: 'Decision Table Name is required' });
       required(schema.description, { message: 'Description is required' });
@@ -100,13 +90,24 @@ export const DTModelutils = {
       required(schema.output_columns, { message: 'At least one Output Column is required' });
       required(schema.rules, { message: 'At least one Rule is required' });
       applyEach(schema.input_columns, (inputSchema) => {
-        required(inputSchema.variable, { message: 'Input Variable is required' });
+        required(inputSchema.var_key, { message: 'Input Variable is required' });
         required(inputSchema.label, { message: 'Input Label is required' });
       });
       applyEach(schema.output_columns, (outputSchema) => {
-        required(outputSchema.variable, { message: 'Output Variable is required' });
+        required(outputSchema.var_key, { message: 'Output Variable is required' });
         required(outputSchema.label, { message: 'Output Label is required' });
       });
     });
+  },
+  createEmptyRule(inputColumns: Variable[], outputColumns: Variable[]): Variable[] {
+    const rule: Variable[] = [];
+    inputColumns.forEach((variable) => {
+      variable.value = '';
+      rule.push({ ...variable });
+    });
+    outputColumns.forEach((variable) => {
+      rule.push({ ...variable });
+    });
+    return rule;
   }
 }

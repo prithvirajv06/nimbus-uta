@@ -78,6 +78,10 @@ func main() {
 	decisionTableHandler := handler.NewDecisionTableHandler(decisionTabsleService)
 	decisionTableHandler.RegisterRoutes(apiV1)
 
+	logicFlowService := service.NewLogicFlowService(mongoDB, rabbitMQ, cfg)
+	logicFlowHandler := handler.NewLogicFlowHandler(logicFlowService)
+	logicFlowHandler.RegisterRoutes(apiV1)
+
 	// Create HTTP server
 	srv := &http.Server{
 		Addr:    ":" + cfg.Server.Port,

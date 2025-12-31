@@ -20,4 +20,5 @@ type Variables struct {
 	Label      string `bson:"label" json:"label"`
 	Type       string `bson:"type" json:"type"`
 	IsRequired bool   `bson:"is_required" json:"is_required"`
+	Value      string `bson:"value" json:"value"`
 }

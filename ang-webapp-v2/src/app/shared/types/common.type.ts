@@ -1,3 +1,5 @@
+import { WritableSignal } from "@angular/core";
+
 export interface Audit {
     created_at: Date;
     created_by: string;
@@ -28,4 +30,10 @@ export interface ApiResponse<T> {
     status: string;
     message: string;
     data: T;
+}
+
+export interface FormGroupUtilsContract<T> {
+    signalModel(): WritableSignal<T>,
+    basicFormGroup(formModel: WritableSignal<T>): any,
+    detailsFormGroup(formModel: WritableSignal<T>): any
 }

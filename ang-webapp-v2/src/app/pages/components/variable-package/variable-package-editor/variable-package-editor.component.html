@@ -9,16 +9,23 @@
                         startIcon="<i class='fa fa-arrow-left'></i>">
                         Back to List
                     </app-button>
-                    <app-button size="sm" color="primary" (click)="saveVariablePackage()"
-                        [disabled]="formGroup().invalid()">
-                        Save Package
-                    </app-button>
+                    <div class="flex gap-3">
+                        <app-button size="sm" color="red" variant="outline" (click)="addVariable()"
+                            startIcon="<i class='fa fa-plus'></i>">
+                            Add Variable
+                        </app-button>
+                        <app-button size="sm" color="primary" (click)="saveDetails()"
+                            [disabled]="formGroup().invalid()">
+                            Save Package
+                        </app-button>
+                    </div>
                 </div>
                 <mat-accordion>
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
                             <span class="text-lg font-medium text-gray-800 dark:text-white">
-                                Variable Package Details
+                                Variable Package Details (v{{ formGroup.audit.version().value() }}.{{
+                                formGroup.audit.minor_version().value() }})
                             </span>
                         </mat-expansion-panel-header>
                         <div class="p-4 sm:p-6 dark:border-gray-800">
@@ -33,13 +40,6 @@
                                         <app-label for="description">Description</app-label>
                                         <app-text-area id="description" placeholder="Enter description"
                                             [field]="formGroup.description"></app-text-area>
-                                    </div>
-                                    <div class="flex items-left justify-start gap-3">
-                                        <app-label for="version">Version</app-label>
-                                        <app-label class="block text-gray-700 text-theme-sm dark:text-gray-400">
-                                            v{{ formGroup.audit.version().value() }}.{{
-                                            formGroup.audit.minor_version().value() }}
-                                        </app-label>
                                     </div>
                                 </div>
                             </form>
@@ -94,6 +94,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-100 dark:divide-white/[0.05]">
                             @for (variable of formGroup.variables; track $index) {
+                            @if (variable) {
                             <tr>
                                 <td class="px-4 py-4 text-gray-700 text-theme-sm dark:text-gray-400">
                                     <app-checkbox [field]="variable.is_required"></app-checkbox>
@@ -116,6 +117,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            }
                             }
                         </tbody>
                     </table>

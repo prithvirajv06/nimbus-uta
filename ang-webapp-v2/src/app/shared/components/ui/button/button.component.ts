@@ -38,11 +38,11 @@ export class ButtonComponent {
       case 'outline':
       return 'bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-400 dark:ring-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-300';
       case 'danger':
-      return 'bg-red-600 text-white hover:bg-red-700 disabled:bg-red-300';
+      return 'bg-red-100 text-red-700 hover:bg-red-200 disabled:bg-red-50';
       case 'success':
-      return 'bg-green-600 text-white hover:bg-green-700 disabled:bg-green-300';
+      return 'bg-green-100 text-green-700 hover:bg-green-200 disabled:bg-green-50';
       case 'secondary':
-      return 'bg-gray-100 text-gray-800 hover:bg-gray-200 disabled:bg-gray-300';
+      return 'bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:bg-gray-50';
       default:
       return '';
     }

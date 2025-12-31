@@ -17,7 +17,7 @@ export class DtService extends CommonService {
     }
 
     get(id: string, version: number) {
-        return this.httpClient.get<ApiResponse<DecisionTable>>(`${this.baseApiUrl}/decision-tables`, { params: { nimb_id: id, version: version } })
+        return this.httpClient.get<ApiResponse<DecisionTable>>(`${this.baseApiUrl}/decision-table`, { params: { nimb_id: id, version: version } })
             .pipe(catchError((error: any) => { this.handleError(error); throw error; }));
     }
 
@@ -32,7 +32,7 @@ export class DtService extends CommonService {
     }
 
     delete(id: string, version: number) {
-        return this.httpClient.delete<ApiResponse<DecisionTable>>(`${this.baseApiUrl}/decision-tables`, { params: { nimb_id: id, version: version } })
+        return this.httpClient.delete<ApiResponse<DecisionTable>>(`${this.baseApiUrl}/decision-table`, { params: { nimb_id: id, version: version } })
             .pipe(catchError((error: any) => { this.handleError(error); throw error; }));
     }
 }

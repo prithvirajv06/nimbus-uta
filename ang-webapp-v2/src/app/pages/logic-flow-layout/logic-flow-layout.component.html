@@ -1,0 +1,5 @@
+@if (viewMode() == 'list') {
+<app-logic-flow-table (edit)="handleEdit($event)"></app-logic-flow-table>
+} @else {
+<app-logic-flow-editor></app-logic-flow-editor>
+}

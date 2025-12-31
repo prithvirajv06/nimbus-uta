@@ -8,6 +8,15 @@ import { CommonControlComponent } from './common-control';
   imports: [CommonModule],
   template: `
     <div class="relative">
+      @if (isJson) {
+      <textarea
+        [placeholder]="placeholder"
+        [rows]="jsonRows"
+        [value]="parsedJsonValue"
+        (input)="onChange($event)"
+        [ngClass]="textareaClasses"
+      ></textarea>
+      } @else {
       <textarea
         [placeholder]="placeholder"
         [rows]="rows"
@@ -15,6 +24,7 @@ import { CommonControlComponent } from './common-control';
         (input)="onChange($event)"
         [ngClass]="textareaClasses"
       ></textarea>
+      }
       @if (errors().length > 0 && dirty()) {
       <p
         class="mt-2 text-sm"
@@ -35,8 +45,7 @@ export class TextAreaComponent extends CommonControlComponent {
   @Input() className = '';
   @Input() error = false;
   @Input() hint = '';
-
-
+  @Input() isJson = false;
 
   get textareaClasses(): string {
     let base = `w-full rounded-lg border px-4 py-2.5 text-sm shadow-theme-xs focus:outline-hidden ${this.className} `;
@@ -48,5 +57,33 @@ export class TextAreaComponent extends CommonControlComponent {
       base += 'bg-transparent text-gray-900 dark:text-gray-300 text-gray-900 border-gray-300 focus:border-brand-300 focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:focus:border-brand-800';
     }
     return base;
+  }
+
+  get jsonRows(): number {
+    try {
+      const val = this.value();
+      if (!val) return this.rows;
+      const jsonStr = this.parsedJsonValue;
+      return Math.max(jsonStr.split('\n').length, this.rows);
+    } catch {
+      return this.rows;
+    }
+  }
+
+  get parsedJsonValue(): any {
+    const val = this.value();
+    if (!val) return '';
+    try {
+      if (typeof val === 'string') {
+        // Try to parse stringified JSON
+        const parsed = JSON.parse(val);
+        return JSON.stringify(parsed, null, 2);
+      }
+      // If already an object, pretty print
+      return JSON.stringify(val, null, 2);
+    } catch {
+      // If not valid JSON, return as is
+      return val;
+    }
   }
 }

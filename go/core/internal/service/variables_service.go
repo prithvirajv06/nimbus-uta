@@ -117,14 +117,17 @@ func (s *VariablePackageService) ArchiveVariablePackage(c *gin.Context) {
 
 func (s *VariablePackageService) GetAllVariablePackages(c *gin.Context) {
 	var payload struct {
-		PackageName string `json:"package_name"`
-		IsArchived  bool   `json:"is_archived"`
+		Name       string `json:"name"`
+		IsArchived bool   `json:"is_archived"`
 	}
 	err := c.ShouldBindJSON(&payload)
 	if HandleError(c, err, "Unable to unmarshel payload") {
 		return
 	}
 	filter := bson.M{"audit.is_archived": payload.IsArchived}
+	if payload.Name != "" {
+		filter["name"] = payload.Name
+	}
 	repo := repository.NewGenericRepository[models.VariablePackage](c.Request.Context(), s.mongo.Database, "variable_packages")
 	option := GetCommonSortOption()
 	option.SetProjection(bson.M{"variables": 0})
@@ -146,9 +149,9 @@ func extractVariablesFromJSON(jsonStr string) ([]models.Variables, error) {
 	return variables, nil
 }
 
-func extractVariables(data interface{}, prefix string, variables *[]models.Variables) {
+func extractVariables(data any, prefix string, variables *[]models.Variables) {
 	switch v := data.(type) {
-	case map[string]interface{}:
+	case map[string]any:
 		for key, value := range v {
 			fullKey := key
 			if prefix != "" {
@@ -157,9 +160,17 @@ func extractVariables(data interface{}, prefix string, variables *[]models.Varia
 
 			valueType := getType(value)
 
-			// If it's an object, recurse into it
 			switch valueType {
 			case "object":
+				// Add the object itself
+				*variables = append(*variables, models.Variables{
+					VarKey:     fullKey,
+					Label:      formatLabel(key),
+					Type:       valueType,
+					IsRequired: true,
+					Value:      toJSONString(value),
+				})
+				// Recurse into the object
 				extractVariables(value, fullKey, variables)
 			case "array":
 				// Add the array itself
@@ -168,10 +179,11 @@ func extractVariables(data interface{}, prefix string, variables *[]models.Varia
 					Label:      formatLabel(key),
 					Type:       valueType,
 					IsRequired: true,
+					Value:      toJSONString(value.([]any)[0]),
 				})
 
 				// Check array elements
-				if arr, ok := value.([]interface{}); ok && len(arr) > 0 {
+				if arr, ok := value.([]any); ok && len(arr) > 0 {
 					// Analyze first element to understand array structure
 					firstElemType := getType(arr[0])
 					if firstElemType == "object" {
@@ -185,10 +197,19 @@ func extractVariables(data interface{}, prefix string, variables *[]models.Varia
 					Label:      formatLabel(key),
 					Type:       valueType,
 					IsRequired: true,
+					Value:      toJSONString(value),
 				})
 			}
 		}
 	}
+}
+
+func toJSONString(value any) string {
+	bytes, err := json.Marshal(value)
+	if err != nil {
+		return value.(string)
+	}
+	return string(bytes)
 }
 
 func getType(value interface{}) string {

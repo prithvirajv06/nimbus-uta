@@ -1,5 +1,6 @@
 {
     "policyInfo": {
+        "isValid": true,
         "customerInfo": [
             {
                 "name": "Primary User",

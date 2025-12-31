@@ -1,4 +1,5 @@
-import { DTModelutils } from './../../../../shared/types/dt.type';
+import { Variable, VariablePackageUtils } from './../../../../shared/types/variable_package';
+import { DTUtils } from './../../../../shared/types/dt.type';
 import { NgClass, DatePipe } from "@angular/common";
 import { Component, inject, OnInit, WritableSignal } from "@angular/core";
 import { PageBreadcrumbComponent } from "../../../../shared/components/common/page-breadcrumb/page-breadcrumb.component";
@@ -49,19 +50,16 @@ export class DtTableComponent extends BasicTableComponent<DecisionTable> impleme
     { value: "MAX", label: "MAX" }
   ];
 
-
-  formModule: WritableSignal<DecisionTable> = DTModelutils.signalModel();
-  formGroup = DTModelutils.basicFormGroup(this.formModule);
+  
+  formModule: WritableSignal<DecisionTable> = DTUtils.signalModel();
+  formGroup = DTUtils.basicFormGroup(this.formModule);
 
   ngOnInit(): void {
     this.variableService.getList({ is_archived: false }).subscribe({
       next: (res) => {
         if (res.status === 'success' && res.data) {
           this.variablePackages = res.data;
-          this.variablePackagesOptions = <Option[]>res.data.map((vp: VariablePackage) => ({
-            label: vp.package_name + " v" + vp.audit.version + "." + vp.audit.minor_version,
-            value: vp.nimb_id + "~" + vp.audit.version
-          })) || [];
+          this.variablePackagesOptions = VariablePackageUtils.options(res.data);
         }
       }
     });
@@ -75,6 +73,8 @@ export class DtTableComponent extends BasicTableComponent<DecisionTable> impleme
       this.formGroup.variable_package().setControlValue(selectedVP);
     }
   }
+
+  
   onSubmit() {
     if (this.formGroup().valid()) {
       const newDT: DecisionTable = this.formGroup().value();
@@ -92,4 +92,6 @@ export class DtTableComponent extends BasicTableComponent<DecisionTable> impleme
       this.notificationService.error('Please fill all required fields correctly.', 10);
     }
   }
+
+
 }

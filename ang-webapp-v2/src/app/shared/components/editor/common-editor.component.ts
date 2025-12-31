@@ -1,4 +1,4 @@
-import { inject, WritableSignal } from "@angular/core";
+import { Component, inject, OnInit, WritableSignal } from "@angular/core";
 import { FieldTree } from "@angular/forms/signals";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NotificationService } from "../../services/notification.service";
@@ -12,7 +12,41 @@ export interface CommonEditorContract<T> {
     getDetails(): void;
 }
 
-export class CommonEditorComponent<T> implements CommonEditorContract<T> {
+/**
+ * Generic base component for editing entities of type `T`.
+ * 
+ * This component provides common logic for loading, saving, and cancelling edits,
+ * using Angular's dependency injection for routing and notifications.
+ * 
+ * @typeParam T - The type of the entity being edited.
+ * 
+ * ## Usage
+ * Extend this class and implement the abstract methods:
+ * - `setService()`
+ * - `setFormModel()`
+ * - `setFormGroup()`
+ * 
+ * These methods must be overridden in the subclass to provide specific service,
+ * form model, and form group logic for the entity type.
+ * 
+ * ## Methods
+ * - `getDetails()` - Loads entity details based on query parameters.
+ * - `saveDetails()` - Saves the current form data using the service.
+ * - `cancelEdit()` - Resets the form and navigates away.
+ * 
+ * ## Note
+ * To ensure subclasses must override methods, mark them as `abstract` in the base class.
+ * For example:
+ * ```typescript
+ * abstract setService(): void;
+ * ```
+ * This will enforce implementation in derived classes.
+ */
+@Component({
+    selector: 'app-common-editor',
+    template: ''
+})
+export class CommonEditorComponent<T> implements CommonEditorContract<T>, OnInit {
 
 
     activatedRoute = inject(ActivatedRoute);
@@ -23,7 +57,13 @@ export class CommonEditorComponent<T> implements CommonEditorContract<T> {
     formGroup!: FieldTree<T>;
 
     constructor() {
+        this.setService();
+        this.setFormModel();
+        this.setFormGroup();
+    }
 
+    ngOnInit(): void {
+        this.getDetails();
     }
 
     setService(): void {
@@ -36,24 +76,51 @@ export class CommonEditorComponent<T> implements CommonEditorContract<T> {
         throw new Error("Method not implemented.");
     }
 
-     getDetails() {
+    getDetails() {
+        this.setService();
         this.activatedRoute.queryParams.subscribe(params => {
-          const editId = params['nimb_id'];
-          const editVersion = params['version'];
-          if (editId && editVersion) {
-            this.service.get(editId, editVersion)
-              .subscribe((response: ApiResponse<T>) => {
-                this.formModel.set(response.data);
-              });
-          }
-        });
-      }
-
-    saveDetails() {
-        this.service.update(this.formGroup().value()).subscribe({
-            next: (res: ApiResponse<T>) => {
-                this.notificationService.success('Details saved successfully');
+            const editId = params['nimb_id'];
+            const editVersion = params['version'];
+            if (editId && editVersion) {
+                this.service.get(editId, editVersion)
+                    .subscribe((response: ApiResponse<T>) => {
+                        this.formModel.set(response.data);
+                        this.afterGetDetails();
+                    });
             }
         });
+    }
+
+    saveDetails() {
+        if (this.formGroup().valid()) {
+            const formValue: T | any = this.formGroup().value();
+            // Update existing variable package
+            this.service.update(formValue.nimb_id, formValue.audit.version, formValue)
+                .subscribe((response: ApiResponse<T>) => {
+                    this.notificationService.success('Details updated successfully.', 5);
+                });
+        } else {
+            this.notificationService.error('Please fill in all required fields.', 10);
+        }
+    }
+
+    cancelEdit() {
+        this.formGroup().reset();
+        this.router.navigate([], {
+            queryParams: {}
+        });
+    }
+
+    afterGetDetails(): void {
+        // Optional hook for subclasses to implement additional logic after getting details
+    }
+
+    navigateToVariablePackage(): void {
+        const nimb_id = (<any>this.formModel()).variable_package.nimb_id;
+        const version = (<any>this.formModel()).variable_package.audit.version;
+        if (nimb_id && version) {
+            const url = `/app/variable-packages?nimb_id=${encodeURIComponent(nimb_id)}&version=${encodeURIComponent(version)}`;
+            window.open(url, '_blank');
+        }
     }
 }
