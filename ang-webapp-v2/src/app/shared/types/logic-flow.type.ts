@@ -1,6 +1,6 @@
 import { Form } from "@angular/forms";
 import { Audit, FormGroupUtilsContract } from "./common.type";
-import { VariablePackage } from "./variable_package";
+import { Variable, VariablePackage } from "./variable_package";
 import { signal, WritableSignal } from "@angular/core";
 import { applyEach, form, required } from "@angular/forms/signals";
 
@@ -18,7 +18,7 @@ export interface LogicFlow {
 export interface LogicalStep {
     operation_name: string;
     condition: Condition;
-    variable: string;
+    variable: Variable;
     logical: string;
     op_value: any;
     operation_if_true: Operation[];
@@ -28,18 +28,17 @@ export interface LogicalStep {
 export interface Condition {
     operator: string;
     conditions: Condition[];
-    variable: string;
+    variable: Variable;
     logical: string;
     op_value: any;
     array_filters?: ArrayFilter[];
 }
 
 export interface Operation {
-    variable: string;
+    variable: Variable;
     operation: string;
     op_value: any;
     value_is_path: boolean;
-    type: string; // e.g., 'NUMBER' | 'STRING' | 'BOOLEAN' | 'JSON' | 'DATE'
     array_filters?: ArrayFilter[];
 }
 
@@ -87,16 +86,34 @@ export const LogicFlowUtils: FormGroupUtilsContract<LogicFlow> = {
                         {
                             operator: "",
                             conditions: [],
-                            variable: "",
+                            variable: {
+                                var_key: "",
+                                label: "",
+                                type: "",
+                                is_required: false,
+                                value: ""
+                            },
                             logical: "",
                             op_value: undefined
                         }
                     ],
-                    variable: "",
+                    variable: {
+                        var_key: "",
+                        label: "",
+                        type: "",
+                        is_required: false,
+                        value: ""
+                    },
                     logical: "",
                     op_value: undefined
                 },
-                variable: "",
+                variable: {
+                    var_key: "",
+                    label: "",
+                    type: "",
+                    is_required: false,
+                    value: ""
+                },
                 logical: "",
                 op_value: undefined,
                 operation_if_true: [],
@@ -146,7 +163,6 @@ export const LogicFlowUtils: FormGroupUtilsContract<LogicFlow> = {
                     applyEach(stepSchema.operation_if_true, (opSchema) => {
                         required(opSchema.variable, { message: "Operation variable is required." });
                         required(opSchema.operation, { message: "Operation type is required." });
-                        required(opSchema.type, { message: "Operation type is required." });
                         required(opSchema.op_value, { message: "Operation value is required." });
                         if (opSchema.array_filters) {
                             applyEach(opSchema.array_filters, (arrayFilterSchema) => {
@@ -162,7 +178,6 @@ export const LogicFlowUtils: FormGroupUtilsContract<LogicFlow> = {
                     applyEach(stepSchema.operation_if_false, (opSchema) => {
                         required(opSchema.variable, { message: "Operation variable is required." });
                         required(opSchema.operation, { message: "Operation type is required." });
-                        required(opSchema.type, { message: "Operation type is required." });
                         required(opSchema.op_value, {
                             message: "Operation value is required."
                         });

@@ -5,7 +5,7 @@ import { DecisionTable, DTUtils } from '../../../../shared/types/dt.type';
 import { Condition, LogicalStep, LogicFlow, LogicFlowUtils, Operation } from '../../../../shared/types/logic-flow.type';
 import { LogicFlowService } from '../../../../shared/services/logic-flow.service';
 import { VariablePackageService } from '../../../../shared/services/variable-package.service';
-import { VariablePackage } from '../../../../shared/types/variable_package';
+import { Variable, VariablePackage } from '../../../../shared/types/variable_package';
 import { Option, SelectComponent } from '../../../../shared/components/form/select/select.component';
 import { Field } from '@angular/forms/signals';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -14,13 +14,13 @@ import { TextAreaComponent } from '../../../../shared/components/form/input/text
 import { LabelComponent } from '../../../../shared/components/form/label/label.component';
 import { ButtonComponent } from '../../../../shared/components/ui/button/button.component';
 import { ModalComponent } from '../../../../shared/components/ui/modal/modal.component';
-import { JsonPipe } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-logic-flow-editor',
   imports: [PageBreadcrumbComponent, MatExpansionModule, LabelComponent, InputFieldComponent,
     JsonPipe,
-    TextAreaComponent, Field, ButtonComponent, ModalComponent, SelectComponent,],
+    TextAreaComponent, Field, ButtonComponent, ModalComponent, SelectComponent, CommonModule],
   templateUrl: './logic-flow-editor.component.html',
   styleUrl: './logic-flow-editor.component.css',
 })
@@ -115,11 +115,11 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> i
       condition: {
         operator: '',
         conditions: [],
-        variable: '',
+        variable: {} as Variable,
         logical: '',
         op_value: ''
       },
-      variable: '',
+      variable: {} as Variable,
       logical: '',
       op_value: '',
       operation_if_true: [],
@@ -136,7 +136,7 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> i
     const newCondition: Condition = {
       operator: '',
       conditions: [],
-      variable: '',
+      variable: {} as Variable,
       logical: '',
       op_value: ''
     };
@@ -174,7 +174,13 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> i
                 {
                   operator: '',
                   conditions: [],
-                  variable: '',
+                  variable: {
+                    var_key: '',
+                    label: '',
+                    type: '',
+                    is_required: false,
+                    value: ''
+                  },
                   logical: '',
                   op_value: ''
                 } as Condition
@@ -275,11 +281,16 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> i
   addIfTrueAction(stepIndex: number) {
     const currentSteps = this.formModel().logical_steps;
     const newAction: Operation = {
-      variable: '',
+      variable: {
+        var_key: '',
+        label: '',
+        type: '',
+        is_required: false,
+        value: ''
+      },
       operation: '',
       op_value: '',
-      value_is_path: false,
-      type: ''
+      value_is_path: false
     };
     // Deep copy the steps to avoid direct mutation
     const updatedSteps = currentSteps.map((step, idx) => {
@@ -320,11 +331,16 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> i
   addIfFalseAction(stepIndex: number) {
     const currentSteps = this.formModel().logical_steps;
     const newAction: Operation = {
-      variable: '',
+      variable: {
+        var_key: '',
+        label: '',
+        type: '',
+        is_required: false,
+        value: ''
+      },
       operation: '',
       op_value: '',
-      value_is_path: false,
-      type: ''
+      value_is_path: false
     };
     // Deep copy the steps to avoid direct mutation
     const updatedSteps = currentSteps.map((step, idx) => {
@@ -341,6 +357,15 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> i
       ...prev,
       logical_steps: updatedSteps
     }));
+  }
+
+  setVarVaule(varField: any, selectedVarKey: string) {
+    if (this.variablePackage) {
+      const selectedVar = this.variablePackage.variables.find(v => v.var_key === selectedVarKey);
+      if (selectedVar) {
+        varField.setControlValue(selectedVar);
+      }
+    }
   }
 }
 

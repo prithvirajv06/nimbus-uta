@@ -98,8 +98,8 @@
                                     <tr>
                                         <td class="px-4 py-2">
                                             <app-select label="Variable" placeholder="Select variable"
-                                                [options]="variableOptions" [value]="cond.variable().value()"
-                                                (valueChange)="cond.variable().setControlValue($event)"></app-select>
+                                                [options]="variableOptions" [value]="cond.variable.var_key().value()"
+                                                (valueChange)="setVarVaule(cond.variable, $event)"></app-select>
                                         </td>
                                         <td class="px-4 py-2">
                                             <app-select label="Condition" placeholder="Select condition"
@@ -126,8 +126,8 @@
                                     <tr class="bg-gray-50 dark:bg-gray-800 p-2">
                                         <td class="px-4 py-2 pl-8">
                                             <app-select label="Variable" placeholder="Select variable"
-                                                [options]="variableOptions" [value]="groupCond.variable().value()"
-                                                (valueChange)="groupCond.variable().setControlValue($event)"></app-select>
+                                                [options]="variableOptions" [value]="groupCond.variable.var_key().value()"
+                                                (valueChange)="setVarVaule(groupCond.variable, $event)"></app-select>
                                         </td>
                                         <td class="px-4 py-2">
                                             <app-select label="Condition" placeholder="Select condition"
@@ -179,8 +179,8 @@
                                         <!--Variable-->
                                         <td class="px-4 py-2">
                                             <app-select label="Variable" placeholder="Select variable"
-                                                [options]="variableOptions" [value]="item.variable().value()"
-                                                (valueChange)="item.variable().setControlValue($event)"></app-select>
+                                                [options]="variableOptions" [value]="item.variable.var_key().value()"
+                                                    (valueChange)="setVarVaule(item.variable(), $event)"></app-select>
                                         </td>
                                         <!--Action Type-->
                                         <td class="px-4 py-2">
@@ -233,8 +233,8 @@
                                         <!--Variable-->
                                         <td class="px-4 py-2">
                                             <app-select label="Variable" placeholder="Select variable"
-                                                [options]="variableOptions" [value]="item.variable().value()"
-                                                (valueChange)="item.variable().setControlValue($event)"></app-select>
+                                                [options]="variableOptions" [value]="item.variable.var_key().value()"
+                                                (valueChange)="setVarVaule(item.variable, $event)"></app-select>
                                         </td>
                                         <!--Action Type-->
                                         <td class="px-4 py-2">
