@@ -2,7 +2,7 @@
 
 import { signal, WritableSignal } from "@angular/core";
 import { Audit, FormGroupUtilsContract } from "./common.type";
-import { form, required, applyEach } from "@angular/forms/signals";
+import { form, required, applyEach, FieldTree, pattern } from "@angular/forms/signals";
 
 export interface VariablePackageRequest {
   package_name: string;
@@ -24,11 +24,21 @@ export interface Variable {
   label: string;
   type: string;
   is_required: boolean;
-  value: string;
+  value: any;
+  children: Variable[];
+  array_filters?: ArrayFilter[]
+}
+
+export interface ArrayFilter {
+  array_name: string;
+  property: string;
+  logical: string;
+  op_value: string;
 }
 
 export interface VariablePackageUtilContract extends FormGroupUtilsContract<VariablePackage> {
   options(variablePackages: VariablePackage[]): { label: string; value: string }[];
+  newVariableFormGroup(): FieldTree<Variable>;
 }
 export const VariablePackageUtils: VariablePackageUtilContract = {
   signalModel(): WritableSignal<VariablePackage> {
@@ -75,10 +85,33 @@ export const VariablePackageUtils: VariablePackageUtilContract = {
       });
     });
   },
-  options: function(variablePackages: VariablePackage[]) {
+  options: function (variablePackages: VariablePackage[]) {
     return variablePackages.map((vp) => ({
       label: vp.package_name + " v" + vp.audit.version + "." + vp.audit.minor_version,
       value: vp.nimb_id + "~" + vp.audit.version
     }));
+  },
+  newVariableFormGroup: function (): FieldTree<Variable> {
+    let field = signal<Variable>({
+      var_key: '',
+      label: '',
+      type: 'string',
+      is_required: false,
+      value: "",
+      children: []
+    });
+    return form(field, (schemaPath) => {
+      required(schemaPath.label, { message: 'Variable Name is required' });
+      required(schemaPath.type, { message: 'Variable Type is required' });
+      required(schemaPath.var_key, { message: 'Variable Key is required' });
+      pattern(
+        schemaPath.var_key,
+        /^([a-zA-Z_][a-zA-Z0-9_]*|\[\*\])(\[(\*|\d+)\])*(\.([a-zA-Z_][a-zA-Z0-9_]*|\[\*\])(\[(\*|\d+)\])*)*$/,
+        {
+          message:
+            "Variable Key must be a valid JSON path (e.g., key, obj.key, arr[*].key). Each segment must start with a letter or underscore, or be an array wildcard [*].",
+        }
+      );
+    });
   }
 }

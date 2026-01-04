@@ -17,7 +17,7 @@ import { CommonControlComponent } from './common-control';
         (input)="value.set($event.target.value)"
       />
 
-      @if (errors().length > 0 && dirty()) {
+      @if (errors().length > 0 && (dirty()||touched())) {
       <p
         class="mt-2 text-sm"
         [ngClass]="errors().length > 0 ? 'text-error-500' : 'text-gray-500 dark:text-gray-400'">

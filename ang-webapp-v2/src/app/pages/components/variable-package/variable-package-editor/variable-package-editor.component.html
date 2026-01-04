@@ -71,8 +71,8 @@
             </div>
 
             <div class="overflow-hidden">
-                <div class="max-w-full px-5 overflow-x-auto sm:px-6">
-                    <table class="min-w-full">
+                <div class="max-w-full max-h-full px-5 overflow-x-auto sm:px-6 h-screen">
+                    <!-- <table class="min-w-full">
                         <thead class="border-gray-100 border-y dark:border-white/[0.05]">
                             <tr>
                                 <th
@@ -120,10 +120,16 @@
                             }
                             }
                         </tbody>
-                    </table>
+                    </table> -->
+                    <div class="flex gap-5">
+                        <app-variable-iterator [variables]="formGroup.variables().value()"></app-variable-iterator>
+
+                    </div>
                 </div>
             </div>
             <!--Table End-->
         </div>
     </div>
 </div>
+
+

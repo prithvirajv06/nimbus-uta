@@ -38,7 +38,7 @@ func (s *VariablePackageService) CreateNewVariablePackageFromJSON(c *gin.Context
 	if HandleError(c, err, "Unable to unmarshel payload") {
 		return
 	}
-	variables, err := extractVariablesFromJSON(payload.JSONStr)
+	variables, err := extractVariableJSONV2(payload.JSONStr)
 	if HandleError(c, err, "Failed to extract variables from JSON") {
 		return
 	}
@@ -271,4 +271,69 @@ func formatLabel(key string) string {
 	}
 
 	return result.String()
+}
+
+func extractVariableJSONV2(jsonStr string) ([]models.Variables, error) {
+	var data interface{}
+	if err := json.Unmarshal([]byte(jsonStr), &data); err != nil {
+		return nil, fmt.Errorf("failed to parse JSON: %w", err)
+	}
+	var variables []models.Variables
+	extractVariablesV2(data, "", &variables)
+	return variables, nil
+}
+
+func extractVariablesV2(data any, prefix string, variables *[]models.Variables) {
+	switch v := data.(type) {
+	case map[string]any:
+		for key, value := range v {
+			fullKey := key
+			if prefix != "" {
+				fullKey = prefix + "." + key
+			}
+			valueType := getType(value)
+			switch valueType {
+			case "object":
+				// Recurse into the object
+				var children []models.Variables
+				extractVariablesV2(value, fullKey, &children)
+				*variables = append(*variables, models.Variables{
+					VarKey:     fullKey,
+					Label:      formatLabel(key),
+					Type:       valueType,
+					IsRequired: true,
+					Value:      toJSONString(value),
+					Children:   children,
+				})
+			case "array":
+				// Check array elements
+				var children []models.Variables
+				if arr, ok := value.([]any); ok && len(arr) > 0 {
+					// Analyze first element to understand array structure
+					firstElemType := getType(arr[0])
+					if firstElemType == "object" {
+						extractVariablesV2(arr[0], fullKey+"[*]", &children)
+						*variables = append(*variables, models.Variables{
+							VarKey:     fullKey,
+							Label:      formatLabel(key),
+							Type:       valueType,
+							IsRequired: true,
+							Value:      toJSONString(value),
+							Children:   children,
+						})
+					}
+
+				}
+			default:
+				// It's a primitive type (string, number, boolean, null)
+				*variables = append(*variables, models.Variables{
+					VarKey:     fullKey,
+					Label:      formatLabel(key),
+					Type:       valueType,
+					IsRequired: true,
+					Value:      toJSONString(value),
+				})
+			}
+		}
+	}
 }

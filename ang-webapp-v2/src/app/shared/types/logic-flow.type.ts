@@ -91,7 +91,8 @@ export const LogicFlowUtils: FormGroupUtilsContract<LogicFlow> = {
                                 label: "",
                                 type: "",
                                 is_required: false,
-                                value: ""
+                                value: "",
+                                children: []
                             },
                             logical: "",
                             op_value: undefined
@@ -102,7 +103,8 @@ export const LogicFlowUtils: FormGroupUtilsContract<LogicFlow> = {
                         label: "",
                         type: "",
                         is_required: false,
-                        value: ""
+                        value: "",
+                        children: []
                     },
                     logical: "",
                     op_value: undefined
@@ -112,7 +114,8 @@ export const LogicFlowUtils: FormGroupUtilsContract<LogicFlow> = {
                     label: "",
                     type: "",
                     is_required: false,
-                    value: ""
+                    value: "",
+                    children: []
                 },
                 logical: "",
                 op_value: undefined,
@@ -145,7 +148,6 @@ export const LogicFlowUtils: FormGroupUtilsContract<LogicFlow> = {
                 if (stepSchema.condition && stepSchema.condition.conditions) {
                     applyEach(stepSchema.condition.conditions, (condSchema) => {
                         required(condSchema.variable, { message: "Condition variable is required." });
-                        required(condSchema.operator, { message: "Condition operator is required." });
                         required(condSchema.op_value, { message: "Condition value is required." });
                         required(condSchema.logical, { message: "Condition logical operator is required." });
                         if (condSchema.array_filters) {

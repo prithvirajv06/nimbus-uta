@@ -1,0 +1,12 @@
+.node {
+  @apply absolute
+         left-0 top-0
+         w-40 h-14
+         rounded-lg
+         border border-border
+         bg-card text-card-foreground
+         shadow-sm
+         flex items-center justify-center
+         text-sm font-medium
+         cursor-pointer;
+}

@@ -56,6 +56,7 @@ func (dts *DecisionTableService) UpdateDecisionTable(c *gin.Context) {
 		return
 	}
 	payload.Audit.SetModifiedAudit(c)
+	payload.NoOfRows = len(payload.Rules)
 	_, err = repo.InsertOne(payload)
 	if HandleError(c, err, "Failed to create new version of decision table") {
 		return

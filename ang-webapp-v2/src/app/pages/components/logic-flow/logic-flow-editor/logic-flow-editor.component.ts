@@ -1,26 +1,34 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { PageBreadcrumbComponent } from '../../../../shared/components/common/page-breadcrumb/page-breadcrumb.component';
 import { CommonEditorComponent } from '../../../../shared/components/editor/common-editor.component';
-import { DecisionTable, DTUtils } from '../../../../shared/types/dt.type';
-import { Condition, LogicalStep, LogicFlow, LogicFlowUtils, Operation } from '../../../../shared/types/logic-flow.type';
+import { ArrayFilter, Condition, LogicalStep, LogicFlow, LogicFlowUtils, Operation } from '../../../../shared/types/logic-flow.type';
 import { LogicFlowService } from '../../../../shared/services/logic-flow.service';
 import { VariablePackageService } from '../../../../shared/services/variable-package.service';
 import { Variable, VariablePackage } from '../../../../shared/types/variable_package';
 import { Option, SelectComponent } from '../../../../shared/components/form/select/select.component';
-import { Field } from '@angular/forms/signals';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { CommonModule } from '@angular/common';
+import { PageBreadcrumbComponent } from '../../../../shared/components/common/page-breadcrumb/page-breadcrumb.component';
+import { VariableSelectorComponent } from '../../variable-package/variable-selector/variable-selector.component';
 import { InputFieldComponent } from '../../../../shared/components/form/input/input-field.component';
-import { TextAreaComponent } from '../../../../shared/components/form/input/text-area.component';
-import { LabelComponent } from '../../../../shared/components/form/label/label.component';
+import { Field } from '@angular/forms/signals';
 import { ButtonComponent } from '../../../../shared/components/ui/button/button.component';
+import { LabelComponent } from '../../../../shared/components/form/label/label.component';
+import { TextAreaComponent } from '../../../../shared/components/form/input/text-area.component';
 import { ModalComponent } from '../../../../shared/components/ui/modal/modal.component';
-import { CommonModule, JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-logic-flow-editor',
-  imports: [PageBreadcrumbComponent, MatExpansionModule, LabelComponent, InputFieldComponent,
-    JsonPipe,
-    TextAreaComponent, Field, ButtonComponent, ModalComponent, SelectComponent, CommonModule],
+  imports: [MatExpansionModule,
+    PageBreadcrumbComponent,
+    SelectComponent,
+    VariableSelectorComponent,
+    InputFieldComponent,
+    Field,
+    ButtonComponent,
+    LabelComponent,
+    TextAreaComponent,
+    ModalComponent,
+    CommonModule],
   templateUrl: './logic-flow-editor.component.html',
   styleUrl: './logic-flow-editor.component.css',
 })
@@ -30,11 +38,18 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> i
   varService = inject(VariablePackageService);
   variablePackage: VariablePackage | null = null;
   variableOptions: Option[] = [];
-
+  isSelectVariableOpen: boolean = false;
+  selectedVariableFilter: ArrayFilter[] = [];
+  variableToAdd: Variable | null = null;
   logicalOptions: Option[] = [
     { value: 'AND', label: 'AND' },
     { value: 'OR', label: 'OR' },
     { value: 'NOT', label: 'NOT' }
+  ];
+
+  booleanOptions: Option[] = [
+    { value: true, label: 'True' },
+    { value: false, label: 'False' }
   ];
 
   logicalOperators: Option[] = [
@@ -183,7 +198,7 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> i
                   },
                   logical: '',
                   op_value: ''
-                } as Condition
+                } as unknown as Condition
               ]
             };
           }
@@ -286,7 +301,8 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> i
         label: '',
         type: '',
         is_required: false,
-        value: ''
+        value: '',
+        children: []
       },
       operation: '',
       op_value: '',
@@ -336,7 +352,8 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> i
         label: '',
         type: '',
         is_required: false,
-        value: ''
+        value: '',
+        children: []
       },
       operation: '',
       op_value: '',
@@ -367,5 +384,31 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> i
       }
     }
   }
+
+  closeModal() {
+    this.isSelectVariableOpen = false;
+  }
+
+  updateVariableFilter(filter: ArrayFilter) {
+    this.selectedVariableFilter.push(filter);
+  }
+
+  setNewVariableToAdd(variable: Variable) {
+    this.variableToAdd = variable;
+  }
+
+  setNewVariable(variable: Variable | null) {
+    if (this.tempVariableHolder && variable) {
+      this.tempVariableHolder().setControlValue(variable);
+      this.tempVariableHolder.array_filters = this.selectedVariableFilter;
+      this.closeModal();
+    }
+  }
+  tempVariableHolder: any;
+  openVariableSelector(varField: any) {
+    this.isSelectVariableOpen = true;
+    this.tempVariableHolder = varField;
+  }
+
 }
 

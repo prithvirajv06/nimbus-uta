@@ -97,9 +97,16 @@
 
                                     <tr>
                                         <td class="px-4 py-2">
-                                            <app-select label="Variable" placeholder="Select variable"
+                                            <!-- <app-select label="Variable" placeholder="Select variable"
                                                 [options]="variableOptions" [value]="cond.variable.var_key().value()"
-                                                (valueChange)="setVarVaule(cond.variable, $event)"></app-select>
+                                                (valueChange)="setVarVaule(cond.variable, $event)"></app-select> -->
+                                            @if(cond.variable().value().label && cond.variable.label().value()){
+                                            <a class="underline cursor-pointer"
+                                                (click)="openVariableSelector(cond.variable)">{{cond.variable.label().value()}}</a>
+                                            }@else {
+                                            <a class="underline cursor-pointer"
+                                                (click)="openVariableSelector(cond.variable)">Select Variable</a>
+                                            }
                                         </td>
                                         <td class="px-4 py-2">
                                             <app-select label="Condition" placeholder="Select condition"
@@ -126,7 +133,8 @@
                                     <tr class="bg-gray-50 dark:bg-gray-800 p-2">
                                         <td class="px-4 py-2 pl-8">
                                             <app-select label="Variable" placeholder="Select variable"
-                                                [options]="variableOptions" [value]="groupCond.variable.var_key().value()"
+                                                [options]="variableOptions"
+                                                [value]="groupCond.variable.var_key().value()"
                                                 (valueChange)="setVarVaule(groupCond.variable, $event)"></app-select>
                                         </td>
                                         <td class="px-4 py-2">
@@ -178,9 +186,13 @@
                                     <tr>
                                         <!--Variable-->
                                         <td class="px-4 py-2">
-                                            <app-select label="Variable" placeholder="Select variable"
-                                                [options]="variableOptions" [value]="item.variable.var_key().value()"
-                                                    (valueChange)="setVarVaule(item.variable(), $event)"></app-select>
+                                            @if (item.variable().value().label && item.variable().value().label) {
+                                            <a class="underline cursor-pointer"
+                                                (click)="openVariableSelector(item.variable)">{{item.variable().value().label}}</a>
+                                            }@else {
+                                            <a class="underline cursor-pointer"
+                                                (click)="openVariableSelector(item.variable)">Select Variable</a>
+                                            }
                                         </td>
                                         <!--Action Type-->
                                         <td class="px-4 py-2">
@@ -232,9 +244,13 @@
                                     <tr>
                                         <!--Variable-->
                                         <td class="px-4 py-2">
-                                            <app-select label="Variable" placeholder="Select variable"
-                                                [options]="variableOptions" [value]="item.variable.var_key().value()"
-                                                (valueChange)="setVarVaule(item.variable, $event)"></app-select>
+                                            @if (item.variable().value().label && item.variable().value().label) {
+                                            <a class="underline cursor-pointer"
+                                                (click)="openVariableSelector(item.variable)">{{item.variable().value().label}}</a>
+                                            }@else {
+                                            <a class="underline cursor-pointer"
+                                                (click)="openVariableSelector(item.variable)">Select Variable</a>
+                                            }
                                         </td>
                                         <!--Action Type-->
                                         <td class="px-4 py-2">
@@ -267,3 +283,79 @@
         }
     </div>
 </div>
+
+
+
+
+
+
+<app-modal [isOpen]="isSelectVariableOpen" (close)="closeModal()"
+    className="relative w-full m-5 sm:m-0 max-w-[90%] rounded-3xl bg-white p-6 lg:p-10 dark:bg-gray-900">
+    <div>
+        <div class="px-1">
+            <h4 class="text-title-xs mb-1 font-semibold text-gray-800 dark:text-white/90">
+                Select Variable to Add
+            </h4>
+            <p class="mb-7 text-sm leading-6 text-gray-500 dark:text-gray-400">
+                Create a new decision table by filling in the details below.
+            </p>
+        </div>
+
+        <div class="custom-scrollbar h-[490px] w-[50%] overflow-y-scroll overflow-x-auto sm:h-auto px-1">
+            <form class="grid gap-6 sm:grid-cols-1">
+                <app-variable-selector [variables]="variablePackage?.variables"
+                    [selectedVariablePath]="variableToAdd?.var_key" (changeInFilter)="updateVariableFilter($event)"
+                    (variableSelectedEvent)="setNewVariableToAdd($event)"></app-variable-selector>
+
+                <hr class="my-6 border-gray-200 dark:border-gray-800" />
+                <h2>Array Filter</h2>
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900 mb-4">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-800 dark:text-white/90">Array
+                                Name</th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-800 dark:text-white/90">
+                                Property
+                            </th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-800 dark:text-white/90">
+                                Logical
+                            </th>
+                            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-800 dark:text-white/90">Value
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (selectedVariableFilter && selectedVariableFilter.length>0) {
+                        @for (item of selectedVariableFilter; track $index) {
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+                            <td class="px-4 py-2 text-sm text-gray-700 dark:text-white/90">
+                                {{item.array_name}}</td>
+                            <td class="px-4 py-2 text-sm text-gray-700 dark:text-white/90">
+                                {{item.property}}</td>
+                            <td class="px-4 py-2 text-sm text-gray-700 dark:text-white/90">
+                                {{item.logical}}</td>
+                            <td class="px-4 py-2 text-sm text-gray-700 dark:text-white/90">
+                                {{item.op_value}}</td>
+                        </tr>
+                        }
+                        }@else {
+                        <tr>
+                            <td colspan="4" class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400">
+                                No filters added yet.
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="flex gap-3">
+        <app-button size="md" color="primary" (btnClick)="setNewVariable(variableToAdd)" [disabled]="!variableToAdd">
+            Add Variable
+        </app-button>
+        <app-button size="md" color="secondary" variant="outline" (btnClick)="closeModal()">
+            Cancel
+        </app-button>
+    </div>
+</app-modal>
