@@ -5,6 +5,7 @@ import { Field, form, required } from '@angular/forms/signals';
 import { LabelComponent } from '../../../../shared/components/form/label/label.component';
 import { ModalComponent } from '../../../../shared/components/ui/modal/modal.component';
 import { ArrayFilter, Variable } from '../../../../shared/types/variable_package';
+import { RulesCommons } from '../../../../shared/util-fulctions/options';
 
 @Component({
   selector: 'app-variable-selector',
@@ -16,7 +17,7 @@ import { ArrayFilter, Variable } from '../../../../shared/types/variable_package
   templateUrl: './variable-selector.component.html',
   styleUrl: './variable-selector.component.css',
 })
-export class VariableSelectorComponent implements OnChanges {
+export class VariableSelectorComponent extends RulesCommons implements OnChanges {
 
 
   @Input() variables: Variable[] | any = [];
@@ -31,14 +32,7 @@ export class VariableSelectorComponent implements OnChanges {
     logical: '',
     op_value: ''
   };
-
-  variableTypeOptions = [
-    { value: 'string', label: 'String' },
-    { value: 'number', label: 'Number' },
-    { value: 'boolean', label: 'Boolean' },
-    { value: 'object', label: 'Object' },
-    { value: 'array', label: 'Array' }
-  ];
+  selectedOperator: string | null = null;
   isVariableFilterOpen: boolean = false;
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -77,7 +71,8 @@ export class VariableSelectorComponent implements OnChanges {
 
   formModel = signal({
     var_key: '',
-    value: ''
+    value: '',
+    operator: 'equals',
   });
 
   formGroup = form(this.formModel, (schemaPath) => {
@@ -109,10 +104,18 @@ export class VariableSelectorComponent implements OnChanges {
       this.selectedFilterVariable = {
         array_name: this.selectedVariable?.var_key || '',
         property: this.formModel().var_key.split('.').pop() || '',
-        logical: 'equals',
+        logical: this.formModel().operator,
         op_value: this.formModel().value
       };
       this.changeInFilter.emit(this.selectedFilterVariable);
+      this.reset();
     }
+  }
+  reset() {
+    this.formModel.set({
+      var_key: '',
+      value: '',
+      operator: 'equals',
+    });
   }
 }

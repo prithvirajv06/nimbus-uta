@@ -44,15 +44,6 @@ export class VariablePackageEditorComponent extends CommonEditorComponent<Variab
     this.formGroup = VariablePackageUtils.detailsFormGroup(this.formModel);
   }
 
-  variableTypeOptions = [
-    { value: 'string', label: 'String' },
-    { value: 'number', label: 'Number' },
-    { value: 'boolean', label: 'Boolean' },
-    { value: 'object', label: 'Object' },
-    { value: 'array', label: 'Array' },
-    { value: 'json', label: 'JSON' },
-  ];
-
   addVariable() {
     const currentVariables = this.formModel().variables;
     let newVariable: Variable = {

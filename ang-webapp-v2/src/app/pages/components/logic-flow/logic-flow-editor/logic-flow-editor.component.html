@@ -97,15 +97,32 @@
 
                                     <tr>
                                         <td class="px-4 py-2">
-                                            <!-- <app-select label="Variable" placeholder="Select variable"
-                                                [options]="variableOptions" [value]="cond.variable.var_key().value()"
-                                                (valueChange)="setVarVaule(cond.variable, $event)"></app-select> -->
                                             @if(cond.variable().value().label && cond.variable.label().value()){
                                             <a class="underline cursor-pointer"
                                                 (click)="openVariableSelector(cond.variable)">{{cond.variable.label().value()}}</a>
                                             }@else {
                                             <a class="underline cursor-pointer"
                                                 (click)="openVariableSelector(cond.variable)">Select Variable</a>
+                                            }
+                                            @if (cond.variable().value().array_filters) {
+                                            <span class="relative group cursor-pointer ml-2">
+                                                <i class="fa fa-filter ml-2 text-gray-400"
+                                                    title="Array Filters Applied"></i>
+                                                <div
+                                                    class="absolute left-0 mt-2 w-64 rounded-lg shadow-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-4 z-50 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <h5
+                                                        class="text-sm font-semibold mb-2 text-gray-700 dark:text-white">
+                                                        Array Filters</h5>
+                                                    <ul class="list-disc pl-4 text-xs text-gray-600 dark:text-gray-300">
+                                                        @for (filter of cond.variable().value().array_filters; track $index) {
+                                                        <li>
+                                                            {{filter.array_name}}.{{filter.property}} {{filter.logical}}
+                                                            {{filter.op_value}}
+                                                        </li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </span>
                                             }
                                         </td>
                                         <td class="px-4 py-2">
@@ -132,10 +149,14 @@
                                         @for (groupCond of cond.conditions; track $index) {
                                     <tr class="bg-gray-50 dark:bg-gray-800 p-2">
                                         <td class="px-4 py-2 pl-8">
-                                            <app-select label="Variable" placeholder="Select variable"
-                                                [options]="variableOptions"
-                                                [value]="groupCond.variable.var_key().value()"
-                                                (valueChange)="setVarVaule(groupCond.variable, $event)"></app-select>
+                                            @if(groupCond.variable().value().label &&
+                                            groupCond.variable.label().value()){
+                                            <a class="underline cursor-pointer"
+                                                (click)="openVariableSelector(groupCond.variable)">{{groupCond.variable.label().value()}}</a>
+                                            }@else {
+                                            <a class="underline cursor-pointer"
+                                                (click)="openVariableSelector(groupCond.variable)">Select Variable</a>
+                                            }
                                         </td>
                                         <td class="px-4 py-2">
                                             <app-select label="Condition" placeholder="Select condition"
@@ -287,7 +308,7 @@
 
 
 
-
+@if (isSelectVariableOpen) {
 
 <app-modal [isOpen]="isSelectVariableOpen" (close)="closeModal()"
     className="relative w-full m-5 sm:m-0 max-w-[90%] rounded-3xl bg-white p-6 lg:p-10 dark:bg-gray-900">
@@ -302,9 +323,10 @@
         </div>
 
         <div class="custom-scrollbar h-[490px] w-[50%] overflow-y-scroll overflow-x-auto sm:h-auto px-1">
-            <form class="grid gap-6 sm:grid-cols-1">
+            <div class="grid gap-6 sm:grid-cols-1">
                 <app-variable-selector [variables]="variablePackage?.variables"
-                    [selectedVariablePath]="variableToAdd?.var_key" (changeInFilter)="updateVariableFilter($event)"
+                    [selectedVariablePath]="tempVariableHolder().value().var_key"
+                    (changeInFilter)="updateVariableFilter($event)"
                     (variableSelectedEvent)="setNewVariableToAdd($event)"></app-variable-selector>
 
                 <hr class="my-6 border-gray-200 dark:border-gray-800" />
@@ -347,7 +369,7 @@
                         }
                     </tbody>
                 </table>
-            </form>
+            </div>
         </div>
     </div>
     <div class="flex gap-3">
@@ -359,3 +381,4 @@
         </app-button>
     </div>
 </app-modal>
+}

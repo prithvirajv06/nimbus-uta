@@ -3,6 +3,7 @@ import { FieldTree } from "@angular/forms/signals";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NotificationService } from "../../services/notification.service";
 import { ApiResponse } from "../../types/common.type";
+import { RulesCommons } from "../../util-fulctions/options";
 
 export interface CommonEditorContract<T> {
     setService(): void;
@@ -46,7 +47,7 @@ export interface CommonEditorContract<T> {
     selector: 'app-common-editor',
     template: ''
 })
-export class CommonEditorComponent<T> implements CommonEditorContract<T>, OnInit {
+export class CommonEditorComponent<T> extends RulesCommons implements CommonEditorContract<T>, OnInit {
 
 
     activatedRoute = inject(ActivatedRoute);
@@ -57,6 +58,7 @@ export class CommonEditorComponent<T> implements CommonEditorContract<T>, OnInit
     formGroup!: FieldTree<T>;
 
     constructor() {
+        super();
         this.setService();
         this.setFormModel();
         this.setFormGroup();
