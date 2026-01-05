@@ -69,8 +69,8 @@
                     </div>
                     <div class="flex justify-start gap-3 p-2 sm:p-3 dark:border-gray-800 w-150 mb-4">
                         <app-select label="Logical Operator" placeholder="Select Logical Operator"
-                            [options]="logicalOptions" [value]="logicStep.condition.logical().value()"
-                            (valueChange)="logicStep.condition.logical().setControlValue($event)"></app-select>
+                            [options]="logicalOptions" [value]="logicStep.condition.operator().value()"
+                            (valueChange)="logicStep.condition.operator().setControlValue($event)"></app-select>
                         <div class="flex items-center gap-4 p-2">
                             <a class="cursor-pointer hover:underline text-gray-700 dark:text-gray-300"
                                 (click)="addCondition($index)">

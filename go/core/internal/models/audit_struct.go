@@ -23,6 +23,12 @@ type Audit struct {
 	MinorVersion int `bson:"minor_version" json:"minor_version,omitempty"`
 }
 
+type LogStackEntry struct {
+	Timestamp time.Time `json:"timestamp" gorm:"autoCreateTime" bson:"timestamp"`
+	Type      string    `json:"type" gorm:"type:varchar(50)" bson:"type"` // e.g., INFO, ERROR, DEBUG
+	Message   string    `json:"message" gorm:"type:text" bson:"message"`
+}
+
 func (a *Audit) SetInitialAudit(c *gin.Context) {
 	userID := c.GetHeader("user_id")
 	if userID == "" {

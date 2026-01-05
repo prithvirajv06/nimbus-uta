@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/prithvirajv06/nimbus-uta/go/engine/models"
+	"github.com/prithvirajv06/nimbus-uta/go/engine/internal/models"
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
 	"golang.org/x/text/cases"
@@ -75,11 +75,28 @@ func (e *Engine) ProcessDecisionTable(ctx context.Context, table models.Decision
 		isMatch := true
 		for i, inputDef := range table.InputsColumns {
 			addInfoLog(&logStack, fmt.Sprintf("Evaluating Input Column: %s", inputDef.VarKey))
-			actualVal := gjson.GetBytes(output, inputDef.VarKey)
-			if cond, logs := e.evaluateCell(ruleRow[i].Value, actualVal, &logStack); !cond {
-				addLogs(&logStack, logs)
-				isMatch = false
-				break
+			filter := inputDef.ArrayFilters
+			if len(filter) > 0 {
+				addInfoLog(&logStack, "Input has array filters - evaluating array condition")
+				cond := models.Condition{
+					Variable:     inputDef,
+					Logical:      "ANY",
+					ArrayFilters: filter,
+				}
+				if matched, logs := e.evalArrayCondition(cond, output, &logStack); !matched {
+					addLogs(&logStack, logs)
+					isMatch = false
+					break
+				}
+				addInfoLog(&logStack, "Array condition matched for input column")
+				continue
+			} else {
+				actualVal := gjson.GetBytes(output, inputDef.VarKey)
+				if cond, logs := e.evaluateCell(ruleRow[i].Value, actualVal, &logStack); !cond {
+					addLogs(&logStack, logs)
+					isMatch = false
+					break
+				}
 			}
 		}
 
@@ -226,7 +243,7 @@ func (e *Engine) extractRowValues(table models.DecisionTable, row []models.Varia
 		addInfoLog(logStack, fmt.Sprintf("Processing output column: %s", outDef.VarKey))
 		valIndex := len(table.InputsColumns) + i
 		if valIndex < len(row) {
-			valStr := row[valIndex].Value
+			valStr := row[valIndex].Value.(string)
 			if num, err := strconv.ParseFloat(valStr, 64); err == nil {
 				res[outDef.VarKey] = num
 			} else {
@@ -249,10 +266,10 @@ func (e *Engine) extractRowValues(table models.DecisionTable, row []models.Varia
 // isHigherPriority finds the "winning" row based on the explicit priority column
 func (e *Engine) isHigherPriority(table models.DecisionTable, rowA, rowB []models.Variables) bool {
 	for i, outDef := range table.OutputsColumns {
-		if outDef.IsPriority {
+		if outDef.VarKey == "__priority__" {
 			idx := len(table.InputsColumns) + i
-			pA, _ := strconv.ParseFloat(rowA[idx].Value, 64)
-			pB, _ := strconv.ParseFloat(rowB[idx].Value, 64)
+			pA, _ := strconv.ParseFloat(rowA[idx].Value.(string), 64)
+			pB, _ := strconv.ParseFloat(rowB[idx].Value.(string), 64)
 			if pA != pB {
 				return pA > pB
 			}
@@ -311,10 +328,10 @@ func (e *Engine) applyAggregation(data []byte, path string, valStr string, polic
 }
 
 // evaluateCell evaluates a single decision table cell expression against the provided actual value.
-func (e *Engine) evaluateCell(expression string, actual gjson.Result, logStack *[]models.LogStackEntry) (bool, []models.LogStackEntry) {
+func (e *Engine) evaluateCell(expression interface{}, actual gjson.Result, logStack *[]models.LogStackEntry) (bool, []models.LogStackEntry) {
 	localLogs := []models.LogStackEntry{}
 	addInfoLog(logStack, fmt.Sprintf("Evaluating Cell: Expr='%s' Actual='%s'", expression, actual.String()))
-	expr := strings.TrimSpace(expression)
+	expr := strings.TrimSpace(expression.(string))
 	if expr == "" || expr == "-" {
 		return true, localLogs
 	}
@@ -520,6 +537,18 @@ func (e *Engine) evalArrayCondition(c models.Condition, data []byte, logStack *[
 		if idx == len(parts)-1 {
 			addInfoLog(logStack, fmt.Sprintf("Evaluating Leaf Condition at Path: %s", fullPath))
 			actual := gjson.GetBytes(d, fullPath)
+
+			// Apply array filters if any
+			for _, filter := range c.ArrayFilters {
+				filterVal := gjson.GetBytes(d, fullPath+"."+filter.Property)
+				filterPassed, filterLogs := e.compareDirect(filterVal, filter.Logical, filter.OpValue, logStack)
+				addLogs(logStack, filterLogs)
+				if !filterPassed {
+					addInfoLog(logStack, fmt.Sprintf("Array filter failed: %v", filter))
+					return false, localLogs
+				}
+			}
+
 			result, logSub := e.compareDirect(actual, c.Logical, c.OpValue, logStack)
 			addLogs(logStack, logSub)
 			res := result
