@@ -6,7 +6,7 @@ export class CommonService {
     notificationService = inject(NotificationService)
     httpClient = inject(HttpClient);
     baseApiUrl = "http://localhost:8080/api/v1";
-
+    simApiUrl = "http://localhost:5050/api/v1";
 
 
     handleError(error: any) {

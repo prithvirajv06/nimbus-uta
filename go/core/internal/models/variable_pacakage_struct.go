@@ -12,6 +12,7 @@ type VariablePackage struct {
 	Description   string      `bson:"description" json:"description"`
 	NoOfVariables int         `bson:"no_of_variables" json:"no_of_variables"`
 	Variables     []Variables `bson:"variables" json:"variables"`
+	SampleJSON    string      `bson:"sample_json" json:"sample_json"`
 	Audit         Audit       `bson:"audit" json:"audit"`
 }
 

@@ -355,7 +355,11 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> i
   }
 
   setNewVariableToAdd(variable: Variable) {
+    if(variable.var_key != this.tempVariableHolder().value().var_key){
+      this.selectedVariableFilter = [];
+    }
     this.variableToAdd = variable;
+    
   }
 
   setNewVariable(variable: Variable | null) {

@@ -97,36 +97,47 @@
 
                                     <tr>
                                         <td class="px-4 py-2">
-                                            @if(cond.variable().value().label && cond.variable.label().value()){
-                                            <a class="underline cursor-pointer"
-                                                (click)="openVariableSelector(cond.variable)">{{cond.variable.label().value()}}</a>
-                                            }@else {
-                                            <a class="underline cursor-pointer"
-                                                (click)="openVariableSelector(cond.variable)">Select Variable</a>
-                                            }
-                                            @if (cond.variable().value().array_filters) {
-                                            <span class="relative group cursor-pointer ml-2">
-                                                <i class="fa fa-filter ml-2 text-gray-400"
-                                                    title="Array Filters Applied"></i>
-                                                <div
-                                                    class="absolute left-0 mt-2 w-64 rounded-lg shadow-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-4 z-50 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <h5
-                                                        class="text-sm font-semibold mb-2 text-gray-700 dark:text-white">
-                                                        Array Filters</h5>
-                                                    <ul class="list-disc pl-4 text-xs text-gray-600 dark:text-gray-300">
-                                                        @for (filter of cond.variable().value().array_filters; track $index) {
-                                                        <li>
-                                                            {{filter.array_name}}.{{filter.property}} {{filter.logical}}
-                                                            {{filter.op_value}}
-                                                        </li>
-                                                        }
-                                                    </ul>
+                                            <div class="flex items-center gap-2">
+                                                <div>
+                                                    @if(cond.variable().value().label && cond.variable.label().value()){
+                                                    <a class="underline cursor-pointer font-medium text-gray-700 hover:text-gray-700 dark:text-gray-300"
+                                                        (click)="openVariableSelector(cond.variable)">
+                                                        <i class="fa fa-cube mr-1 text-blue-700"></i>
+                                                        {{cond.variable.label().value()}}
+                                                    </a>
+                                                    }@else {
+                                                    <a class="underline cursor-pointer text-gray-500 hover:text-theme-primary"
+                                                        (click)="openVariableSelector(cond.variable)">
+                                                        <i class="fa fa-cube mr-1"></i>Select Variable
+                                                    </a>
+                                                    }
                                                 </div>
-                                            </span>
-                                            }
+                                                @if (cond.variable().value().array_filters) {
+                                                <div class="relative group flex items-center">
+                                                    <i class="fa fa-filter ml-1  text-pink-400" title="Array Filters Applied"></i>
+                                                    <div
+                                                        class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-72 rounded-lg shadow-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-4 z-50 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto">
+                                                        <h5 class="text-sm font-semibold mb-2 text-gray-700 dark:text-white flex items-center">
+                                                            <i class="fa fa-filter mr-2 text-theme-primary"></i>Array Filters
+                                                        </h5>
+                                                        <ul class="list-disc pl-4 text-xs text-gray-600 dark:text-gray-300">
+                                                            @for (filter of cond.variable().value().array_filters; track $index) {
+                                                            <li class="mb-1">
+                                                                <span class="font-semibold text-gray-800 dark:text-white">{{filter.array_name}}</span>
+                                                                <span class="mx-1 text-gray-500">.</span>
+                                                                <span class="font-semibold text-gray-800 dark:text-white">{{filter.property}}</span>
+                                                                <span class="mx-1 text-gray-500">{{filter.logical}}</span>
+                                                                <span class="mx-1 text-theme-primary">{{filter.op_value}}</span>
+                                                            </li>
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                }
+                                            </div>
                                         </td>
                                         <td class="px-4 py-2">
-                                            <app-select label="Condition" placeholder="Select condition"
+                                            <app-select label="Condition" placeholder="Select condition" [applicableTo]="cond.variable.type().value()"
                                                 [options]="logicalOperators" [value]="cond.logical().value()"
                                                 (valueChange)="cond.logical().setControlValue($event)"></app-select>
                                         </td>
@@ -159,7 +170,7 @@
                                             }
                                         </td>
                                         <td class="px-4 py-2">
-                                            <app-select label="Condition" placeholder="Select condition"
+                                            <app-select label="Condition" placeholder="Select condition" [applicableTo]="groupCond.variable.type().value()"
                                                 [options]="logicalOperators" [value]="groupCond.logical().value()"
                                                 (valueChange)="groupCond.logical().setControlValue($event)"></app-select>
                                         </td>
@@ -217,7 +228,7 @@
                                         </td>
                                         <!--Action Type-->
                                         <td class="px-4 py-2">
-                                            <app-select label="Action Type" placeholder="Select action type"
+                                            <app-select label="Action Type" placeholder="Select action type"  [applicableTo]="item.variable.type().value()"
                                                 [options]="actionOperators" [value]="item.operation().value()"
                                                 (valueChange)="item.operation().setControlValue($event)"></app-select>
                                         </td>
@@ -275,7 +286,7 @@
                                         </td>
                                         <!--Action Type-->
                                         <td class="px-4 py-2">
-                                            <app-select label="Action Type" placeholder="Select action type"
+                                            <app-select label="Action Type" placeholder="Select action type"  [applicableTo]="item.variable.type().value()"
                                                 [options]="actionOperators" [value]="item.operation().value()"
                                                 (valueChange)="item.operation().setControlValue($event)"></app-select>
                                         </td>

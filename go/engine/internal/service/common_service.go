@@ -3,6 +3,8 @@ package service
 import (
 	"log/slog"
 
+	"encoding/json"
+
 	"github.com/gin-gonic/gin"
 	"github.com/prithvirajv06/nimbus-uta/go/engine/internal/models"
 	"github.com/prithvirajv06/nimbus-uta/go/engine/internal/repository"
@@ -29,6 +31,22 @@ func RespondJSON(c *gin.Context, statusCode int, status, message string, data in
 		Message: message,
 		Data:    data,
 	})
+}
+
+func RespondData(c *gin.Context, statusCode int, responseData interface{}) {
+	slog.Info("Responding Data", "statusCode", statusCode)
+	response := models.ApiResponse{
+		Status:  "success",
+		Message: "Request successful",
+		Data:    responseData,
+	}
+	jsonBytes, err := json.Marshal(response)
+	if err != nil {
+		slog.Error("Failed to marshal response", "error", err)
+		c.Status(500)
+		return
+	}
+	c.Data(statusCode, "application/json", jsonBytes)
 }
 
 func HandleError(c *gin.Context, err error, message string) bool {

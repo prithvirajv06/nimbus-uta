@@ -14,7 +14,7 @@
     {{ placeholder }}
   </option>
   <!-- Map over options -->
-  @for (option of options; track $index) {
+  @for (option of filteredOptions; track $index) {
   <option
     [value]="option.value"
     class="text-gray-700 dark:bg-gray-900 dark:text-gray-400"

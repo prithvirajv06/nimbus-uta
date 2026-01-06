@@ -48,6 +48,7 @@ func (s *VariablePackageService) CreateNewVariablePackageFromJSON(c *gin.Context
 		PackageName: payload.PackageName,
 		Description: payload.Description,
 		Variables:   variables,
+		SampleJSON:  payload.JSONStr,
 	}
 	varPackage.Audit.SetInitialAudit(c)
 	varPackage.Audit.Version, _ = GetNextVersionNumber(c, s.mongo.Database, newNimId)

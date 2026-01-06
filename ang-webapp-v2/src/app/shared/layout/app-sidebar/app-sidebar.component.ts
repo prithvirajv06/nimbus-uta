@@ -64,6 +64,11 @@ export class AppSidebarComponent {
       icon: `<i class="fa-solid fa-robot"></i>`,
       name: "Smart Studio",
       path: "/app/smart-studio",
+    },
+    {
+      name: "Simulations",
+      icon: `<i class="fa-solid fa-vial"></i>`,
+      path: "/app/simulations"
     }
   ];
   // Others nav items

@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/json"
 	"net/http"
 	"strconv"
 
@@ -50,13 +51,21 @@ func (s *ExecutionService) ExecuteDT(c *gin.Context) {
 		c.JSON(500, gin.H{"error": "Failed to process decision table"})
 		return
 	}
+	var respJSON interface{}
+	if err := c.ShouldBindJSON(&respJSON); err != nil {
+		if err := json.Unmarshal(resp, &respJSON); err != nil {
+			c.JSON(500, gin.H{"error": "Failed to parse response"})
+			return
+		}
+	}
 	if isDebug == "YES" {
-		RespondJSON(c, 200, "success", "Execution Completed", gin.H{
-			"response": resp,
+
+		RespondData(c, 200, gin.H{
+			"response": respJSON,
 			"logs":     logStack,
 		})
 	} else {
-		c.JSON(200, resp)
+		RespondData(c, 200, respJSON)
 	}
 }
 
@@ -84,11 +93,11 @@ func (s *ExecutionService) ExecuteLogicalFlow(c *gin.Context) {
 		return
 	}
 	if isDebug == "YES" {
-		RespondJSON(c, 200, "success", "Execution Completed", gin.H{
+		RespondData(c, 200, gin.H{
 			"response": resp,
 			"logs":     logStack,
 		})
 	} else {
-		c.JSON(200, resp)
+		RespondData(c, 200, resp)
 	}
 }

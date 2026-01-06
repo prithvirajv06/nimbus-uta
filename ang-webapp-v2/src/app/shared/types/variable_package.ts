@@ -16,6 +16,7 @@ export interface VariablePackage {
   description: string;
   variables: Variable[];
   no_of_variables: number;
+  sample_json?: string;
   audit: Audit;
 }
 

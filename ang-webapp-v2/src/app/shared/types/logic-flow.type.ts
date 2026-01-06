@@ -144,7 +144,7 @@ export const LogicFlowUtils: FormGroupUtilsContract<LogicFlow> = {
             required(schema.description, { message: "Description is required." });
             applyEach(schema.logical_steps, (stepSchema) => {
                 required(stepSchema.operation_name, { message: "Step name is required." });
-                required(stepSchema.condition.logical, { message: "Step condition logical operator is required." });
+                required(stepSchema.condition.operator, { message: "Step condition logical operator is required." });
                 if (stepSchema.condition && stepSchema.condition.conditions) {
                     applyEach(stepSchema.condition.conditions, (condSchema) => {
                         required(condSchema.variable, { message: "Condition variable is required." });

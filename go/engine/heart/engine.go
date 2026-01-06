@@ -92,10 +92,38 @@ func (e *Engine) ProcessDecisionTable(ctx context.Context, table models.Decision
 				continue
 			} else {
 				actualVal := gjson.GetBytes(output, inputDef.VarKey)
-				if cond, logs := e.evaluateCell(ruleRow[i].Value, actualVal, &logStack); !cond {
-					addLogs(&logStack, logs)
-					isMatch = false
-					break
+				if strings.Contains(inputDef.VarKey, "[*]") {
+					addInfoLog(&logStack, "Input variable is an array - evaluating array condition")
+					// Evaluate for each object in the array and set output for each object
+					arrayPath := strings.Split(inputDef.VarKey, "[*]")[0]
+					arrayResult := gjson.GetBytes(output, arrayPath)
+					if arrayResult.IsArray() {
+						allMatched := true
+						arrayResult.ForEach(func(key, value gjson.Result) bool {
+							itemPath := fmt.Sprintf("%s.%d", arrayPath, key.Int())
+							actualVal := gjson.GetBytes(output, itemPath)
+							if cond, logs := e.evaluateCell(ruleRow[i].Value, actualVal, &logStack); !cond {
+								addLogs(&logStack, logs)
+								allMatched = false
+								return false // break on first non-match
+							}
+							return true
+						})
+						if !allMatched {
+							isMatch = false
+							break
+						}
+					} else {
+						isMatch = false
+						break
+					}
+					continue
+				} else {
+					if cond, logs := e.evaluateCell(ruleRow[i].Value, actualVal, &logStack); !cond {
+						addLogs(&logStack, logs)
+						isMatch = false
+						break
+					}
 				}
 			}
 		}
