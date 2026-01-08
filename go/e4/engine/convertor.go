@@ -77,6 +77,45 @@ type PipelineStep struct {
 	Children  []PipelineStep `json:"children,omitempty"`
 }
 
+var serviceRegistry = make(map[string]string)
+
+func RegisterService(nimbID, endpoint string) {
+	serviceRegistry[nimbID] = endpoint
+}
+
+func GetServiceEndpoint(nimbID string) (string, bool) {
+	endpoint, ok := serviceRegistry[nimbID]
+	return endpoint, ok
+}
+
+func buildAndRunDockerService(engineName string, port int) error {
+	imageName := fmt.Sprintf("%s-engine", strings.ToLower(engineName))
+	containerName := fmt.Sprintf("%s-container", strings.ToLower(engineName))
+	fileName := fmt.Sprintf("services/%s_main.go", strings.ToLower(engineName))
+
+	// Build the binary
+	buildCmd := exec.Command("go", "build", "-o", "services/main", fileName)
+	buildCmd.Stdout = os.Stdout
+	buildCmd.Stderr = os.Stderr
+	if err := buildCmd.Run(); err != nil {
+		return err
+	}
+
+	// Build Docker image
+	dockerBuild := exec.Command("docker", "build", "-t", imageName, "-f", "Dockerfile", ".")
+	dockerBuild.Stdout = os.Stdout
+	dockerBuild.Stderr = os.Stderr
+	if err := dockerBuild.Run(); err != nil {
+		return err
+	}
+
+	// Run Docker container
+	dockerRun := exec.Command("docker", "run", "-d", "--name", containerName, "-p", fmt.Sprintf("%d:8081", port), imageName)
+	dockerRun.Stdout = os.Stdout
+	dockerRun.Stderr = os.Stderr
+	return dockerRun.Run()
+}
+
 // ...existing code...
 func killProcessOnPort(port int) error {
 	// Find the PID using netstat
@@ -109,27 +148,19 @@ func (c *Compiler) CompileFromRequest(req RuleService) (bool, error) {
 	}
 
 	// 3. Finalize Source Code
-	source := c.ExecuteTemplate(req.Name, rootType, logicBuf.String())
-
+	source := c.ExecuteTemplate(req.Name, rootType, logicBuf.String(), req.Port)
 	// 4. Save/Deploy
 	fileName := fmt.Sprintf("services/%s_main.go", strings.ToLower(req.Name))
 	os.WriteFile(fileName, []byte(source), 0644)
 
-	// 5. Kill existing service on port 8081 (if any)
-	port := 8081
-	_ = killProcessOnPort(port) // Ignore error if no process
-
-	// 6. Start new service instance
-	// Security: Validate fileName to avoid command injection or arbitrary code execution
-	if !strings.HasPrefix(fileName, "services/") || !strings.HasSuffix(fileName, "_main.go") {
-		return false, fmt.Errorf("invalid engine name")
+	// 5. Build and run as Docker container
+	port := 8081 // You may want to assign unique ports per service
+	if err := buildAndRunDockerService(req.Name, port); err != nil {
+		return false, err
 	}
-	go func() {
-		cmd := exec.Command("go", "run", fileName)
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		_ = cmd.Run()
-	}()
+
+	// 6. Register service
+	RegisterService(req.NIMB_ID, fmt.Sprintf("http://localhost:%d", port))
 	return true, nil
 }
 
@@ -206,7 +237,7 @@ func (c *Compiler) BuildType(v VariableMeta) string {
 }
 
 // ExecuteTemplate: The missing link that generates the full file
-func (c *Compiler) ExecuteTemplate(engineName, rootType, logicBody string) string {
+func (c *Compiler) ExecuteTemplate(engineName, rootType, logicBody string, port int) string {
 
 	tmpl := template.Must(template.New("svc").Parse(serviceTmpl))
 	var out bytes.Buffer
@@ -215,6 +246,7 @@ func (c *Compiler) ExecuteTemplate(engineName, rootType, logicBody string) strin
 		"RootType":   rootType,
 		"Logic":      logicBody,
 		"EngineName": engineName,
+		"Port":       port,
 	})
 	return out.String()
 }
@@ -280,8 +312,8 @@ func (rs *RuleService) Process(w http.ResponseWriter, r *http.Request) {
 func main() {
     rs := &RuleService{}
     http.HandleFunc("/", rs.Process)
-    fmt.Println("Rule Service starting on :8081")
-    http.ListenAndServe(":8081", nil)
+    fmt.Println("Rule Service starting on :{{.Port}}")
+    http.ListenAndServe(":{{.Port}}", nil)
 }
 `
 

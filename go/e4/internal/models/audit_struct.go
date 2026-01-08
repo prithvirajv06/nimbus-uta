@@ -17,7 +17,7 @@ type Audit struct {
 	Active         string `bson:"active" json:"active"`
 	IsArchived     bool   `bson:"is_archived" json:"is_archived,omitempty"`
 	RestoreArchive bool   `bson:"-" json:"restore_archive,omitempty"`
-
+	Environment    string `bson:"environment" json:"environment,omitempty"`
 	//Versioning fields
 	Version      int `bson:"version" json:"version,omitempty"`
 	MinorVersion int `bson:"minor_version" json:"minor_version,omitempty"`

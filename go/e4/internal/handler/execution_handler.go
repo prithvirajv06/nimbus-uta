@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/prithvirajv06/nimbus-uta/go/engine/engine"
 	"github.com/prithvirajv06/nimbus-uta/go/engine/internal/service"
 )
 
@@ -22,4 +23,5 @@ func (h *ExecutionHandler) RegisterRoutes(router *gin.RouterGroup) {
 	router.POST("/engines/list", h.service.GetAllEngines)
 	router.DELETE("/engine", h.service.ArchiveEngine)
 	router.PUT("/engine/clone", h.service.CloneEngine)
+	router.POST("/engine/invoke", engine.InvokeService)
 }

@@ -3872,3 +3872,7 @@
 {"time":"2026-01-08T22:54:00.9927997+05:30","level":"INFO","msg":"Looking for error"}
 {"time":"2026-01-08T22:54:01.0008027+05:30","level":"INFO","msg":"Looking for error"}
 {"time":"2026-01-08T22:54:01.0008027+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-09T04:07:53.644008+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2026-01-09T04:13:29.3331606+05:30","level":"INFO","msg":"Failed to connect to MongoDB: server selection error: context deadline exceeded, current topology: { Type: Unknown, Servers: [{ Addr: localhost:27017, Type: Unknown, Last error: dial tcp [::1]:27017: connectex: No connection could be made because the target machine actively refused it. }, ] }"}
+{"time":"2026-01-09T04:13:45.8023175+05:30","level":"INFO","msg":"Failed to connect to MongoDB: server selection error: context deadline exceeded, current topology: { Type: Unknown, Servers: [{ Addr: localhost:27017, Type: Unknown, Last error: dial tcp [::1]:27017: connectex: No connection could be made because the target machine actively refused it. }, ] }"}
+{"time":"2026-01-09T04:14:08.294762+05:30","level":"INFO","msg":"Failed to connect to MongoDB: server selection error: context deadline exceeded, current topology: { Type: Unknown, Servers: [{ Addr: localhost:27017, Type: Unknown, Last error: dial tcp [::1]:27017: connectex: No connection could be made because the target machine actively refused it. }, ] }"}
