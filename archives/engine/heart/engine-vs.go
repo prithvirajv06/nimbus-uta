@@ -58,6 +58,37 @@ func NewEngine() *Engine {
 	return &Engine{}
 }
 
+func (e *Engine) ProcessDecisionTableV2(ctx context.Context, table models.DecisionTable, data []byte) ([]byte, []models.LogStackEntry, error) {
+	output := data
+	var matchedRows [][]models.Variables
+	logStack := []models.LogStackEntry{}
+	for _, ruleRow := range table.Rules {
+		for _, inputDef := range table.InputsColumns {
+			if strings.Contains(inputDef.VarKey, "[*]") {
+				//Process Array
+				addInfoLog(&logStack, fmt.Sprintf("Processing array input variable: %s", inputDef.VarKey))
+				arrayPath := strings.Split(inputDef.VarKey, "[*]")
+				for i := 0; i < len(arrayPath)-1; i++ {
+					arrayPath[i] += "[*]"
+					gjson.GetBytes(output, arrayPath[i]).ForEach(func(key, value gjson.Result) bool {
+						itemPath := fmt.Sprintf("%s.%d", arrayPath[i], key.Int())
+						actualVal := gjson.GetBytes(output, itemPath)
+						if cond, logs := e.evaluateCell(ruleRow[0].Value, actualVal, &logStack); cond {
+							addLogs(&logStack, logs)
+							matchedRows = append(matchedRows, ruleRow)
+						} else {
+							addLogs(&logStack, logs)
+						}
+						return true
+					})
+				}
+			}
+		}
+	}
+
+	return nil, nil, nil
+}
+
 // --- Decision Table Execution ---
 
 func (e *Engine) ProcessDecisionTable(ctx context.Context, table models.DecisionTable, data []byte) ([]byte, []models.LogStackEntry, error) {
@@ -271,7 +302,7 @@ func (e *Engine) extractRowValues(table models.DecisionTable, row []models.Varia
 		addInfoLog(logStack, fmt.Sprintf("Processing output column: %s", outDef.VarKey))
 		valIndex := len(table.InputsColumns) + i
 		if valIndex < len(row) {
-			valStr := row[valIndex].Value.(string)
+			valStr := toString(row[valIndex].Value)
 			if num, err := strconv.ParseFloat(valStr, 64); err == nil {
 				res[outDef.VarKey] = num
 			} else {
@@ -287,6 +318,25 @@ func (e *Engine) extractRowValues(table models.DecisionTable, row []models.Varia
 	}
 	addInfoLog(logStack, fmt.Sprintf("Extracted Values: %v", res))
 	return res, localLogs
+}
+
+func toString(val interface{}) string {
+	switch v := val.(type) {
+	case string:
+		return v
+	case float64:
+		return strconv.FormatFloat(v, 'f', -1, 64)
+	case int:
+		return strconv.Itoa(v)
+	case bool:
+		return strconv.FormatBool(v)
+	default:
+		b, err := json.Marshal(v)
+		if err != nil {
+			return fmt.Sprintf("%v", v)
+		}
+		return string(b)
+	}
 }
 
 // isHigherPriority checks if rowA has a higher priority than rowB.

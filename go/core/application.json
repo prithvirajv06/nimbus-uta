@@ -3710,3 +3710,165 @@
 {"time":"2026-01-06T21:49:03.1464178+05:30","level":"INFO","msg":"Looking for error"}
 {"time":"2026-01-06T21:49:03.1464178+05:30","level":"ERROR","msg":"error occurred","error":"mongo: no documents in result"}
 {"time":"2026-01-06T21:49:03.1464178+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Failed to retrieve variable package"}
+{"time":"2026-01-06T21:53:24.7198564+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2026-01-06T21:53:31.1895973+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T21:53:31.1934825+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T21:53:31.1934825+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-06T21:53:36.7504032+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T21:53:36.7504032+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-06T21:54:30.5949125+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T21:54:30.5966812+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T21:54:30.5966812+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-06T21:54:30.603731+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T21:54:30.6053318+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T21:54:30.6053318+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-06T21:54:43.9483705+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T21:54:43.9483705+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table retrieved"}
+{"time":"2026-01-06T21:54:43.9614531+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T21:54:43.9614531+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-06T21:58:10.4046455+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T21:58:10.4046455+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_D_TABLE_2cdbce927e27","userID":"PrithvirajV"}
+{"time":"2026-01-06T21:58:10.4067553+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T21:58:10.4072853+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T21:58:10.4072853+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table updated"}
+{"time":"2026-01-06T22:02:19.0029494+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:02:19.0029494+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table retrieved"}
+{"time":"2026-01-06T22:02:19.0793862+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:02:19.0793862+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-06T22:02:19.3543824+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:02:19.3562353+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:02:19.3562353+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-06T22:04:53.9849192+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:04:53.9849192+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table retrieved"}
+{"time":"2026-01-06T22:04:54.0330196+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:04:54.0330196+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-06T22:04:54.3036654+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:04:54.3065433+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:04:54.3065433+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-06T22:07:47.9737923+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:07:47.9737923+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table retrieved"}
+{"time":"2026-01-06T22:07:48.0268312+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:07:48.0268312+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-06T22:07:48.3174303+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:07:48.3230422+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:07:48.3230422+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-06T22:08:11.0014214+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:08:11.0014214+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table retrieved"}
+{"time":"2026-01-06T22:08:11.0764454+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:08:11.0764454+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-06T22:08:11.4181125+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:08:11.4204845+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:08:11.4204845+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-06T22:08:35.965027+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:08:35.965027+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table retrieved"}
+{"time":"2026-01-06T22:08:36.010917+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:08:36.010917+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-06T22:08:36.3306926+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:08:36.3327298+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:08:36.3327298+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-06T22:09:02.0847161+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:09:02.0847161+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table retrieved"}
+{"time":"2026-01-06T22:09:02.1571123+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:09:02.1571123+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-06T22:09:02.3932828+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:09:02.394313+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:09:02.394313+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-06T22:09:07.5127541+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:09:07.5127541+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-06T22:09:40.7670066+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:09:40.7691223+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:09:40.7691223+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-06T22:09:42.6316848+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:09:42.6316848+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-06T22:24:28.9267006+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:24:28.9267006+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table retrieved"}
+{"time":"2026-01-06T22:24:28.965436+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:24:28.965436+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-06T22:24:34.2079273+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:24:34.2101956+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:24:34.2101956+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-06T22:24:38.8925517+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-06T22:24:38.8925517+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-07T21:29:43.9879128+05:30","level":"INFO","msg":"Failed to connect to MongoDB: server selection error: context deadline exceeded, current topology: { Type: Unknown, Servers: [{ Addr: localhost:27017, Type: Unknown, Last error: dial tcp [::1]:27017: connectex: No connection could be made because the target machine actively refused it. }, ] }"}
+{"time":"2026-01-07T21:32:49.0883746+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2026-01-07T21:33:08.4170138+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:33:08.4750896+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:33:08.4750896+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:33:08.4750896+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Login successful"}
+{"time":"2026-01-07T21:33:14.8278217+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:33:14.8327776+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:33:14.8327776+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-07T21:33:18.3466933+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:33:18.3466933+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-07T21:33:42.6538859+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:33:42.6555898+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:33:42.6555898+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-07T21:33:42.6582449+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:33:42.6594571+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:33:42.6594571+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-07T21:33:45.680694+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:33:45.680694+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table retrieved"}
+{"time":"2026-01-07T21:33:45.6918986+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:33:45.6918986+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-07T21:34:00.9993827+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:34:00.9993827+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_D_TABLE_2cdbce927e27","userID":"PrithvirajV"}
+{"time":"2026-01-07T21:34:01.0034019+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:34:01.0068763+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:34:01.0068763+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table updated"}
+{"time":"2026-01-07T21:34:06.2743257+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:34:06.2759869+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:34:06.2759869+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-07T21:34:08.6553997+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:34:08.6553997+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-07T21:39:57.9138218+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:39:57.9138218+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_D_TABLE_2cdbce927e27","userID":"PrithvirajV"}
+{"time":"2026-01-07T21:39:57.9149387+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:39:57.9149387+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:39:57.9149387+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table updated"}
+{"time":"2026-01-07T21:44:19.8575926+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:44:19.8575926+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_D_TABLE_2cdbce927e27","userID":"PrithvirajV"}
+{"time":"2026-01-07T21:44:19.8595771+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:44:19.8601777+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:44:19.8601777+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table updated"}
+{"time":"2026-01-07T21:44:22.3752378+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:44:22.3752378+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_D_TABLE_2cdbce927e27","userID":"PrithvirajV"}
+{"time":"2026-01-07T21:44:22.3757425+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:44:22.376749+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:44:22.376749+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table updated"}
+{"time":"2026-01-07T21:49:50.9454527+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:49:50.9454527+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_D_TABLE_2cdbce927e27","userID":"PrithvirajV"}
+{"time":"2026-01-07T21:49:50.9474812+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:49:50.9481062+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:49:50.9481062+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table updated"}
+{"time":"2026-01-07T21:50:04.1129968+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:50:04.1129968+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_D_TABLE_2cdbce927e27","userID":"PrithvirajV"}
+{"time":"2026-01-07T21:50:04.1142362+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:50:04.1152766+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:50:04.1152766+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table updated"}
+{"time":"2026-01-07T21:50:48.2835157+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:50:48.2835157+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_D_TABLE_2cdbce927e27","userID":"PrithvirajV"}
+{"time":"2026-01-07T21:50:48.2854225+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:50:48.2859266+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-07T21:50:48.2859266+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table updated"}
+{"time":"2026-01-08T06:05:03.0547268+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-08T06:05:03.0547268+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision table retrieved"}
+{"time":"2026-01-08T06:05:03.0845731+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-08T06:05:03.0845731+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-08T06:05:15.9625337+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-08T06:05:15.9666941+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-08T06:05:15.9724907+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-08T06:05:15.9724907+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-08T06:05:15.9735268+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-08T06:05:15.9735268+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-08T06:05:16.9464762+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-08T06:05:16.9489095+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-08T06:05:16.9489095+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-08T06:05:16.9557841+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-08T06:05:16.9557841+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-08T06:05:19.7965545+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-08T06:05:19.7965545+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-08T06:05:19.8147335+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-08T06:05:19.8147335+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-08T22:54:00.9927997+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-08T22:54:01.0008027+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-08T22:54:01.0008027+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}

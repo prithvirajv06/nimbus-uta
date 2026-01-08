@@ -1,0 +1,39 @@
+{"time":"2026-01-05T23:00:48.6280819+05:30","level":"INFO","msg":"Failed to connect to MongoDB: server selection error: context deadline exceeded, current topology: { Type: Unknown, Servers: [{ Addr: localhost:27017, Type: Unknown, Last error: dial tcp [::1]:27017: connectex: No connection could be made because the target machine actively refused it. }, ] }"}
+{"time":"2026-01-05T23:01:47.0347607+05:30","level":"INFO","msg":"Starting server on port 5050"}
+{"time":"2026-01-06T20:19:57.0915014+05:30","level":"INFO","msg":"Starting server on port 5050"}
+{"time":"2026-01-06T22:04:43.7085911+05:30","level":"INFO","msg":"Starting server on port 5050"}
+{"time":"2026-01-06T22:09:29.2452318+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Execution Completed"}
+{"time":"2026-01-06T22:09:44.3086664+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Execution Completed"}
+{"time":"2026-01-06T22:10:28.9515004+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Execution Completed"}
+{"time":"2026-01-06T22:17:22.6850657+05:30","level":"INFO","msg":"Starting server on port 5050"}
+{"time":"2026-01-06T22:17:35.6752252+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-06T22:17:41.7639568+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-06T22:23:19.9358287+05:30","level":"INFO","msg":"Starting server on port 5050"}
+{"time":"2026-01-06T22:23:32.4040995+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-06T22:24:41.3129058+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-06T22:41:03.8077383+05:30","level":"INFO","msg":"Starting server on port 5050"}
+{"time":"2026-01-06T22:42:01.4339421+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:29:26.3079565+05:30","level":"INFO","msg":"Failed to connect to MongoDB: server selection error: context deadline exceeded, current topology: { Type: Unknown, Servers: [{ Addr: localhost:27017, Type: Unknown, Last error: dial tcp [::1]:27017: connectex: No connection could be made because the target machine actively refused it. }, ] }"}
+{"time":"2026-01-07T21:32:22.0278575+05:30","level":"INFO","msg":"Failed to connect to MongoDB: server selection error: context deadline exceeded, current topology: { Type: Unknown, Servers: [{ Addr: localhost:27017, Type: Unknown, Last error: dial tcp [::1]:27017: connectex: No connection could be made because the target machine actively refused it. }, ] }"}
+{"time":"2026-01-07T21:32:41.1610928+05:30","level":"INFO","msg":"Starting server on port 5050"}
+{"time":"2026-01-07T21:33:28.7664851+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:34:10.0207497+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:34:49.5543+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:39:40.5150216+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:43:35.9201601+05:30","level":"INFO","msg":"Starting server on port 5050"}
+{"time":"2026-01-07T21:43:56.020282+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:44:24.649009+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:47:09.8982392+05:30","level":"INFO","msg":"Starting server on port 5050"}
+{"time":"2026-01-07T21:49:21.7315664+05:30","level":"INFO","msg":"Starting server on port 5050"}
+{"time":"2026-01-07T21:49:28.6870908+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:49:53.2475723+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:49:54.655501+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:50:06.5786771+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:50:08.7601263+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:50:50.2918286+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:50:51.0367613+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:50:51.40386+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:50:52.6996387+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T21:52:22.325045+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
+{"time":"2026-01-07T22:02:24.2843112+05:30","level":"INFO","msg":"Starting server on port 5050"}
+{"time":"2026-01-07T22:02:39.5926301+05:30","level":"INFO","msg":"Responding Data","statusCode":200}
