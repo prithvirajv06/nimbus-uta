@@ -1,0 +1,46 @@
+[
+  {
+    "step_type": "condition",
+    "statement": "data.Age < 18",
+    "children": [
+      {
+        "step_type": "assignment",
+        "target": "data.Risk",
+        "value": "\"Reject\""
+      }
+    ]
+  },
+  {
+    "step_type": "condition",
+    "statement": "data.Age > 60",
+    "children": [
+      {
+        "step_type": "assignment",
+        "target": "data.Risk",
+        "value": "\"Review\""
+      }
+    ]
+  },
+  {
+    "step_type": "condition",
+    "statement": "data.Age >= 18 && data.Age <= 60 && data.Income < 50000",
+    "children": [
+      {
+        "step_type": "assignment",
+        "target": "data.Risk",
+        "value": "\"Review\""
+      }
+    ]
+  },
+  {
+    "step_type": "condition",
+    "statement": "data.Age >= 18 && data.Age <= 60 && data.Income >= 50000",
+    "children": [
+      {
+        "step_type": "assignment",
+        "target": "data.Risk",
+        "value": "\"Accept\""
+      }
+    ]
+  }
+]

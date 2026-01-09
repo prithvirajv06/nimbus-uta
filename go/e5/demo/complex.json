@@ -1,0 +1,220 @@
+{
+  "nimb_id": "lending-001",
+  "engine_name": "LendingEngine",
+  "description": "Complex lending workflow with array push and object assignment",
+  "variable_metadata": {
+    "var_key": "data",
+    "type": "object",
+    "children": [
+      {
+        "var_key": "data.Age",
+        "type": "number"
+      },
+      {
+        "var_key": "data.CreditScore",
+        "type": "number"
+      },
+      {
+        "var_key": "data.Income",
+        "type": "number"
+      },
+      {
+        "var_key": "data.Defaults",
+        "type": "number"
+      },
+      {
+        "var_key": "data.EmploymentStatus",
+        "type": "string"
+      },
+      {
+        "var_key": "data.LoanStatus",
+        "type": "string"
+      },
+      {
+        "var_key": "data.InterestRate",
+        "type": "number"
+      },
+      {
+        "var_key": "data.Reason",
+        "type": "string"
+      },
+      {
+        "var_key": "data.Customer",
+        "type": "object",
+        "children": [
+          {
+            "var_key": "data.Customer.Name",
+            "type": "string"
+          },
+          {
+            "var_key": "data.Customer.Profile",
+            "type": "object",
+            "children": [
+              {
+                "var_key": "data.Customer.Profile.Age",
+                "type": "number"
+              },
+              {
+                "var_key": "data.Customer.Profile.Status",
+                "type": "string"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "var_key": "data.Transactions",
+        "type": "array",
+        "children": [
+          {
+            "var_key": "data.Transactions[*].Amount",
+            "type": "number"
+          },
+          {
+            "var_key": "data.Transactions[*].Type",
+            "type": "string"
+          }
+        ]
+      }
+    ]
+  },
+  "pipeline": [
+    {
+      "step_type": "assignment",
+      "target": "data.Customer.Name",
+      "value": "\"Alice\""
+    },
+    {
+      "step_type": "assignment",
+      "target": "data.Customer.Profile",
+      "value": "{\"Age\": 30, \"Status\": \"Active\"}"
+    },
+    {
+      "step_type": "push_array",
+      "target": "data.Transactions",
+      "value": "{\"Amount\": 1000, \"Type\": \"Deposit\"}"
+    },
+    {
+      "step_type": "condition",
+      "statement": "data.Age >= 21 && data.Age <= 60",
+      "children": [
+        {
+          "step_type": "condition",
+          "statement": "data.CreditScore >= 700",
+          "children": [
+            {
+              "step_type": "condition",
+              "statement": "data.Income >= 50000 && data.Defaults == 0 && data.EmploymentStatus == \"Employed\"",
+              "children": [
+                {
+                  "step_type": "assignment",
+                  "target": "data.LoanStatus",
+                  "value": "\"Approved\""
+                },
+                {
+                  "step_type": "assignment",
+                  "target": "data.InterestRate",
+                  "value": "7.5"
+                }
+              ]
+            },
+            {
+              "step_type": "condition",
+              "statement": "data.Income >= 30000 && data.Defaults <= 1",
+              "children": [
+                {
+                  "step_type": "assignment",
+                  "target": "data.LoanStatus",
+                  "value": "\"Approved\""
+                },
+                {
+                  "step_type": "assignment",
+                  "target": "data.InterestRate",
+                  "value": "10.0"
+                },
+                {
+                  "step_type": "condition",
+                  "statement": "data.Income < 40000 || data.Defaults == 1",
+                  "children": [
+                    {
+                      "step_type": "network_call",
+                      "result_var": "fraudResult",
+                      "url": "https://fraudcheck.example.com/api/check",
+                      "method": "POST"
+                    },
+                    {
+                      "step_type": "condition",
+                      "statement": "fraudResult[\"status\"] == \"fail\"",
+                      "children": [
+                        {
+                          "step_type": "assignment",
+                          "target": "data.LoanStatus",
+                          "value": "\"Rejected\""
+                        },
+                        {
+                          "step_type": "assignment",
+                          "target": "data.Reason",
+                          "value": "\"Fraud detected\""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "step_type": "condition",
+              "statement": "!(data.Income >= 30000 && data.Defaults <= 1)",
+              "children": [
+                {
+                  "step_type": "assignment",
+                  "target": "data.LoanStatus",
+                  "value": "\"Rejected\""
+                },
+                {
+                  "step_type": "assignment",
+                  "target": "data.Reason",
+                  "value": "\"Insufficient income or too many defaults\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "step_type": "condition",
+          "statement": "data.CreditScore < 700",
+          "children": [
+            {
+              "step_type": "assignment",
+              "target": "data.LoanStatus",
+              "value": "\"Rejected\""
+            },
+            {
+              "step_type": "assignment",
+              "target": "data.Reason",
+              "value": "\"Low credit score\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "step_type": "condition",
+      "statement": "data.Age < 21 || data.Age > 60",
+      "children": [
+        {
+          "step_type": "assignment",
+          "target": "data.LoanStatus",
+          "value": "\"Rejected\""
+        },
+        {
+          "step_type": "assignment",
+          "target": "data.Reason",
+          "value": "\"Age not eligible\""
+        }
+      ]
+    }
+  ],
+  "port": 8081,
+  "audit_fields": {}
+}
