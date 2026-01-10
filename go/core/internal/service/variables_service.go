@@ -139,76 +139,6 @@ func (s *VariablePackageService) GetAllVariablePackages(c *gin.Context) {
 	RespondJSON(c, 200, "success", "Variable packages retrieved successfully", varPackages)
 }
 
-func extractVariablesFromJSON(jsonStr string) ([]models.Variables, error) {
-	var data interface{}
-	if err := json.Unmarshal([]byte(jsonStr), &data); err != nil {
-		return nil, fmt.Errorf("failed to parse JSON: %w", err)
-	}
-
-	var variables []models.Variables
-	extractVariables(data, "", &variables)
-	return variables, nil
-}
-
-func extractVariables(data any, prefix string, variables *[]models.Variables) {
-	switch v := data.(type) {
-	case map[string]any:
-		for key, value := range v {
-			fullKey := key
-			contextVarKey := strings.ReplaceAll(prefix, ".", "_")
-			if prefix != "" {
-				fullKey = prefix + "." + key
-			}
-
-			valueType := getType(value)
-
-			switch valueType {
-			case "object":
-				// Add the object itself
-				*variables = append(*variables, models.Variables{
-					VarKey:        fullKey,
-					ContextVarKey: contextVarKey,
-					Label:         formatLabel(key),
-					Type:          valueType,
-					IsRequired:    true,
-					Value:         toJSONString(value),
-				})
-				// Recurse into the object
-				extractVariables(value, fullKey, variables)
-			case "array":
-				// Add the array itself
-				*variables = append(*variables, models.Variables{
-					VarKey:        fullKey,
-					ContextVarKey: contextVarKey,
-					Label:         formatLabel(key),
-					Type:          valueType,
-					IsRequired:    true,
-					Value:         toJSONString(value.([]any)[0]),
-				})
-
-				// Check array elements
-				if arr, ok := value.([]any); ok && len(arr) > 0 {
-					// Analyze first element to understand array structure
-					firstElemType := getType(arr[0])
-					if firstElemType == "object" {
-						extractVariables(arr[0], fullKey+"[*]", variables)
-					}
-				}
-			default:
-				// It's a primitive type (string, number, boolean, null)
-				*variables = append(*variables, models.Variables{
-					VarKey:        fullKey,
-					ContextVarKey: contextVarKey,
-					Label:         formatLabel(key),
-					Type:          valueType,
-					IsRequired:    true,
-					Value:         toJSONString(value),
-				})
-			}
-		}
-	}
-}
-
 func toJSONString(value any) string {
 	bytes, err := json.Marshal(value)
 	if err != nil {
@@ -284,7 +214,7 @@ func extractVariableJSONV2(jsonStr string) ([]models.Variables, error) {
 		return nil, fmt.Errorf("failed to parse JSON: %w", err)
 	}
 	var variables []models.Variables
-	extractVariablesV2(data, "", &variables)
+	extractVariablesV2(data, "data", &variables)
 	return variables, nil
 }
 
@@ -298,6 +228,7 @@ func extractVariablesV2(data any, prefix string, variables *[]models.Variables) 
 			if prefix != "" {
 				fullKey = prefix + "." + key
 			}
+			contextVarToCreate := contextVarKey + "_" + key
 			valueType := getType(value)
 			switch valueType {
 			case "object":
@@ -305,13 +236,14 @@ func extractVariablesV2(data any, prefix string, variables *[]models.Variables) 
 				var children []models.Variables
 				extractVariablesV2(value, fullKey, &children)
 				*variables = append(*variables, models.Variables{
-					VarKey:        fullKey,
-					ContextVarKey: contextVarKey,
-					Label:         formatLabel(key),
-					Type:          valueType,
-					IsRequired:    true,
-					Value:         toJSONString(value),
-					Children:      children,
+					VarKey:             fullKey,
+					ContextVarKey:      contextVarKey,
+					ContextVarToCreate: contextVarToCreate,
+					Label:              formatLabel(key),
+					Type:               valueType,
+					IsRequired:         true,
+					Value:              toJSONString(value),
+					Children:           children,
 				})
 			case "array":
 				// Check array elements
@@ -322,13 +254,26 @@ func extractVariablesV2(data any, prefix string, variables *[]models.Variables) 
 					if firstElemType == "object" {
 						extractVariablesV2(arr[0], fullKey+"[*]", &children)
 						*variables = append(*variables, models.Variables{
-							VarKey:        fullKey,
-							ContextVarKey: contextVarKey,
-							Label:         formatLabel(key),
-							Type:          valueType,
-							IsRequired:    true,
-							Value:         toJSONString(value),
-							Children:      children,
+							VarKey:             fullKey,
+							ContextVarKey:      contextVarKey,
+							ContextVarToCreate: contextVarToCreate + "Array",
+							Label:              formatLabel(key),
+							Type:               "array",
+							IsRequired:         true,
+							Value:              toJSONString(value),
+							Children:           children,
+						})
+					} else {
+						// Primitive array
+						*variables = append(*variables, models.Variables{
+							VarKey:             fullKey,
+							ContextVarKey:      contextVarKey,
+							ContextVarToCreate: contextVarToCreate + "Array",
+							Label:              formatLabel(key),
+							Type:               valueType,
+							IsRequired:         true,
+							Value:              toJSONString(value),
+							Children:           children,
 						})
 					}
 
