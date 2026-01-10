@@ -3886,3 +3886,14 @@
 {"time":"2026-01-10T13:21:41.1489392+05:30","level":"ERROR","msg":"Server failed: listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."}
 {"time":"2026-01-10T13:25:28.3660272+05:30","level":"INFO","msg":"Starting server on port 8080"}
 {"time":"2026-01-10T13:25:28.368152+05:30","level":"ERROR","msg":"Server failed: listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."}
+{"time":"2026-01-10T15:26:55.125435699+05:30","level":"INFO","msg":"No .env file found, using environment variables"}
+{"time":"2026-01-10T15:26:55.142567605+05:30","level":"INFO","msg":"Failed to connect to MongoDB: connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism \"SCRAM-SHA-1\": (AuthenticationFailed) Authentication failed."}
+{"time":"2026-01-10T15:27:48.563020217+05:30","level":"INFO","msg":"No .env file found, using environment variables"}
+{"time":"2026-01-10T15:27:48.574237364+05:30","level":"INFO","msg":"Failed to connect to MongoDB: connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism \"SCRAM-SHA-1\": (AuthenticationFailed) Authentication failed."}
+{"time":"2026-01-10T15:28:09.212541472+05:30","level":"INFO","msg":"No .env file found, using environment variables"}
+{"time":"2026-01-10T15:28:09.223885277+05:30","level":"INFO","msg":"Failed to connect to MongoDB: connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism \"SCRAM-SHA-1\": (AuthenticationFailed) Authentication failed."}
+{"time":"2026-01-10T15:31:48.981206925+05:30","level":"INFO","msg":"No .env file found, using environment variables"}
+{"time":"2026-01-10T15:31:48.988828073+05:30","level":"INFO","msg":"Failed to connect to MongoDB: connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism \"SCRAM-SHA-1\": (AuthenticationFailed) Authentication failed."}
+{"time":"2026-01-10T15:35:57.974962979+05:30","level":"INFO","msg":"No .env file found, using environment variables"}
+{"time":"2026-01-10T15:35:57.980894676+05:30","level":"INFO","msg":"Failed to connect to MongoDB: connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism \"SCRAM-SHA-1\": (AuthenticationFailed) Authentication failed."}
+{"time":"2026-01-10T15:36:53.859394136+05:30","level":"INFO","msg":"Failed to connect to MongoDB: connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism \"SCRAM-SHA-1\": (AuthenticationFailed) Authentication failed."}

@@ -1,0 +1,84 @@
+[
+    {
+        "variable": "policyInfo",
+        "sample_value": "{'policyNumber': 'PN123456', 'coverageType': 'Comprehensive', 'startDate': '2023-01-01', 'endDate': '2024-01-01', 'premiumAmount': 1200.00}",
+        "description": "Holds information about an insurance policy, including policy number, coverage type, start and end dates, and premium amount.",
+        "context_var": "data",
+        "context_var_to_create": "data_policyInfo",
+        "type": "object",
+        "required": true,
+        "children": [
+            {
+                "variable": "policyNumber",
+                "context_var": "data_policyInfo",
+                "context_var_to_create": "data_policyInfo_policyNumber",
+                "sample_value": "PN123456",
+                "description": "The unique identifier for the insurance policy.",
+                "type": "string",
+                "required": true
+            }
+        ]
+    },
+    {
+        "variable": "customerInfo",
+        "sample_value": "{'name': 'John Doe', 'age': 35, 'address': '123 Main St, Anytown, USA', 'contactNumber': '555-1234', 'email': ''}",
+        "description": "Contains personal details of the customer associated with the insurance policy.",
+        "context_var": "data",
+        "context_var_to_create": "data_customerInfo",
+        "type": "object",
+        "required": true,
+        "children": [
+            {
+                "variable": "name",
+                "context_var": "data_customerInfo",
+                "context_var_to_create": "data_customerInfo_name",
+                "sample_value": "John Doe",
+                "description": "The full name of the customer.",
+                "type": "string",
+                "required": true
+            }
+        ]
+    },
+    {
+        "variable": "claimHistory",
+        "sample_value": "[{'claimId': 'C1001', 'date': '2023-06-15', 'amount': 5000, 'status': 'Approved'}, {'claimId': 'C1002', 'date': '2023-09-10', 'amount': 1500, 'status': 'Pending'}]",
+        "description": "A list of past claims made by the customer, including claim ID, date, amount, and status.",
+        "context_var_to_create": "data_claimHistory",
+        "context_var": "data",
+        "type": "array",
+        "required": false,
+        "children": [
+            {
+                "variable": "claimId",
+                "context_var": "data_claimHistory",
+                "context_var_to_create": "data_claimHistory_claimId",
+                "sample_value": "C1001",
+                "description": "The unique identifier for the insurance claim.",
+                "type": "string",
+                "required": true,
+                "children": [
+                    {
+                        "variable": "report",
+                        "context_var": "data_claimHistory_report",
+                        "context_var_to_create": "data_claimHistory_report",
+                        "sample_value": "{'reportId': 'R2001', 'description': 'Rear-end collision at traffic light', 'filedBy': 'John Doe', 'filedDate': '2023-06-16'}",
+                        "description": "Detailed report associated with the claim.",
+                        "type": "object",
+                        "required": false,
+                        "children": [
+                            {
+                                "variable": "reportId",
+                                "context_var": "data_claimHistory_report_reportId",
+                                "context_var_to_create": "data_claimHistory_report_reportId",
+                                "sample_value": "R2001",
+                                "description": "The unique identifier for the claim report.",
+                                "type": "string",
+                                "required": true
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
