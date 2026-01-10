@@ -155,6 +155,7 @@ func extractVariables(data any, prefix string, variables *[]models.Variables) {
 	case map[string]any:
 		for key, value := range v {
 			fullKey := key
+			contextVarKey := strings.ReplaceAll(prefix, ".", "_")
 			if prefix != "" {
 				fullKey = prefix + "." + key
 			}
@@ -165,22 +166,24 @@ func extractVariables(data any, prefix string, variables *[]models.Variables) {
 			case "object":
 				// Add the object itself
 				*variables = append(*variables, models.Variables{
-					VarKey:     fullKey,
-					Label:      formatLabel(key),
-					Type:       valueType,
-					IsRequired: true,
-					Value:      toJSONString(value),
+					VarKey:        fullKey,
+					ContextVarKey: contextVarKey,
+					Label:         formatLabel(key),
+					Type:          valueType,
+					IsRequired:    true,
+					Value:         toJSONString(value),
 				})
 				// Recurse into the object
 				extractVariables(value, fullKey, variables)
 			case "array":
 				// Add the array itself
 				*variables = append(*variables, models.Variables{
-					VarKey:     fullKey,
-					Label:      formatLabel(key),
-					Type:       valueType,
-					IsRequired: true,
-					Value:      toJSONString(value.([]any)[0]),
+					VarKey:        fullKey,
+					ContextVarKey: contextVarKey,
+					Label:         formatLabel(key),
+					Type:          valueType,
+					IsRequired:    true,
+					Value:         toJSONString(value.([]any)[0]),
 				})
 
 				// Check array elements
@@ -194,11 +197,12 @@ func extractVariables(data any, prefix string, variables *[]models.Variables) {
 			default:
 				// It's a primitive type (string, number, boolean, null)
 				*variables = append(*variables, models.Variables{
-					VarKey:     fullKey,
-					Label:      formatLabel(key),
-					Type:       valueType,
-					IsRequired: true,
-					Value:      toJSONString(value),
+					VarKey:        fullKey,
+					ContextVarKey: contextVarKey,
+					Label:         formatLabel(key),
+					Type:          valueType,
+					IsRequired:    true,
+					Value:         toJSONString(value),
 				})
 			}
 		}
@@ -289,6 +293,8 @@ func extractVariablesV2(data any, prefix string, variables *[]models.Variables) 
 	case map[string]any:
 		for key, value := range v {
 			fullKey := key
+			contextVarKey := strings.ReplaceAll(prefix, ".", "_")
+			contextVarKey = strings.ReplaceAll(contextVarKey, "[*]", "Array")
 			if prefix != "" {
 				fullKey = prefix + "." + key
 			}
@@ -299,12 +305,13 @@ func extractVariablesV2(data any, prefix string, variables *[]models.Variables) 
 				var children []models.Variables
 				extractVariablesV2(value, fullKey, &children)
 				*variables = append(*variables, models.Variables{
-					VarKey:     fullKey,
-					Label:      formatLabel(key),
-					Type:       valueType,
-					IsRequired: true,
-					Value:      toJSONString(value),
-					Children:   children,
+					VarKey:        fullKey,
+					ContextVarKey: contextVarKey,
+					Label:         formatLabel(key),
+					Type:          valueType,
+					IsRequired:    true,
+					Value:         toJSONString(value),
+					Children:      children,
 				})
 			case "array":
 				// Check array elements
@@ -315,12 +322,13 @@ func extractVariablesV2(data any, prefix string, variables *[]models.Variables) 
 					if firstElemType == "object" {
 						extractVariablesV2(arr[0], fullKey+"[*]", &children)
 						*variables = append(*variables, models.Variables{
-							VarKey:     fullKey,
-							Label:      formatLabel(key),
-							Type:       valueType,
-							IsRequired: true,
-							Value:      toJSONString(value),
-							Children:   children,
+							VarKey:        fullKey,
+							ContextVarKey: contextVarKey,
+							Label:         formatLabel(key),
+							Type:          valueType,
+							IsRequired:    true,
+							Value:         toJSONString(value),
+							Children:      children,
 						})
 					}
 
@@ -328,11 +336,12 @@ func extractVariablesV2(data any, prefix string, variables *[]models.Variables) 
 			default:
 				// It's a primitive type (string, number, boolean, null)
 				*variables = append(*variables, models.Variables{
-					VarKey:     fullKey,
-					Label:      formatLabel(key),
-					Type:       valueType,
-					IsRequired: true,
-					Value:      toJSONString(value),
+					VarKey:        fullKey,
+					ContextVarKey: contextVarKey,
+					Label:         formatLabel(key),
+					Type:          valueType,
+					IsRequired:    true,
+					Value:         toJSONString(value),
 				})
 			}
 		}

@@ -3,11 +3,8 @@ package models
 import "encoding/json"
 
 type WorkflowDef struct {
-	NIMB_ID  string         `bson:"nimb_id" json:"nimb_id"`
-	Engine   string         `json:"engine_name"`
 	Pipeline []PipelineStep `json:"pipeline"`
 	Metadata []VariableMeta `json:"variable_metadata"`
-	Audit    Audit          `json:"audit" bson:"audit"`
 }
 
 type VariableMeta struct {
@@ -17,7 +14,7 @@ type VariableMeta struct {
 }
 
 type PipelineStep struct {
-	Type string `json:"type"`
+	Type string `json:"step_type"`
 
 	// Condition fields
 	Statement string         `json:"statement,omitempty"`

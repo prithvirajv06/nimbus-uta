@@ -146,14 +146,14 @@ func (lfs *ExecutionService) HandleRuleExecution(c *gin.Context) {
 		jsCode = cached
 	}
 	if err != nil || cached == "" {
-		jsCode = engine.GenerateScript(eng.Pipeline)
+		jsCode = engine.GenerateScript(*eng)
 		// Cache for future use
 		_ = lfs.redis.Set(c.Request.Context(), redisCacheKey, jsCode, 10*time.Minute)
 	}
 
 	// 4. Execute in the Sandboxed Runtime
 	start := time.Now()
-	finalData, err := engine.Execute(jsCode, req)
+	finalData, logs, err := engine.Execute(jsCode, req)
 	duration := time.Since(start)
 
 	if err != nil {
@@ -166,5 +166,13 @@ func (lfs *ExecutionService) HandleRuleExecution(c *gin.Context) {
 
 	// 5. Return the modified facts and audit info
 	c.Header("X_TIME-TAKEN", strconv.FormatInt(duration.Milliseconds(), 10))
-	c.JSON(http.StatusOK, finalData)
+	if c.GetHeader("X-NIMBUS-DEBUG") == "YES" {
+		c.JSON(http.StatusOK, gin.H{
+			"data": finalData,
+			"logs": logs,
+		})
+		return
+	} else {
+		c.JSON(http.StatusOK, finalData)
+	}
 }

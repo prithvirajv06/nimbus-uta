@@ -12,6 +12,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/prithvirajv06/nimbus-uta/go/engine/config"
+	"github.com/prithvirajv06/nimbus-uta/go/engine/engine"
 	"github.com/prithvirajv06/nimbus-uta/go/engine/internal/handler"
 	"github.com/prithvirajv06/nimbus-uta/go/engine/internal/middleware"
 	"github.com/prithvirajv06/nimbus-uta/go/engine/internal/service"
@@ -22,6 +23,11 @@ import (
 )
 
 func main() {
+	var isTestEngine = true // Set to true to run the test function
+	if isTestEngine {
+		engine.TestGenerateScript()
+		return
+	}
 	file, err := os.OpenFile("application.json", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatalf("Failed to open log file: %v", err)

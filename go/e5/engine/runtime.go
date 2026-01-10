@@ -8,7 +8,7 @@ import (
 )
 
 // Execute runs the compiled script against the input data
-func Execute(script string, inputData map[string]interface{}) (map[string]interface{}, error) {
+func Execute(script string, inputData map[string]interface{}) (map[string]interface{}, []string, error) {
 	vm := goja.New()
 
 	// 1. Setup Input Data
@@ -32,10 +32,11 @@ func Execute(script string, inputData map[string]interface{}) (map[string]interf
 
 	_, err := vm.RunString(script)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	// 4. Extract Modified Data
 	res := vm.Get("data")
-	return res.Export().(map[string]interface{}), nil
+	logs := vm.Get("log")
+	return res.Export().(map[string]interface{}), logs.Export().([]string), nil
 }

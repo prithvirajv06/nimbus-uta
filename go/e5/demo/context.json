@@ -1,0 +1,85 @@
+{
+  "engine_name": "NestedEngine",
+  "description": "Workflow for nested operations and conditions",
+  "variable_metadata": {
+    "var_key": "inputdata",
+    "type": "object"
+  },
+  "pipeline": [
+    {
+      "step_type": "condition",
+      "statement": "inputdata.value > 10",
+      "children": [
+        {
+          "step_type": "assignment",
+          "target": "inputdata.status",
+          "value": "\"high\""
+        }
+      ]
+    },
+    {
+      "step_type": "condition",
+      "statement": "!(inputdata.value > 10)",
+      "children": [
+        {
+          "step_type": "assignment",
+          "target": "inputdata.status",
+          "value": "\"low\""
+        }
+      ]
+    },
+    {
+      "step_type": "for_each",
+      "target": "inputdata.items",
+      "context_var": "item",
+      "children": [
+        {
+          "step_type": "assignment",
+          "target": "processed",
+          "value": "item.processed"
+        },
+        {
+          "step_type": "condition",
+          "statement": "!item.processed",
+          "children": [
+            {
+              "step_type": "for_each",
+              "target": "item.cupons",
+              "context_var": "cupon",
+              "children": [
+                {
+                  "step_type": "assignment",
+                  "target": "cupon.valid",
+                  "value": "true"
+                },
+                {
+                  "step_type": "for_each",
+                  "target": "cupon.discount_criteria",
+                  "context_var": "discountCriteria",
+                  "children": [
+                    {
+                      "step_type": "condition",
+                      "statement": "discountCriteria.type == \"minimum_purchase\" && discountCriteria.value > 100",
+                      "children": [
+                        {
+                          "step_type": "assignment",
+                          "target": "cupon.valid",
+                          "value": "false"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "step_type": "assignment",
+              "target": "item.processed",
+              "value": "true"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
