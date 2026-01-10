@@ -3886,3 +3886,14 @@
 {"time":"2026-01-10T13:21:41.1489392+05:30","level":"ERROR","msg":"Server failed: listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."}
 {"time":"2026-01-10T13:25:28.3660272+05:30","level":"INFO","msg":"Starting server on port 8080"}
 {"time":"2026-01-10T13:25:28.368152+05:30","level":"ERROR","msg":"Server failed: listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."}
+{"time":"2026-01-10T13:26:35.4625+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2026-01-10T13:26:41.8089415+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-10T13:26:53.6881373+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-10T13:26:53.6881373+05:30","level":"INFO","msg":"Getting next version number for","nimbID":"VAR_PKG_41a2616702d5"}
+{"time":"2026-01-10T13:26:53.6910722+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-10T13:26:53.6910722+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable pacakage created"}
+{"time":"2026-01-10T13:26:53.6947827+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-10T13:26:53.696549+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-10T13:26:53.696549+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-10T14:21:49.5785536+05:30","level":"INFO","msg":"Shutting down server..."}
+{"time":"2026-01-10T14:21:49.579651+05:30","level":"INFO","msg":"Server exited"}
