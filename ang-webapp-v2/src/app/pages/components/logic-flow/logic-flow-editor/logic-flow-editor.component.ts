@@ -25,7 +25,7 @@ interface FlowNode {
   styles: []
 })
 export class LogicFlowEditorComponent {
-  @Input() data: any[] = [
+  data: any[] = [
     {
       type: 'start',
       children: [
