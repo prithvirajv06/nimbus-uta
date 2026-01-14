@@ -13,6 +13,7 @@ import { CommonControlComponent } from './common-control';
       [ngClass]="disabled() ? 'text-gray-400' : 'text-gray-700 dark:text-gray-400'"
       (click)="handleToggle()"
     >
+    {{leftLabel}}
       <div class="relative">
         <div
           class="block transition duration-150 ease-linear h-6 w-11 rounded-full"
@@ -34,9 +35,10 @@ import { CommonControlComponent } from './common-control';
 export class SwitchComponent extends CommonControlComponent implements OnInit {
 
   @Input() label!: string;
+  @Input() leftLabel: string = 'Off';
   @Input() defaultChecked: boolean = false;
   @Input() color: 'blue' | 'gray' = 'blue';
-
+  @Output() change: EventEmitter<Boolean> = new EventEmitter<Boolean>();
 
   isChecked: boolean = false;
 
@@ -47,6 +49,7 @@ export class SwitchComponent extends CommonControlComponent implements OnInit {
   handleToggle() {
     if (this.disabled()) return;
     this.isChecked = !this.isChecked;
+    this.change.emit(this.isChecked);
   }
 
   get switchColors() {

@@ -6,6 +6,7 @@ import { PageBreadcrumbComponent } from '../../../../shared/components/common/pa
 import { MatExpansionModule } from "@angular/material/expansion";
 import { WorkflowItemComponent } from "../workflow/workflow-item.component";
 import { start } from '@popperjs/core';
+import { WorkflowStep } from '../../../../shared/types/workflow-step';
 
 interface FlowNode {
   id: string;
@@ -25,19 +26,24 @@ interface FlowNode {
   styles: []
 })
 export class LogicFlowEditorComponent {
-  @Input() data: any[] = [
+  data: WorkflowStep[] | any = [
     {
       type: 'start',
       children: [
         {
           "type": "assignment",
           "target": "amount",
-          "value": "100"
+          "value": "100",
+          label: '',
+          icon: '',
+          condition_config: []
         },
         {
           "type": "push_array",
           "target": "items",
-          "value": "{\"id\":1}"
+          "value": "{\"id\":1}",
+          label: '',
+          icon: ''
         },
         {
           "type": "condition",
@@ -46,9 +52,14 @@ export class LogicFlowEditorComponent {
             {
               "type": "assignment",
               "target": "status",
-              "value": "approved"
+              "value": "approved",
+              label: '',
+              icon: ''
             }
-          ]
+          ],
+          label: '',
+          icon: '',
+          target: ''
         },
         {
           "type": "for_each",
@@ -58,11 +69,18 @@ export class LogicFlowEditorComponent {
             {
               "type": "assignment",
               "target": "processed",
-              "value": "true"
+              "value": "true",
+              label: '',
+              icon: ''
             }
-          ]
+          ],
+          label: '',
+          icon: ''
         }
-      ]
+      ],
+      label: '',
+      icon: '',
+      target: ''
     },
   ];
 

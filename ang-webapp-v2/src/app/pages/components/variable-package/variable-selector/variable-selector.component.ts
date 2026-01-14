@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, signal, SimpleChanges } from '@angular/core';
 import { InputFieldComponent } from '../../../../shared/components/form/input/input-field.component';
-import { NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { Field, form, required } from '@angular/forms/signals';
 import { LabelComponent } from '../../../../shared/components/form/label/label.component';
 import { ModalComponent } from '../../../../shared/components/ui/modal/modal.component';
@@ -10,6 +10,7 @@ import { RulesCommons } from '../../../../shared/util-fulctions/options';
 @Component({
   selector: 'app-variable-selector',
   imports: [NgClass,
+    CommonModule,
     LabelComponent,
     InputFieldComponent,
     ModalComponent,
@@ -26,6 +27,9 @@ export class VariableSelectorComponent extends RulesCommons implements OnChanges
   @Output() changeInFilter: EventEmitter<ArrayFilter> = new EventEmitter<ArrayFilter>();
   @Output() variableSelectedEvent: EventEmitter<Variable> = new EventEmitter<Variable>();
   @Output() closeEvent: EventEmitter<void> = new EventEmitter<void>();
+  filteredVars: Variable[] = [];
+  @Input() isSelectBox: boolean = false;
+  openChild: { [key: string]: boolean } = {};
   selectedFilterVariable: ArrayFilter = {
     array_name: '',
     property: '',
@@ -34,6 +38,11 @@ export class VariableSelectorComponent extends RulesCommons implements OnChanges
   };
   selectedOperator: string | null = null;
   isVariableFilterOpen: boolean = false;
+
+  constructor() {
+    super();
+    this.filteredVars = this.variables;
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.highlightSelectedVariable(this.selectedVariablePath);
@@ -55,6 +64,7 @@ export class VariableSelectorComponent extends RulesCommons implements OnChanges
 
   setSelectVariable(variable: Variable) {
     this.selectedVariable = variable;
+    this.isVariableFilterOpen = false
     if (variable.type != 'array' && variable.type != 'object') {
       this.variableSelectedEvent.emit(variable);
     }
@@ -117,5 +127,36 @@ export class VariableSelectorComponent extends RulesCommons implements OnChanges
       value: '',
       operator: 'equals',
     });
+  }
+
+  filterSelection(event: any) {
+    const filterValue = event.target.value.toLowerCase();
+    if (filterValue === '') {
+      this.resetVariables();
+    } else {
+      this.filteredVars = this.getFilteredVariables(this.variables, filterValue);
+    }
+  }
+  getFilteredVariables(variables: Variable[], filterValue: string): Variable[] {
+    const filteredVars: Variable[] = [];
+    for (const variable of variables) {
+      if (variable.label.toLowerCase().includes(filterValue) || variable.var_key.toLowerCase().includes(filterValue)) {
+        filteredVars.push(variable);
+      } else if (variable.children && variable.children.length > 0) {
+        const filteredChildren = this.getFilteredVariables(variable.children, filterValue);
+        if (filteredChildren.length > 0) {
+          filteredVars.push({
+            ...variable,
+            children: filteredChildren
+          });
+        }
+      }
+    }
+    return filteredVars;
+  }
+
+  resetVariables() {
+    // Logic to reset variables to original list can be added here
+    this.filteredVars = this.variables;
   }
 }

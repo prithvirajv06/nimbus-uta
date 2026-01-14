@@ -1,3 +1,54 @@
+@if (isSelectBox) {
+<div class="relative w-full">
+    <input type="text"
+        class="w-full cursor-pointer rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pr-11 text-sm shadow-theme-xs placeholder:text
+    -gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800"
+        [placeholder]="selectedVariable ? selectedVariable.label : 'Select Variable'"
+        [value]="selectedVariable ? selectedVariable.label : ''"
+        (click)="isVariableFilterOpen = true;filteredVars = variables" (input)="filterSelection($event)" />
+    <div class="absolute top-0 right-0 mt-3 mr-4 pointer-events-none text-gray-400 dark:text-gray-700">
+        <i class="fa fa-caret-down"></i>
+    </div>
+    @if (isVariableFilterOpen) {
+    <div class="absolute z-10 mt-1 min-w-[600px] max-h-60 rounded-md bg-white shadow-lg">
+        <div
+            class="max-h-60 overflow-y-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <ng-template #recursiveList let-vars>
+                @for (_var of vars; track $index) {
+                <div role="button"
+                    (click)="(!_var.children || _var.children.length === 0) ? setSelectVariable(_var) : (openChild[_var.var_key]=!openChild[_var.var_key])"
+                    class="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-blue-600 hover:text-white"
+                    [ngClass]="isSelected(_var)? 'bg-blue-600 text-white':''">
+                    <span class="top-[-5px] text-red-600 text-[7px] relative">
+                        @if (_var.is_required) {
+                        <i class="fa-solid fa-asterisk text-red-600"></i>
+                        }
+                    </span>
+                    <i [ngClass]="getVarTypeIcon(_var)" class="text-gray-400 dark:text-gray-700"></i>
+                    {{ _var.label }}
+                    @if (_var.children && _var.children.length > 0) {
+                    <span class="ml-2"><i class="fa fa-caret-right"></i></span>
+                    }
+                    @if (isSelected(_var) && !(_var.children && _var.children.length > 0)) {
+                    <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-white">
+                        <i class="fa fa-check"></i>
+                    </span>
+                    }
+                </div>
+                @if (_var.children && _var.children.length > 0 && openChild[_var.var_key]) {
+                <div class="ml-6 border-l border-gray-200 pl-2">
+                    <ng-container *ngTemplateOutlet="recursiveList; context: {$implicit: _var.children}"></ng-container>
+                </div>
+                }
+                }
+            </ng-template>
+            <ng-container *ngTemplateOutlet="recursiveList; context: {$implicit: filteredVars}"></ng-container>
+        </div>
+    </div>  
+    }
+</div>
+}
+@else {
 <div class="flex gap-3">
     <div
         class="relative flex flex-col text-gray-700 bg-white shadow-md w-fit rounded-xl bg-clip-border dark:bg-gray-900 dark:text-gray-100">
@@ -135,3 +186,4 @@
         </div>
     </div>
 </app-modal>
+}
