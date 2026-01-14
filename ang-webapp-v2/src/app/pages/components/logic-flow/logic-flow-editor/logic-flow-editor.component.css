@@ -1,0 +1,22 @@
+.accordion-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease-out, opacity 0.2s ease-out;
+    opacity: 0;
+}
+
+.accordion-wrapper:focus-within .accordion-content,
+.accordion-wrapper.active .accordion-content {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    margin-top: 12px;
+}
+
+.chevron {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-wrapper:focus-within .chevron,
+.accordion-wrapper.active .chevron {
+    transform: rotate(180deg);
+}
