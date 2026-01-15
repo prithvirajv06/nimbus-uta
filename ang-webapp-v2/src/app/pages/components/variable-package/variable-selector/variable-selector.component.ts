@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, signal, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Host, HostListener, Input, OnChanges, Output, signal, SimpleChanges } from '@angular/core';
 import { InputFieldComponent } from '../../../../shared/components/form/input/input-field.component';
 import { CommonModule, NgClass } from '@angular/common';
 import { Field, form, required } from '@angular/forms/signals';
@@ -6,6 +6,7 @@ import { LabelComponent } from '../../../../shared/components/form/label/label.c
 import { ModalComponent } from '../../../../shared/components/ui/modal/modal.component';
 import { ArrayFilter, Variable } from '../../../../shared/types/variable_package';
 import { RulesCommons } from '../../../../shared/util-fulctions/options';
+import { ClickOutsideDirective } from '../../../../shared/directives/clickoutside';
 
 @Component({
   selector: 'app-variable-selector',
@@ -14,6 +15,7 @@ import { RulesCommons } from '../../../../shared/util-fulctions/options';
     LabelComponent,
     InputFieldComponent,
     ModalComponent,
+    ClickOutsideDirective,
     Field],
   templateUrl: './variable-selector.component.html',
   styleUrl: './variable-selector.component.css',
@@ -27,6 +29,8 @@ export class VariableSelectorComponent extends RulesCommons implements OnChanges
   @Output() changeInFilter: EventEmitter<ArrayFilter> = new EventEmitter<ArrayFilter>();
   @Output() variableSelectedEvent: EventEmitter<Variable> = new EventEmitter<Variable>();
   @Output() closeEvent: EventEmitter<void> = new EventEmitter<void>();
+
+
   filteredVars: Variable[] = [];
   @Input() isSelectBox: boolean = false;
   openChild: { [key: string]: boolean } = {};

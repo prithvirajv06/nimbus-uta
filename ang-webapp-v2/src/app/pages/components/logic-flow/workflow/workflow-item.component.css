@@ -1,0 +1,26 @@
+/* Style the element while it is being dragged */
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+/* Style the placeholder (the empty space where the item will land) */
+.cdk-drag-placeholder {
+  opacity: 0.3;
+  background: #e2e8f0; /* slate-200 */
+  border: 2px dashed #cbd5e1;
+}
+
+/* Animate items moving out of the way */
+.cdk-drop-list-dragging .cdk-drag {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Animate the item landing */
+.cdk-drag-animating {
+  transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+}
+    

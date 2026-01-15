@@ -1,58 +1,66 @@
-import { start } from '@popperjs/core';
-import { NgClass } from '@angular/common';
+
+import { CommonModule, JsonPipe, NgClass } from '@angular/common';
 import { Component, Host, HostListener, input, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatExpansionModule } from "@angular/material/expansion";
+import { ɵEmptyOutletComponent } from "@angular/router";
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { moveItemInArray, CdkDragDrop } from '@angular/cdk/drag-drop';
+import { ModalComponent } from "../../../../shared/components/ui/modal/modal.component";
+import { ConditionConfigureComponent } from './condition-configure/condition-configure.component';
+import { WorkflowStep } from '../../../../shared/types/workflow-step';
+import { ConditionHooks } from './hooks/condition.hooks';
+import { WorkflowStepHooks } from './hooks/workflow.step.hooks';
 
 @Component({
   selector: 'app-workflow-item',
-  imports: [NgClass],
-  styles: [`
-    .animate-in {
-      animation: fadeIn 0.2s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateX(-10px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    `],
-  templateUrl: './workflow-item.component.html',
+  imports: [JsonPipe, CommonModule, FormsModule, MatExpansionModule, ɵEmptyOutletComponent,
+    DragDropModule, ModalComponent, ConditionConfigureComponent],
+  styleUrls: ['./workflow-item.component.css'],
+  templateUrl: './workflow-editor.component.html',
 })
-export class WorkflowItemComponent {
-  @Input() data: any[] = [];
-
-  @Input() selectedItem: string | null = null;
-
-  density: 'compact' | 'comfortable' = 'comfortable';
-  explainMode = false;
-  editingId?: string;
-  draggingId?: string;
-
-  // Helper to define styles based on action type
-  getConfigs(type: string) {
-    const configs: FlowNode = {
-      start: { icon: 'fa-play', color: 'bg-green-500', border: 'border-green-100', text: 'Start', isChildApplicable: true },
-      assignment: { icon: 'fa-equals', color: 'bg-blue-500', border: 'border-blue-100', text: 'Set', isChildApplicable: false },
-      push_array: { icon: 'fa-plus', color: 'bg-emerald-500', border: 'border-emerald-100', text: 'Push', isChildApplicable: false },
-      condition: { icon: 'fa-code-branch', color: 'bg-amber-500', border: 'border-amber-200', text: 'If', isChildApplicable: true },
-      for_each: { icon: 'fa-sync-alt', color: 'bg-indigo-600', border: 'border-indigo-200', text: 'For Each', isChildApplicable: true }
-    };
-    return (<any>configs)[type] || configs['assignment'];
+export class WorkflowItemComponent extends WorkflowStepHooks {
+  @Input() workflowData: WorkflowStep[] = [] as WorkflowStep[];
+  @Input() isRoot: boolean = true;
+  isAddStepOpen: { [key: string]: boolean } = {};
+stepOptions = [
+    { type: 'assignment', label: 'Assignment', icon: 'fas fa-edit' },
+    { type: 'push_array', label: 'Push to Array', icon: 'fas fa-plus-square' },
+    { type: 'condition', label: 'Condition', icon: 'fas fa-code-branch' },
+  ];
+  // ... inside your component class
+  drop(event: CdkDragDrop<any[]>) {
+    // moveItemInArray is a helper from CDK that handles the index logic
+    moveItemInArray(
+      event.container.data,
+      event.previousIndex,
+      event.currentIndex
+    );
   }
 
 
-}
+  openStepOption(step: WorkflowStep) {
+    this.isAddStepOpen[step.step_id] = true;
+  }
 
-export interface FlowNode {
-  start: TaskConfig;
-  assignment: TaskConfig;
-  push_array: TaskConfig;
-  condition: TaskConfig;
-  for_each: TaskConfig;
-}
-export interface TaskConfig {
-  icon: string;
-  color: string;
-  border: string;
-  text: string;
-  isChildApplicable: boolean;
+  addStep(step: WorkflowStep, option: any) {
+    const newStep: WorkflowStep = {
+      step_id: this.generateUniqueId(),
+      type: option.type,
+      label: '',
+      icon: '',
+      condition_config: [],
+      children: [],
+      target: ''
+    };
+    if (!step.children) {
+      step.children = [];
+    }
+    step.children.push(newStep);
+    this.isAddStepOpen[step.step_id] = false;
+  }
+
+  generateUniqueId(): string {
+    return 'step-' + Math.random().toString(36).substr(2, 9);
+  }
 }

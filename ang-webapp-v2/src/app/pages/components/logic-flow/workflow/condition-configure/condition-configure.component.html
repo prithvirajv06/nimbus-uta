@@ -1,0 +1,57 @@
+<form class="">
+    <h4 class="mb-6 text-lg font-medium text-gray-800 dark:text-white/90">
+        Condition Configure Window
+    </h4>
+    <div class="grid grid-cols-4 gap-x-6 gap-y-5 sm:grid-cols-4 ">
+        <div class="col-span-1">
+            <app-label>Variable</app-label>
+        </div>
+        <div class="col-span-1">
+            <app-label>Operator</app-label>
+        </div>
+        <div class="col-span-1 sm:col-span-1">
+            <app-label>Value</app-label>
+        </div>
+        <div class="col-span-1 sm:col-span-1">
+            <app-label>Preceding Logic</app-label>
+        </div>
+    </div>
+    @for (item of formGroup.condition_config; track $index) {
+    <div class="grid grid-cols-4  gap-x-6 gap-y-5 sm:grid-cols-4 mb-3">
+        <div class="col-span-1">
+            <app-variable-selector 
+            [variables]="variables" [isSelectBox]="true" (variableSelectedEvent)="item.left_var().setControlValue($event)"></app-variable-selector>
+        </div>
+        <div class="col-span-1">
+            <app-search-select
+                [options]="[
+                    { label: '==', value: '==' },
+                    { label: '!=', value: '!=' },
+                    { label: '>', value: '>' },
+                    { label: '<', value: '<' },
+                    { label: '>=', value: '>=' },
+                    { label: '<=', value: '<=' }
+                ]"
+                [field]="item.operator">
+            </app-search-select>
+        </div>
+        <div class="col-span-1 sm:col-span-1">
+            <app-input-field type="text" placeholder="Value to compare" [field]="item.right_value"/>
+        </div>
+        <div class="col-span-1 sm:col-span-1 flex justify-center items-center">
+            <app-switch label="AND" leftLabel="OR" [defaultChecked]="true" [field]="item.preceeding_logic"
+                (change)="item?.preceeding_logic()?.setControlValue(($event) ? 'AND' : 'OR');"></app-switch>
+                <i class="fas fa-times text-red-500 ml-4 cursor-pointer" (click)="removeCondition($index)"></i>
+        </div>
+    </div>
+    }
+    <app-button size="sm" variant="outline" class="mt-4 flex items-center gap-2" (btnClick)="addCondition()">
+        <i class="fas fa-plus text-xs"></i> Add Condition
+    </app-button>
+    <div class="flex items-center justify-end w-full gap-3 mt-6">
+        <app-button size="sm" variant="outline" (btnClick)="onCancel.emit()">
+            Close
+        </app-button>
+        <app-button size="sm" (btnClick)="saveConfiguration()"> Save Changes </app-button>
+    </div>
+</form>

@@ -1,5 +1,5 @@
 // flow-builder.component.ts
-import { Component, Input } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PageBreadcrumbComponent } from '../../../../shared/components/common/page-breadcrumb/page-breadcrumb.component';
@@ -29,55 +29,6 @@ export class LogicFlowEditorComponent {
   data: WorkflowStep[] | any = [
     {
       type: 'start',
-      children: [
-        {
-          "type": "assignment",
-          "target": "amount",
-          "value": "100",
-          label: '',
-          icon: '',
-          condition_config: []
-        },
-        {
-          "type": "push_array",
-          "target": "items",
-          "value": "{\"id\":1}",
-          label: '',
-          icon: ''
-        },
-        {
-          "type": "condition",
-          "statement": "amount > 50",
-          "children": [
-            {
-              "type": "assignment",
-              "target": "status",
-              "value": "approved",
-              label: '',
-              icon: ''
-            }
-          ],
-          label: '',
-          icon: '',
-          target: ''
-        },
-        {
-          "type": "for_each",
-          "target": "items",
-          "context_var": "item",
-          "children": [
-            {
-              "type": "assignment",
-              "target": "processed",
-              "value": "true",
-              label: '',
-              icon: ''
-            }
-          ],
-          label: '',
-          icon: ''
-        }
-      ],
       label: '',
       icon: '',
       target: ''
@@ -95,5 +46,4 @@ export class LogicFlowEditorComponent {
     };
     return configs[type] || configs['assignment'];
   }
-
 }
