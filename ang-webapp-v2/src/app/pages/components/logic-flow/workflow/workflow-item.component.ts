@@ -15,7 +15,7 @@ import { WorkflowStepHooks } from './hooks/workflow.step.hooks';
 @Component({
   selector: 'app-workflow-item',
   imports: [JsonPipe, CommonModule, FormsModule, MatExpansionModule, ɵEmptyOutletComponent,
-    DragDropModule, ModalComponent, ConditionConfigureComponent],
+    DragDropModule, ModalComponent, ConditionConfigureComponent, NgClass],
   styleUrls: ['./workflow-item.component.css'],
   templateUrl: './workflow-editor.component.html',
 })
@@ -23,9 +23,9 @@ export class WorkflowItemComponent extends WorkflowStepHooks {
   @Input() workflowData: WorkflowStep[] = [] as WorkflowStep[];
   @Input() isRoot: boolean = true;
   isAddStepOpen: { [key: string]: boolean } = {};
-stepOptions = [
+  stepOptions = [
     { type: 'assignment', label: 'Assignment', icon: 'fas fa-edit' },
-    { type: 'push_array', label: 'Push to Array', icon: 'fas fa-plus-square' },
+    { type: 'for_each', label: 'Loop for Each', icon: 'fas fa-sync-alt' },
     { type: 'condition', label: 'Condition', icon: 'fas fa-code-branch' },
   ];
   // ... inside your component class
@@ -39,11 +39,11 @@ stepOptions = [
   }
 
 
-  openStepOption(step: WorkflowStep) {
-    this.isAddStepOpen[step.step_id] = true;
+  openStepOption(step: WorkflowStep, prefix: string = "") {
+    this.isAddStepOpen[step.step_id + prefix] = true;
   }
 
-  addStep(step: WorkflowStep, option: any) {
+  addStep(step: WorkflowStep, option: any, isTrue: boolean = false, isFalse: boolean = false, prefix: string = "") {
     const newStep: WorkflowStep = {
       step_id: this.generateUniqueId(),
       type: option.type,
@@ -53,6 +53,22 @@ stepOptions = [
       children: [],
       target: ''
     };
+    if (isTrue) {
+      if (!step.true_children) {
+        step.true_children = [];
+      }
+      step.true_children.push(newStep);
+      this.isAddStepOpen[step.step_id + prefix] = false;
+      return;
+    }
+    if (isFalse) {
+      if (!step.false_children) {
+        step.false_children = [];
+      }
+      step.false_children.push(newStep);
+      this.isAddStepOpen[step.step_id] = false;
+      return;
+    }
     if (!step.children) {
       step.children = [];
     }
@@ -62,5 +78,51 @@ stepOptions = [
 
   generateUniqueId(): string {
     return 'step-' + Math.random().toString(36).substr(2, 9);
+  }
+
+
+  moveStepUp(node: any) {
+    const arr = this.findParentArray(node);
+    const idx = arr.indexOf(node);
+    if (idx > 0) {
+      [arr[idx - 1], arr[idx]] = [arr[idx], arr[idx - 1]];
+    }
+  }
+
+  moveStepDown(node: any) {
+    const arr = this.findParentArray(node);
+    const idx = arr.indexOf(node);
+    if (idx < arr.length - 1) {
+      [arr[idx], arr[idx + 1]] = [arr[idx + 1], arr[idx]];
+    }
+  }
+
+  // Helper to find the parent array of a node
+  findParentArray(node: any): any[] {
+    // Example: search workflowData and all children recursively
+    // You may need to adjust this logic based on your data structure
+    const search = (arr: any[]): any[] | null => {
+      if (arr.includes(node)) return arr;
+      for (const item of arr) {
+        if (item.children) {
+          const found = search(item.children);
+          if (found) return found;
+        }
+        if (item.true_children) {
+          const found = search(item.true_children);
+          if (found) return found;
+        }
+        if (item.false_children) {
+          const found = search(item.false_children);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+    return search(this.workflowData) || this.workflowData;
+  }
+
+  getDynamicBorder() {
+    return this.isRoot ? 'border-indigo-300' : 'border-slate-300';
   }
 }
