@@ -94,6 +94,7 @@ export class CommonEditorComponent<T> extends RulesCommons implements CommonEdit
     }
 
     saveDetails() {
+        this.beforeSaveDetails();
         if (this.formGroup().valid()) {
             const formValue: T | any = this.formGroup().value();
             // Update existing variable package
@@ -104,6 +105,10 @@ export class CommonEditorComponent<T> extends RulesCommons implements CommonEdit
         } else {
             this.notificationService.error('Please fill in all required fields.', 10);
         }
+    }
+
+    beforeSaveDetails(): void {
+        // Optional hook for subclasses to implement additional logic before saving details
     }
 
     cancelEdit() {

@@ -2,16 +2,16 @@ import { Variable } from "./variable_package";
 
 export interface WorkflowStep {
     step_id: string;
-    type: 'trigger' | 'loop' | 'condition' | 'action' | 'start' | 'end' | 'assignment' | 'push_array' | 'for_each';
+    type: any;
     label: string;
     icon: string;
     target: string;
     value?: string;
     statement?: string;
     statementLabel?: string;
-    children?: WorkflowStep[];
-    true_children?: WorkflowStep[]; // For the "ELSE" branch
-    false_children?: WorkflowStep[]; // For the "IF" branch
+    children: WorkflowStep[];
+    true_children: WorkflowStep[]; // For the "ELSE" branch
+    false_children: WorkflowStep[]; // For the "IF" branch
     isOpen?: boolean;
     context_var?: string; // For loop context variable
     condition_config: ConditionConfig[]

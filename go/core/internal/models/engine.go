@@ -1,31 +1,40 @@
 package models
 
-import "encoding/json"
+// WorkflowStep represents a node in the workflow graph
+type WorkflowStep struct {
+	StepID         string  `json:"step_id"`
+	Type           string  `json:"type"` // use interface{} if < Go 1.18
+	Label          string  `json:"label"`
+	Icon           string  `json:"icon"`
+	Target         string  `json:"target"`
+	Value          *string `json:"value,omitempty"`
+	Statement      *string `json:"statement,omitempty"`
+	StatementLabel *string `json:"statementLabel,omitempty"`
 
-type WorkflowDef struct {
-	Pipeline []PipelineStep `json:"pipeline"`
-	Metadata []VariableMeta `json:"variable_metadata"`
+	Children      []WorkflowStep `json:"children,omitempty"`
+	TrueChildren  []WorkflowStep `json:"true_children,omitempty"`  // IF branch
+	FalseChildren []WorkflowStep `json:"false_children,omitempty"` // ELSE branch
+
+	IsOpen     *bool   `json:"isOpen,omitempty"`
+	ContextVar *string `json:"context_var,omitempty"`
+
+	ConditionConfig []ConditionConfig `json:"condition_config,omitempty"`
 }
 
-type VariableMeta struct {
-	Key   string      `json:"var_key"`
-	Type  string      `json:"type"`
-	Value interface{} `json:"value"`
+type LogicalOperator string
+
+const (
+	AND LogicalOperator = "AND"
+	OR  LogicalOperator = "OR"
+)
+
+type ConditionConfig struct {
+	LeftVar         Variables       `json:"left_var"`
+	Operator        string          `json:"operator"`
+	RightValue      any             `json:"right_value"`
+	PreceedingLogic LogicalOperator `json:"preceeding_logic"`
 }
 
-type PipelineStep struct {
-	Type string `json:"step_type"`
-
-	// Condition fields
-	Statement string         `json:"statement,omitempty"`
-	Children  []PipelineStep `json:"children,omitempty"`
-
-	// Assignment/Array fields
-	Target string          `json:"target,omitempty"`
-	Value  json.RawMessage `json:"value,omitempty"` // Keep raw to handle "Strings" vs Objects {}
-	// Network fields
-	URL    string `json:"url,omitempty"`
-	Method string `json:"method,omitempty"`
-	//Local Variable to store result
-	ContextVar string `json:"context_var,omitempty"`
+func (w *WorkflowStep) IsConditional() bool {
+	return len(w.TrueChildren) > 0 || len(w.FalseChildren) > 0
 }

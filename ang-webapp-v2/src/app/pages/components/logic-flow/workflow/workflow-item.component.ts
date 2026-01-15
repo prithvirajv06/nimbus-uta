@@ -51,7 +51,9 @@ export class WorkflowItemComponent extends WorkflowStepHooks {
       icon: '',
       condition_config: [],
       children: [],
-      target: ''
+      target: '',
+      true_children: [],
+      false_children: []
     };
     if (isTrue) {
       if (!step.true_children) {

@@ -7,6 +7,6 @@ type LogicFlow struct {
 	Active          bool            `bson:"active" json:"active"`
 	NoOfBranches    int             `bson:"no_of_branches" json:"no_of_branches"`
 	VariablePackage VariablePackage `bson:"variable_package" json:"variable_package"`
-	LogicalSteps    []WorkflowDef   `bson:"logical_steps" json:"logical_steps"`
+	LogicalSteps    []WorkflowStep  `bson:"logical_steps" json:"logical_steps"`
 	Audit           Audit           `bson:"audit" json:"audit"`
 }
