@@ -46,7 +46,6 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> {
       type: 'start',
       label: '',
       icon: '',
-      target: ''
     },
   ];
 
@@ -60,8 +59,7 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> {
   }
 
   override setFormGroup(): void {
-    // No additional validations for now
-    this.formGroup = LogicFlowUtils.detailsFormGroup(this.formModel);
+    this.formGroup = LogicFlowUtils.formModuleWithNoveltyValidations(this.formModel);
   }
 
   override afterGetDetails(): void {
@@ -69,7 +67,6 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> {
       type: 'start',
       label: '',
       icon: '',
-      target: ''
     }];
     this.getVariablePackage();
   }

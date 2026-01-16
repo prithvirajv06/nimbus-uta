@@ -25,4 +25,5 @@ type Variables struct {
 	IsRequired         bool        `bson:"is_required" json:"is_required"`
 	Value              interface{} `bson:"value" json:"value"`
 	Children           []Variables `bson:"children,omitempty" json:"children,omitempty"`
+	IsClickable        bool        `bson:"_" json:"_"`
 }

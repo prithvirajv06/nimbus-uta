@@ -223,4 +223,37 @@ export class WorkflowItemComponent {
     this.selectedNodeForConfig = {} as WorkflowStep;
   }
 
+
+  //Assignment Config
+  openAssignmentConfig(node: WorkflowStep, parentVar: Variable): void {
+    this.selectedNodeForConfig = node;
+    this.isConfigPanOpen = true;
+    this.configType = 'assignment';
+    this.parentVar = parentVar;
+    this.configDrawTitle = 'Configure Assignment';
+  }
+
+  closeAssignmentConfig(): void {
+    this.isConfigPanOpen = false;
+    this.selectedNodeForConfig = {} as WorkflowStep;
+  }
+
+  saveAssignmentConfig(updatedNode: WorkflowStep): void {
+    Object.assign(this.selectedNodeForConfig, updatedNode);
+    this.closeAssignmentConfig();
+    this.isConfigPanOpen = false;
+    this.selectedNodeForConfig = {} as WorkflowStep;
+  }
+  deleteConfig(deletedNode: WorkflowStep): void {
+    const parentArray = this.findActualParentArray(deletedNode, this.workflowData);
+    if (parentArray) {
+      const index = parentArray.indexOf(deletedNode);
+      if (index > -1) {
+        parentArray.splice(index, 1);
+      }
+    }
+    this.closeAssignmentConfig();
+    this.isConfigPanOpen = false;
+    this.selectedNodeForConfig = {} as WorkflowStep;
+  }
 }

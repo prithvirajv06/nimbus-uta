@@ -1,0 +1,39 @@
+<form>
+    <div class="mb-4">
+        <app-label>Select variable to assign value to</app-label>
+        <app-variable-selector [variables]="applicableVariables" [isSelectBox]="true"
+        [selectedVariablePath]="assignmentNode.target.var_key"
+            (variableSelectedEvent)="formGroup.target_variable().setControlValue($event)"></app-variable-selector>
+    </div>
+    <app-label class="mt-4">Value to assign</app-label>
+    @if (formGroup().value().target_variable) {
+    @switch (formGroup().value().target_variable.type) {
+    @case ('string') {
+    <app-input-field type="text" placeholder="Enter string value" [field]="formGroup.value_to_assign"></app-input-field>
+    }
+    @case ('array') {
+    <app-text-area [field]="formGroup.value_to_assign"></app-text-area>
+    }
+    @case ('boolean') {
+    <app-switch label="True" leftLabel="False" [defaultChecked]="false"
+        [field]="formGroup.value_to_assign"></app-switch>
+    }
+    @default {
+    <app-input-field type="text" [field]="formGroup.value_to_assign"></app-input-field>
+    }
+    }
+    }
+</form>
+<div class="flex items-center justify-end w-full gap-3 mt-6">
+    <app-button size="sm" variant="outline" (btnClick)="onCancel.emit()">
+        Close
+    </app-button>
+    <app-button size="sm" (btnClick)="saveConfiguration()"> Save Changes </app-button>
+</div>
+
+<hr class="my-6" />
+<div class="flex items-center justify-end w-full gap-3 mt-6">
+    <app-button size="sm" variant="danger" (btnClick)="onDelete.emit(assignmentNode)">
+        Delete Assignment
+    </app-button>
+</div>

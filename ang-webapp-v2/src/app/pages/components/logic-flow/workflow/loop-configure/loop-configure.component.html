@@ -1,6 +1,7 @@
 <form>
     <app-label>Select attribute to lookup</app-label>
     <app-variable-selector [variables]="applicableVariables" [isSelectBox]="true"
+    [selectedVariablePath]="loopNode.target.var_key"
         (variableSelectedEvent)="selectedVar = $event"></app-variable-selector>
 </form>
 
@@ -9,4 +10,10 @@
         Close
     </app-button>
     <app-button size="sm" (btnClick)="saveLoopConfiguration()"> Save Changes </app-button>
+</div>
+<hr class="my-6" />
+<div class="flex items-center justify-end w-full gap-3 mt-6">
+    <app-button size="sm" variant="danger" (btnClick)="onDelete.emit(loopNode)">
+        Delete Loop
+    </app-button>
 </div>

@@ -23,7 +23,7 @@ import (
 )
 
 func main() {
-	var isTestEngine = true // Set to true to run the test function
+	var isTestEngine = false // Set to true to run the test function
 	if isTestEngine {
 		engine.TestGenerateScript()
 		return

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, model, ChangeDetectionStrategy, input } from '@angular/core';
 import { DisabledReason, FormCheckboxControl, ValidationError } from '@angular/forms/signals';
+import { CommonControlComponent } from './common-control';
 
 @Component({
   selector: 'app-checkbox',
@@ -73,7 +74,7 @@ import { DisabledReason, FormCheckboxControl, ValidationError } from '@angular/f
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CheckboxComponent implements FormCheckboxControl {
+export class CheckboxComponent implements FormCheckboxControl{
 
   @Input() label?: string;
   @Input() className = '';

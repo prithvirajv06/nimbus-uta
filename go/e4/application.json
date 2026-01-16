@@ -1,1 +1,8 @@
 {"time":"2026-01-10T06:57:06.4966675+05:30","level":"INFO","msg":"Starting server on port 5050"}
+{"time":"2026-01-16T23:13:45.4050143+05:30","level":"INFO","msg":"No .env file found, using environment variables"}
+{"time":"2026-01-16T23:13:45.4289066+05:30","level":"INFO","msg":"Failed to connect to MongoDB: connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism \"SCRAM-SHA-1\": (AuthenticationFailed) Authentication failed."}
+{"time":"2026-01-16T23:14:17.0430142+05:30","level":"INFO","msg":"No .env file found, using environment variables"}
+{"time":"2026-01-16T23:14:17.0713873+05:30","level":"INFO","msg":"Failed to connect to MongoDB: connection() error occurred during connection handshake: auth error: sasl conversation error: unable to authenticate using mechanism \"SCRAM-SHA-1\": (AuthenticationFailed) Authentication failed."}
+{"time":"2026-01-16T23:16:51.4839793+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2026-01-16T23:16:51.4855274+05:30","level":"ERROR","msg":"Server failed: listen tcp :8080: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."}
+{"time":"2026-01-16T23:17:04.5230791+05:30","level":"INFO","msg":"Starting server on port 5050"}

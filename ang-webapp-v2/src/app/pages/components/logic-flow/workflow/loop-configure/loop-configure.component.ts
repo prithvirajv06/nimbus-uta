@@ -19,40 +19,27 @@ export class LoopConfigureComponent implements AfterContentInit {
   selectedVar: Variable = {} as Variable;
   @Output() onSave = new EventEmitter<WorkflowStep>();
   @Output() onCancel = new EventEmitter<void>();
-
+  @Output() onDelete = new EventEmitter<WorkflowStep>();
 
   constructor() { }
 
 
+
   ngAfterContentInit(): void {
-    this.getArrayVariables(this.variables);
-    this.filterVariableBasedOnHirarchy();
+    this.applicableVariables = this.getApplicableTypeVars(this.variables, ['array'], false);
   }
 
-  getArrayVariables(variable: Variable[]) {
+  getApplicableTypeVars(variable: Variable[], allowedType: string[], isCrossedArray: boolean): Variable[] {
     for (let varItem of variable) {
-      if (varItem.type === 'array') {
-        varItem.children = [];
-        this.applicableVariables.push(varItem);
-      }
       if (varItem.children && varItem.children.length > 0) {
-        this.getArrayVariables(varItem.children);
+        varItem.children = this.getApplicableTypeVars(varItem.children, allowedType, isCrossedArray || varItem.type === 'array');
+        varItem.isClickable = varItem.children.every(child => child.isClickable
+          || (allowedType.includes(varItem.type) && !isCrossedArray)
+          || (this.parentVar && this.parentVar.var_key && this.parentVar.var_key.includes(varItem.var_key) && varItem.type == 'array'));
       }
     }
+    return variable;
   }
-
-  filterVariableBasedOnHirarchy() {
-    if (this.parentVar)
-      this.applicableVariables.forEach((varItem) => {
-        if (this.parentVar && !this.parentVar.var_key.includes(varItem.var_key)) {
-          const index = this.applicableVariables.indexOf(varItem);
-          if (index > -1) {
-            this.applicableVariables.splice(index, 1);
-          }
-        }
-      });
-  }
-
 
   saveLoopConfiguration() {
     this.loopNode.target = this.selectedVar;

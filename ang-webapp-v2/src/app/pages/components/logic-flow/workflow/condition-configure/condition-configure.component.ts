@@ -22,12 +22,13 @@ import { ClickOutsideDirective } from '../../../../../shared/directives/clickout
 })
 export class ConditionConfigureComponent implements OnInit {
 
-  @Input({ required: true }) conditionNode: WorkflowStep | null = null;
+  @Input({ required: true }) conditionNode: WorkflowStep = {} as WorkflowStep;
   @Input({ required: true }) variables: Variable[] = [];
   @Input({ required: true }) parentVar: Variable = {} as Variable;
   @Output() onSave = new EventEmitter<WorkflowStep>();
   @Output() onCancel = new EventEmitter<void>();
-
+  @Output() onDelete = new EventEmitter<WorkflowStep>();
+  applicableVariables: Variable[] = [];
   notificationService = inject(NotificationService);
 
   workflowStep: WritableSignal<WorkflowStep> = signal(this.conditionNode as WorkflowStep);
@@ -39,6 +40,26 @@ export class ConditionConfigureComponent implements OnInit {
       required(config.right_value, { message: 'Right Value is required' });
     });
   });
+
+
+  ngAfterContentInit(): void {
+    console.log('Parent:', this.parentVar)
+    this.applicableVariables = this.getApplicableTypeVars(this.variables, ['string', 'number', 'boolean', 'object'], false);
+  }
+
+  getApplicableTypeVars(variable: Variable[], allowedType: string[], isCrossedArray: boolean): Variable[] {
+    for (let varItem of variable) {
+      if (varItem.children && varItem.children.length > 0) {
+        varItem.children = this.getApplicableTypeVars(varItem.children, allowedType, isCrossedArray || varItem.type === 'array');
+        varItem.isClickable = varItem.children.every(child => child.isClickable) && allowedType.includes(varItem.type) && !isCrossedArray;
+      }
+      if ((allowedType.includes(varItem.type) && !isCrossedArray)
+        || (allowedType.includes(varItem.type) && this.parentVar && varItem.var_key.includes(this.parentVar.var_key))) {
+        varItem.isClickable = true;
+      }
+    }
+    return variable;
+  }
 
   ngOnInit(): void {
     if (!this.conditionNode || !this.conditionNode.condition_config || this.conditionNode.condition_config.length == 0) {
@@ -63,6 +84,8 @@ export class ConditionConfigureComponent implements OnInit {
       } as WorkflowStep);
       this.formGroup().setControlValue(this.workflowStep());
       console.log('Initialized workflowStep:', this.workflowStep());
+    }else{
+      this.formGroup().setControlValue(this.conditionNode);
     }
   }
 

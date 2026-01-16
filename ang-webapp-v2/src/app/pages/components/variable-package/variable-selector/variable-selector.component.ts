@@ -7,6 +7,7 @@ import { ModalComponent } from '../../../../shared/components/ui/modal/modal.com
 import { ArrayFilter, Variable } from '../../../../shared/types/variable_package';
 import { RulesCommons } from '../../../../shared/util-fulctions/options';
 import { ClickOutsideDirective } from '../../../../shared/directives/clickoutside';
+import { CheckboxComponent } from "../../../../shared/components/form/input/checkbox.component";
 
 @Component({
   selector: 'app-variable-selector',
@@ -16,7 +17,7 @@ import { ClickOutsideDirective } from '../../../../shared/directives/clickoutsid
     InputFieldComponent,
     ModalComponent,
     ClickOutsideDirective,
-    Field],
+    Field, CheckboxComponent],
   templateUrl: './variable-selector.component.html',
   styleUrl: './variable-selector.component.css',
 })
@@ -53,23 +54,49 @@ export class VariableSelectorComponent extends RulesCommons implements OnChanges
   }
 
   highlightSelectedVariable(path: string): void {
-    if (path && this.variables.length > 0) {
-      const foundVar = this.variables.find((v: Variable) => v.var_key === path);
-      if (foundVar) {
-        this.selectedVariable = foundVar;
+    // if (path && this.variables.length > 0) {
+    //   const foundVar = this.variables.find((v: Variable) => v.var_key === path);
+    //   if (foundVar) {
+    //     this.selectedVariable = foundVar;
+    //     return;
+    //   } else {
+    //     path = path.substring(0, path.lastIndexOf('[*') != -1 ? path.lastIndexOf('[*') : path.lastIndexOf('.'));
+    //     this.highlightSelectedVariable(path);
+    //   }
+    // }
+    for (let variable of this.variables) {
+      const result = this.searchVariableByPath(variable, path);
+      if (result) {
+        this.selectedVariable = result;
         return;
-      } else {
-        path = path.substring(0, path.lastIndexOf('[') != -1 ? path.lastIndexOf('[') : path.lastIndexOf('.'));
-        this.highlightSelectedVariable(path);
       }
     }
+  }
+
+  searchVariableByPath(variable: Variable, path: string): Variable | null {
+    if (variable.var_key === path) {
+      return variable;
+    }
+    if (variable.children && variable.children.length > 0) {
+      for (let child of variable.children) {
+        const result = this.searchVariableByPath(child, path);
+        if (result) {
+          return result;
+        }
+      }
+    }
+    return null;
+  }
+
+  toggleChild(variable: Variable) {
+    this.openChild[variable.var_key] = !this.openChild[variable.var_key];
   }
 
 
   setSelectVariable(variable: Variable) {
     this.selectedVariable = variable;
     this.isVariableFilterOpen = false
-    if (!variable.children  || variable.children.length == 0) {
+    if (variable.isClickable) {
       this.variableSelectedEvent.emit(variable);
     }
   }

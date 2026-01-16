@@ -28,6 +28,7 @@ export interface Variable {
   value: any;
   children: Variable[];
   array_filters?: ArrayFilter[]
+  isClickable?: boolean;
 }
 
 export interface ArrayFilter {

@@ -16,7 +16,14 @@ export interface LogicFlow {
     audit: Audit;
 }
 
-export const LogicFlowUtils: FormGroupUtilsContract<LogicFlow> = {
+export interface LogicFormGroupUtils<T> {
+    signalModel(): WritableSignal<T>,
+    basicFormGroup(formModel: WritableSignal<T>): any,
+    detailsFormGroup(formModel: WritableSignal<T>): any,
+    formModuleWithNoveltyValidations(formModel: WritableSignal<T>): any
+}
+
+export const LogicFlowUtils: LogicFormGroupUtils<LogicFlow> = {
     signalModel(): any {
         return signal<LogicFlow>({
             nimb_id: "",
@@ -78,6 +85,13 @@ export const LogicFlowUtils: FormGroupUtilsContract<LogicFlow> = {
             required(schema.variable_package.nimb_id, { message: "Number of branches is required." });
             required(schema.description, { message: "Description is required." });
             applyEach(schema.logical_steps, validateStep);
+        });
+    },
+    formModuleWithNoveltyValidations(formModel: WritableSignal<LogicFlow>): any {
+        return form<LogicFlow>(formModel, (schema) => {
+            required(schema.name, { message: "Logic Flow name is required." });
+            required(schema.variable_package.nimb_id, { message: "Number of branches is required." });
+            required(schema.description, { message: "Description is required." });
         });
     },
     basicFormGroup(formModel: WritableSignal<LogicFlow>): any {

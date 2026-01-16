@@ -17,7 +17,9 @@
     <div class="grid grid-cols-4  gap-x-6 gap-y-5 sm:grid-cols-4 mb-3">
         <div class="col-span-1">
             <app-variable-selector 
-            [variables]="variables" [isSelectBox]="true" (variableSelectedEvent)="item.left_var().setControlValue($event)"></app-variable-selector>
+            [selectedVariablePath]="item.left_var().value().var_key"
+            [variables]="applicableVariables" [isSelectBox]="true"
+             (variableSelectedEvent)="item.left_var().setControlValue($event)"></app-variable-selector>
         </div>
         <div class="col-span-1">
             <app-search-select
@@ -52,3 +54,10 @@
         <app-button size="sm" (btnClick)="saveConfiguration()"> Save Changes </app-button>
     </div>
 </form>
+
+<hr class="my-6" />
+<div class="flex items-center justify-end w-full gap-3 mt-6">
+    <app-button size="sm" variant="danger" (btnClick)="onDelete.emit(conditionNode)">
+        Delete Condition
+    </app-button>
+</div>

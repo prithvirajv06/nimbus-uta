@@ -11,9 +11,9 @@ import (
 )
 
 // GenerateScript compiles the JSON pipeline into a JS function
-func GenerateScript(wfDef models.WorkflowDef) string {
+func GenerateScript(wfDef models.LogicFlow) string {
 	slog.Info("Generating Script for Workflow", "nimb_id", wfDef.NIMB_ID)
-	var steps []models.PipelineStep = wfDef.Pipeline
+	var steps []models.WorkflowStep = wfDef.LogicalSteps
 	var buffer bytes.Buffer
 
 	// 1. Inject Helper Functions (The "Standard Library" of our engine)
@@ -34,7 +34,7 @@ func GenerateScript(wfDef models.WorkflowDef) string {
 	if len(wfDef.Metadata) > 0 {
 		for _, v := range wfDef.Metadata {
 			valStr, _ := json.Marshal(v.Value)
-			buffer.WriteString(fmt.Sprintf("%s = %s;\n", v.Key, string(valStr)))
+			buffer.WriteString(fmt.Sprintf("%s = %s;\n", v.VarKey, string(valStr)))
 		}
 	}
 	// 4. Compile Pipeline Steps
@@ -43,7 +43,7 @@ func GenerateScript(wfDef models.WorkflowDef) string {
 	return buffer.String()
 }
 
-func compileSteps(steps []models.PipelineStep, indent int, isRoot bool) string {
+func compileSteps(steps []models.WorkflowStep, indent int, isRoot bool) string {
 	var out bytes.Buffer
 	pad := strings.Repeat("  ", indent)
 
@@ -68,76 +68,88 @@ func compileSteps(steps []models.PipelineStep, indent int, isRoot bool) string {
 	return out.String()
 }
 
-func assignmentStep(out *bytes.Buffer, step models.PipelineStep, pad string, isRoot bool) {
+func assignmentStep(out *bytes.Buffer, step models.WorkflowStep, pad string, isRoot bool) {
 	// Generate:
 	// We strip "data." from the path for the helper, as we pass 'data' as root
+	var targetStr string
 	if isRoot {
-		step.Target = "data." + step.Target
+		targetStr = "data." + step.Target.VarKey
+	} else {
+		targetStr = step.Target.VarKey
 	}
-	valStr := string(step.Value)
+	valStr := string(*step.Value)
 	//addLog(information about assignment)
-	out.WriteString(fmt.Sprintf("\n%s addLog('Assigning %s to %s');\n", pad, valStr, step.Target))
-	out.WriteString(fmt.Sprintf("%s %s = %s;", pad, step.Target, valStr))
+	out.WriteString(fmt.Sprintf("\n%s addLog('Assigning %s to %s');\n", pad, valStr, targetStr))
+	out.WriteString(fmt.Sprintf("%s %s = %s;", pad, targetStr, valStr))
 }
 
-func pushArrayStep(out *bytes.Buffer, step models.PipelineStep, pad string, isRoot bool) {
+func pushArrayStep(out *bytes.Buffer, step models.WorkflowStep, pad string, isRoot bool) {
 	// Generate: $push(data, "Transactions", {...});
+	var targetStr string
 	if isRoot {
-		step.Target = "data." + step.Target
+		targetStr = "data." + step.Target.VarKey
+	} else {
+		targetStr = step.Target.VarKey
 	}
-	valStr := string(step.Value)
-	out.WriteString(fmt.Sprintf("\n%s addLog('Pushing %s to %s');\n", pad, valStr, step.Target))
-	out.WriteString(fmt.Sprintf("%s %s.push(JSON.parse(%s));", pad, step.Target, valStr))
+	valStr := string(*step.Value)
+	out.WriteString(fmt.Sprintf("\n%s addLog('Pushing %s to %s');\n", pad, valStr, targetStr))
+	out.WriteString(fmt.Sprintf("%s %s.push(JSON.parse(%s));", pad, targetStr, valStr))
 }
 
-func conditionStep(out *bytes.Buffer, step models.PipelineStep, pad string, indent int, isRoot bool) {
+func conditionStep(out *bytes.Buffer, step models.WorkflowStep, pad string, indent int, isRoot bool) {
 	// Generate: if (data.Age >= 21) { ... }
+	var targetStr string
 	if isRoot {
-		step.Target = "data." + step.Target
+		targetStr = "data." + step.Target.VarKey
+	} else {
+		targetStr = step.Target.VarKey
 	}
 	out.WriteString(fmt.Sprintf("\n%s addLog('Evaluating condition: %s');\n", pad, step.Statement))
 	// Eg Statment amount > 50 && discount < 20
 	// need to convert data.amount > 50 && data.discount < 20
-	if isRoot {
-		step.Statement = strings.ReplaceAll(step.Statement, "data.", "")
-	} else {
-		step.Statement = strings.ReplaceAll(step.Statement, step.Target+".", "")
-	}
 	out.WriteString(fmt.Sprintf("%sif (%s) {", pad, step.Statement))
 	// addLog is condition matching
-	contextVar := step.ContextVar // Add ContextVar to PipelineStep struct
+	contextVar := *step.ContextVar // Add ContextVar to PipelineStep struct
 	if contextVar != "" {
-		out.WriteString(fmt.Sprintf("\n%s  var %s = %s;", pad, contextVar, step.Target))
+		out.WriteString(fmt.Sprintf("\n%s  var %s = %s;", pad, contextVar, targetStr))
 
-		for _, childStep := range step.Children {
-			childStep.Target = strings.ReplaceAll(childStep.Target, strings.Split(childStep.Target, ".")[0]+".", contextVar+".")
+		for _, childStep := range *step.TrueChildren {
+			childStep.Target.VarKey = strings.ReplaceAll(childStep.Target.VarKey, strings.Split(childStep.Target.VarKey, ".")[0]+".", contextVar+".")
 		}
 	}
 	out.WriteString(fmt.Sprintf("\n%s addLog('Condition %s evaluated to true');\n", pad, step.Statement))
-	out.WriteString(compileSteps(step.Children, indent+1, false))
+	out.WriteString(compileSteps(*step.TrueChildren, indent+1, false))
 	out.WriteString(fmt.Sprintf("\n%s}", pad))
+	if len(*step.FalseChildren) > 0 {
+		out.WriteString(fmt.Sprintf(" else {"))
+		out.WriteString(fmt.Sprintf("\n%s addLog('Condition %s evaluated to false');\n", pad, step.Statement))
+		out.WriteString(compileSteps(*step.FalseChildren, indent+1, false))
+		out.WriteString(fmt.Sprintf("\n%s}", pad))
+	}
 }
 
-func networkCallStep(out *bytes.Buffer, step models.PipelineStep, pad string, isRoot bool) {
+func networkCallStep(out *bytes.Buffer, step models.WorkflowStep, pad string, isRoot bool) {
 	// Generate: var result = $http("GET", "url");
 	out.WriteString(fmt.Sprintf("%svar %s = $http('%s', '%s');",
-		pad, step.ContextVar, step.Method, step.URL))
+		pad, *step.ContextVar, step.Type, *step.Value))
 }
 
-func forEachStep(out *bytes.Buffer, step models.PipelineStep, pad string, indent int, isRoot bool) {
+func forEachStep(out *bytes.Buffer, step models.WorkflowStep, pad string, indent int, isRoot bool) {
 	indexVar := fmt.Sprintf("i%d", indent)
 	var arrayPath string
 	if isRoot {
-		arrayPath = "data." + step.Target
+		arrayPath = "data." + step.Target.VarKey
+	} else {
+		arrayPath = step.Target.VarKey
 	}
 	out.WriteString(fmt.Sprintf("\n%s addLog('Iterating over array: %s');\n", pad, arrayPath))
-	contextVar := step.ContextVar // Add ContextVar to PipelineStep struct
+	contextVar := *step.ContextVar // Add ContextVar to PipelineStep struct
 	out.WriteString(fmt.Sprintf("%sfor(var %s=0; %s<%s.length; %s++){", pad, indexVar, indexVar, arrayPath, indexVar))
 	if contextVar != "" {
 		out.WriteString(fmt.Sprintf("\n%s  var %s = %s[%s];", pad, contextVar, arrayPath, indexVar))
 
 		for index, childStep := range step.Children {
-			step.Children[index].Target = contextVar + "." + childStep.Target
+			step.Children[index].Target.VarKey = contextVar + "." + childStep.Target.VarKey
 		}
 	}
 	out.WriteString(compileSteps(step.Children, indent+1, false))

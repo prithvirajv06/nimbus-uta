@@ -22,5 +22,5 @@ func (h *ExecutionHandler) RegisterRoutes(router *gin.RouterGroup) {
 	router.POST("/engines/list", h.service.GetAllEngines)
 	router.DELETE("/engine", h.service.ArchiveEngine)
 	router.PUT("/engine/clone", h.service.CloneEngine)
-	router.POST("/engine/invoke", h.service.HandleRuleExecution)
+	router.POST("/engine/logic-flow", h.service.HandleRuleExecution)
 }
