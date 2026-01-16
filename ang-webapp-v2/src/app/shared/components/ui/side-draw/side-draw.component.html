@@ -1,0 +1,21 @@
+<div class="fixed inset-0 transition-opacity duration-300 ease-in-out z-40 backdrop-blur-sm"
+    [ngClass]="{'opacity-100 visible': isOpen, 'opacity-0 invisible': !isOpen}">
+</div>
+
+<!-- Side Drawer -->
+<div [ngClass]="{'translate-x-0': isOpen, 'translate-x-full': !isOpen}" [ngClass]="className" class="fixed top-20 right-0 h-full  bg-white shadow-2xl transform transition-transform duration-300 ease-in-out z-50
+    flex flex-col backdrop-blur-sm overflow-hidden ">
+
+    <!-- Drawer Header -->
+    <div class="flex items-center justify-between p-6 border-b border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-800">{{title}}</h2>
+        <button (click)="close.emit()">
+            <i class="fas fa-times fa-lg"></i>
+        </button>
+    </div>
+
+    <!-- Drawer Content -->
+    <div class="p-6 overflow-y-auto h-full">
+        <ng-content></ng-content>
+    </div>
+</div>

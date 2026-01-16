@@ -2,19 +2,20 @@ import { Variable } from "./variable_package";
 
 export interface WorkflowStep {
     step_id: string;
-    type: any;
+    type: string; // 'start' | 'task' | 'logic' | 'loop' | 'message' | 'end'
     label: string;
     icon: string;
-    target: string;
-    value?: string;
-    statement?: string;
-    statementLabel?: string;
+    target: Variable; // For Loop will use this to store the target array to loop through
+    value?: any;
     children: WorkflowStep[];
     true_children: WorkflowStep[]; // For the "ELSE" branch
     false_children: WorkflowStep[]; // For the "IF" branch
     isOpen?: boolean;
-    context_var?: string; // For loop context variable
+    context_var?: string; // For loop context variable local variable, In backend will replace the content_var in the target array loop functions
     condition_config: ConditionConfig[]
+    
+    statement: string;
+    statement_label: string;
 }
 
 export interface ConditionConfig {

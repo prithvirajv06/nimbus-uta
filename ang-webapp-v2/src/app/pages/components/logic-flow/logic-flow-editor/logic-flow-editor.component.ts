@@ -12,6 +12,8 @@ import { LogicFlowService } from '../../../../shared/services/logic-flow.service
 import { applyEach, form, minLength, required } from '@angular/forms/signals';
 import { ButtonComponent } from '../../../../shared/components/ui/button/button.component';
 import { LogicFlow, LogicFlowUtils } from '../../../../shared/types/logic-flow.type';
+import { VariablePackageService } from '../../../../shared/services/variable-package.service';
+import { VariablePackage } from '../../../../shared/types/variable_package';
 
 interface FlowNode {
   id: string;
@@ -34,7 +36,9 @@ interface FlowNode {
 })
 export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> {
 
+  variablePackageService = inject(VariablePackageService);
   logicFlowService = inject(LogicFlowService)
+  variablePackage: VariablePackage = {} as VariablePackage;
 
 
   data: WorkflowStep[] | any = [
@@ -67,6 +71,7 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> {
       icon: '',
       target: ''
     }];
+    this.getVariablePackage();
   }
 
   override beforeSaveDetails(): void {
@@ -84,5 +89,19 @@ export class LogicFlowEditorComponent extends CommonEditorComponent<LogicFlow> {
     return configs[type] || configs['assignment'];
   }
 
+
+  getVariablePackage() {
+    const nimb_id = this.formModel().variable_package.nimb_id;
+    const version = this.formModel().variable_package.audit.version;
+    if (version && nimb_id) {
+      this.variablePackageService.get(nimb_id, version).subscribe({
+        next: (res) => {
+          if (res.status === 'success' && res.data) {
+            this.variablePackage = res.data;
+          }
+        }
+      });
+    }
+  }
 
 }

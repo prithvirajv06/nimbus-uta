@@ -1,0 +1,12 @@
+<form>
+    <app-label>Select attribute to lookup</app-label>
+    <app-variable-selector [variables]="applicableVariables" [isSelectBox]="true"
+        (variableSelectedEvent)="selectedVar = $event"></app-variable-selector>
+</form>
+
+<div class="flex items-center justify-end w-full gap-3 mt-6">
+    <app-button size="sm" variant="outline" (btnClick)="onCancel.emit()">
+        Close
+    </app-button>
+    <app-button size="sm" (btnClick)="saveLoopConfiguration()"> Save Changes </app-button>
+</div>

@@ -22,9 +22,12 @@ import { ClickOutsideDirective } from '../../../../../shared/directives/clickout
 })
 export class ConditionConfigureComponent implements OnInit {
 
-  @Input() conditionNode: WorkflowStep | null = null;
+  @Input({ required: true }) conditionNode: WorkflowStep | null = null;
+  @Input({ required: true }) variables: Variable[] = [];
+  @Input({ required: true }) parentVar: Variable = {} as Variable;
   @Output() onSave = new EventEmitter<WorkflowStep>();
   @Output() onCancel = new EventEmitter<void>();
+
   notificationService = inject(NotificationService);
 
   workflowStep: WritableSignal<WorkflowStep> = signal(this.conditionNode as WorkflowStep);
@@ -38,7 +41,7 @@ export class ConditionConfigureComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    if (!this.conditionNode || this.conditionNode.condition_config.length == 0) {
+    if (!this.conditionNode || !this.conditionNode.condition_config || this.conditionNode.condition_config.length == 0) {
 
 
       const defaultConditionConfg: ConditionConfig = {
@@ -90,11 +93,13 @@ export class ConditionConfigureComponent implements OnInit {
 
   saveConfiguration() {
     if (this.formGroup().valid()) {
-      this.notificationService.success('Condition configuration saved successfully.');
+      this.notificationService.success('Condition configuration saved successfully.', 5);
     } else {
-      this.notificationService.error('Form is invalid. Please correct the errors before saving.');
+      this.notificationService.error('Form is invalid. Please correct the errors before saving.', 5);
       return;
     }
+    this.workflowStep().statement_label = this.generateStatementLabel(this.formGroup.condition_config().value());
+    this.workflowStep().statement = this.generateStatement(this.formGroup.condition_config().value());
     const updatedStep: WorkflowStep = {
       ...this.workflowStep(),
       condition_config: this.formGroup.condition_config().value()
@@ -106,49 +111,23 @@ export class ConditionConfigureComponent implements OnInit {
     this.onCancel.emit();
   }
 
-  //** Mock Variable */
-  variables: Variable[] = [
-    {
-      var_key: 'user.age', label: 'User Age', type: 'number', children: [
-        {
-          var_key: 'user.age.years', label: 'User Age in Years', type: 'number',
-          is_required: false,
-          value: undefined,
-          children: []
-        },
-        {
-          var_key: 'user.age.months', label: 'User Age in Months', type: 'number',
-          is_required: false,
-          value: undefined,
-          children: []
-        },
-      ],
-      is_required: false,
-      value: undefined
-    },
-    {
-      var_key: 'user.name', label: 'User Name', type: 'string',
-      is_required: false,
-      value: undefined,
-      children: []
-    },
-    {
-      var_key: 'order.total', label: 'Order Total', type: 'number',
-      is_required: false,
-      value: undefined,
-      children: [{
-        var_key: 'order.total.amount', label: 'Order Total Amount', type: 'number',
-        is_required: false,
-        value: undefined,
-        children: [
-          {
-            var_key: 'order.total.amount.currency', label: 'Currency', type: 'string',
-            is_required: false,
-            value: undefined,
-            children: []
-          },
-        ]
-      }]
-    },
-  ];
+
+
+  generateStatementLabel(conditionConfig: any[]): string {
+    return conditionConfig.map(config => {
+      const leftVar = config.left_var.label || 'undefined';
+      const operator = config.operator || '==';
+      const rightValue = config.right_value || 'undefined';
+      return `${leftVar} ${operator} ${rightValue}`;
+    }).join(` ${conditionConfig[0]?.preceeding_logic || 'AND'} `);
+  }
+
+  generateStatement(conditionConfig: any[]): string {
+    return conditionConfig.map(config => {
+      const leftVar = config.left_var.var_key || 'undefined';
+      const operator = config.operator || '==';
+      const rightValue = config.right_value || 'undefined';
+      return `${leftVar} ${operator} ${rightValue}`;
+    }).join(` ${conditionConfig[0]?.preceeding_logic || 'AND'} `);
+  }
 }

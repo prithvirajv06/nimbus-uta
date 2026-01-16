@@ -69,7 +69,7 @@ export class VariableSelectorComponent extends RulesCommons implements OnChanges
   setSelectVariable(variable: Variable) {
     this.selectedVariable = variable;
     this.isVariableFilterOpen = false
-    if (variable.type != 'array' && variable.type != 'object') {
+    if (!variable.children  || variable.children.length == 0) {
       this.variableSelectedEvent.emit(variable);
     }
   }
