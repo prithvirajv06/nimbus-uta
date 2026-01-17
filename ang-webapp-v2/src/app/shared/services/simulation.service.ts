@@ -15,7 +15,8 @@ export class SimulationService extends CommonService {
                 params: {
                     nimb_id: data.nimb_id, version: data.version, minor_version: data.minor_version,
                     is_debug: 'YES'
-                }
+                },
+                headers: { 'X-NIMBUS-DEBUG': "YES" }
             }
         )
             .pipe(

@@ -28,8 +28,8 @@ func GenerateScript(wfDef models.LogicFlow) string {
 
 	// 2. Start Workflow Execution
 	buffer.WriteString("\n// --- Workflow Execution ---\n")
-	buffer.WriteString("var data = {};\n") // Root data object
-	buffer.WriteString("var log = [];\n")
+	buffer.WriteString("function executeWorkflow(inputData) {\n")
+	buffer.WriteString("var data = inputData;\n") // Root data object
 	//3. Initialize Metadata Variables
 	if len(wfDef.Metadata) > 0 {
 		for _, v := range wfDef.Metadata {
@@ -40,6 +40,8 @@ func GenerateScript(wfDef models.LogicFlow) string {
 	// 4. Compile Pipeline Steps
 	buffer.WriteString(compileSteps(steps, 0, true))
 	slog.Info("Compiled Script", "script", buffer.String())
+	buffer.WriteString("\n return {data: data, log: log};\n")
+	buffer.WriteString("}\n") // End of executeWorkflow function
 	return buffer.String()
 }
 
@@ -63,6 +65,9 @@ func compileSteps(steps []models.WorkflowStep, indent int, isRoot bool) string {
 			forEachStep(&out, step, pad, indent, isRoot)
 		default:
 			slog.Warn("Unknown step type", "type", step.Type)
+			if step.Type == "start" || step.Type == "end" && len(step.Children) > 0 {
+				out.WriteString(compileSteps(step.Children, indent, isRoot))
+			}
 		}
 	}
 	return out.String()
@@ -72,26 +77,27 @@ func assignmentStep(out *bytes.Buffer, step models.WorkflowStep, pad string, isR
 	// Generate:
 	// We strip "data." from the path for the helper, as we pass 'data' as root
 	var targetStr string
-	if isRoot {
-		targetStr = "data." + step.Target.VarKey
-	} else {
-		targetStr = step.Target.VarKey
+	targetStr = step.Target.VarKey
+	valStr := string(step.Value)
+	for _, mapping := range step.ContextMap {
+		targetStr = strings.ReplaceAll(targetStr, mapping.VarKey, mapping.ContextKey)
 	}
-	valStr := string(*step.Value)
 	//addLog(information about assignment)
-	out.WriteString(fmt.Sprintf("\n%s addLog('Assigning %s to %s');\n", pad, valStr, targetStr))
+	if step.Target.Type == "string" {
+		valStr = fmt.Sprintf("'%s'", valStr)
+	}
+	out.WriteString(fmt.Sprintf("\n%s addLog('Assigning %s to %s');\n", pad, strings.ReplaceAll(valStr, "'", ""), targetStr))
 	out.WriteString(fmt.Sprintf("%s %s = %s;", pad, targetStr, valStr))
 }
 
 func pushArrayStep(out *bytes.Buffer, step models.WorkflowStep, pad string, isRoot bool) {
 	// Generate: $push(data, "Transactions", {...});
 	var targetStr string
-	if isRoot {
-		targetStr = "data." + step.Target.VarKey
-	} else {
-		targetStr = step.Target.VarKey
+	targetStr = step.Target.VarKey
+	valStr := string(step.Value)
+	for _, mapping := range step.ContextMap {
+		targetStr = strings.ReplaceAll(targetStr, mapping.VarKey, mapping.ContextKey)
 	}
-	valStr := string(*step.Value)
 	out.WriteString(fmt.Sprintf("\n%s addLog('Pushing %s to %s');\n", pad, valStr, targetStr))
 	out.WriteString(fmt.Sprintf("%s %s.push(JSON.parse(%s));", pad, targetStr, valStr))
 }
@@ -99,31 +105,30 @@ func pushArrayStep(out *bytes.Buffer, step models.WorkflowStep, pad string, isRo
 func conditionStep(out *bytes.Buffer, step models.WorkflowStep, pad string, indent int, isRoot bool) {
 	// Generate: if (data.Age >= 21) { ... }
 	var targetStr string
-	if isRoot {
-		targetStr = "data." + step.Target.VarKey
-	} else {
-		targetStr = step.Target.VarKey
-	}
+	targetStr = step.Target.VarKey
 	out.WriteString(fmt.Sprintf("\n%s addLog('Evaluating condition: %s');\n", pad, step.Statement))
 	// Eg Statment amount > 50 && discount < 20
 	// need to convert data.amount > 50 && data.discount < 20
+	for _, mapping := range step.ContextMap {
+		step.Statement = strings.ReplaceAll(step.Statement, mapping.VarKey, mapping.ContextKey)
+	}
 	out.WriteString(fmt.Sprintf("%sif (%s) {", pad, step.Statement))
 	// addLog is condition matching
-	contextVar := *step.ContextVar // Add ContextVar to PipelineStep struct
+	contextVar := step.ContextVar // Add ContextVar to PipelineStep struct
 	if contextVar != "" {
 		out.WriteString(fmt.Sprintf("\n%s  var %s = %s;", pad, contextVar, targetStr))
 
-		for _, childStep := range *step.TrueChildren {
+		for _, childStep := range step.TrueChildren {
 			childStep.Target.VarKey = strings.ReplaceAll(childStep.Target.VarKey, strings.Split(childStep.Target.VarKey, ".")[0]+".", contextVar+".")
 		}
 	}
 	out.WriteString(fmt.Sprintf("\n%s addLog('Condition %s evaluated to true');\n", pad, step.Statement))
-	out.WriteString(compileSteps(*step.TrueChildren, indent+1, false))
+	out.WriteString(compileSteps(step.TrueChildren, indent+1, false))
 	out.WriteString(fmt.Sprintf("\n%s}", pad))
-	if len(*step.FalseChildren) > 0 {
+	if len(step.FalseChildren) > 0 {
 		out.WriteString(fmt.Sprintf(" else {"))
 		out.WriteString(fmt.Sprintf("\n%s addLog('Condition %s evaluated to false');\n", pad, step.Statement))
-		out.WriteString(compileSteps(*step.FalseChildren, indent+1, false))
+		out.WriteString(compileSteps(step.FalseChildren, indent+1, false))
 		out.WriteString(fmt.Sprintf("\n%s}", pad))
 	}
 }
@@ -131,26 +136,21 @@ func conditionStep(out *bytes.Buffer, step models.WorkflowStep, pad string, inde
 func networkCallStep(out *bytes.Buffer, step models.WorkflowStep, pad string, isRoot bool) {
 	// Generate: var result = $http("GET", "url");
 	out.WriteString(fmt.Sprintf("%svar %s = $http('%s', '%s');",
-		pad, *step.ContextVar, step.Type, *step.Value))
+		pad, step.ContextVar, step.Type, step.Value))
 }
 
 func forEachStep(out *bytes.Buffer, step models.WorkflowStep, pad string, indent int, isRoot bool) {
 	indexVar := fmt.Sprintf("i%d", indent)
 	var arrayPath string
-	if isRoot {
-		arrayPath = "data." + step.Target.VarKey
-	} else {
-		arrayPath = step.Target.VarKey
-	}
+	arrayPath = step.Target.VarKey
 	out.WriteString(fmt.Sprintf("\n%s addLog('Iterating over array: %s');\n", pad, arrayPath))
-	contextVar := *step.ContextVar // Add ContextVar to PipelineStep struct
+	for _, mapping := range step.ContextMap {
+		arrayPath = strings.ReplaceAll(arrayPath, mapping.VarKey, mapping.ContextKey)
+	}
 	out.WriteString(fmt.Sprintf("%sfor(var %s=0; %s<%s.length; %s++){", pad, indexVar, indexVar, arrayPath, indexVar))
+	contextVar := step.ContextVar
 	if contextVar != "" {
 		out.WriteString(fmt.Sprintf("\n%s  var %s = %s[%s];", pad, contextVar, arrayPath, indexVar))
-
-		for index, childStep := range step.Children {
-			step.Children[index].Target.VarKey = contextVar + "." + childStep.Target.VarKey
-		}
 	}
 	out.WriteString(compileSteps(step.Children, indent+1, false))
 	out.WriteString(fmt.Sprintf("\n%s}", pad))

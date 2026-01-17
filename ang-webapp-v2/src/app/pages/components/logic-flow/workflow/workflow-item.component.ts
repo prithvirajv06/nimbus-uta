@@ -52,6 +52,17 @@ export class WorkflowItemComponent {
   }
 
   addStep(step: WorkflowStep, option: any, isTrue: boolean = false, isFalse: boolean = false, prefix: string = "") {
+    let contextMap = step.context_map ? [...step.context_map] : [];
+    let loopLevel = step.loop_level ? step.loop_level : 0;
+    if (step.type == 'for_each') {
+      const newLevel = contextMap.length > 0 ? loopLevel + 1 : 1;
+      contextMap.push({
+        var_key: step.target.var_key+"[*]",
+        context_key: step.context_var || `item_${newLevel}`,
+        level: newLevel
+      });
+      loopLevel = newLevel;
+    }
     const newStep: WorkflowStep = {
       step_id: this.generateUniqueId(),
       type: option.type,
@@ -63,7 +74,9 @@ export class WorkflowItemComponent {
       true_children: [],
       false_children: [],
       statement: '',
-      statement_label: ''
+      statement_label: '',
+      context_map: contextMap,
+      loop_level: loopLevel
     };
     if (isTrue) {
       if (!step.true_children) {

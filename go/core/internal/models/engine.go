@@ -2,22 +2,29 @@ package models
 
 // WorkflowStep represents a node in the workflow graph
 type WorkflowStep struct {
-	StepID         string     `json:"step_id,omitempty" bson:"step_id,omitempty"`
-	Type           string     `json:"type,omitempty" bson:"type,omitempty"` // use interface{} if < Go 1.18
-	Label          string     `json:"label,omitempty" bson:"label,omitempty"`
-	Icon           string     `json:"icon,omitempty" bson:"icon,omitempty"`
-	Target         *Variables `json:"target,omitempty" bson:"target,omitempty"`
-	Value          *string    `json:"value,omitempty" bson:"value,omitempty"`
-	Statement      *string    `json:"statement,omitempty" bson:"statement,omitempty"`
-	StatementLabel *string    `json:"statement_label,omitempty" bson:"statement_label,omitempty"`
+	StepID         string    `json:"step_id,omitempty" bson:"step_id,omitempty"`
+	Type           string    `json:"type,omitempty" bson:"type,omitempty"` // use interface{} if < Go 1.18
+	Label          string    `json:"label,omitempty" bson:"label,omitempty"`
+	Icon           string    `json:"icon,omitempty" bson:"icon,omitempty"`
+	Target         Variables `json:"target,omitempty" bson:"target,omitempty"`
+	Value          string    `json:"value,omitempty" bson:"value,omitempty"`
+	Statement      string    `json:"statement,omitempty" bson:"statement,omitempty"`
+	StatementLabel string    `json:"statement_label,omitempty" bson:"statement_label,omitempty"`
 
-	Children      *[]WorkflowStep `json:"children,omitempty" bson:"children,omitempty"`
-	TrueChildren  *[]WorkflowStep `json:"true_children,omitempty" bson:"true_children,omitempty"`   // IF branch
-	FalseChildren *[]WorkflowStep `json:"false_children,omitempty" bson:"false_children,omitempty"` // ELSE branch
-	IsOpen        *bool           `json:"is_open,omitempty" bson:"is_open,omitempty"`
-	ContextVar    *string         `json:"context_var,omitempty" bson:"context_var,omitempty"`
-
+	Children        []WorkflowStep     `json:"children,omitempty" bson:"children,omitempty"`
+	TrueChildren    []WorkflowStep     `json:"true_children,omitempty" bson:"true_children,omitempty"`   // IF branch
+	FalseChildren   []WorkflowStep     `json:"false_children,omitempty" bson:"false_children,omitempty"` // ELSE branch
+	IsOpen          bool               `json:"is_open,omitempty" bson:"is_open,omitempty"`
+	ContextVar      string             `json:"context_var,omitempty" bson:"context_var,omitempty"`
+	ContextMap      []LoopContextMap   `json:"context_map,omitempty" bson:"context_map,omitempty"`
+	LoopLevel       int                `json:"loop_level,omitempty" bson:"loop_level,omitempty"`
 	ConditionConfig *[]ConditionConfig `json:"condition_config,omitempty" bson:"condition_config,omitempty"`
+}
+
+type LoopContextMap struct {
+	VarKey     string `json:"var_key,omitempty" bson:"var_key,omitempty"`
+	ContextKey string `json:"context_key,omitempty" bson:"context_key,omitempty"`
+	Level      int    `json:"level,omitempty" bson:"level,omitempty"`
 }
 
 type LogicalOperator string
@@ -35,5 +42,5 @@ type ConditionConfig struct {
 }
 
 func (w *WorkflowStep) IsConditional() bool {
-	return len(*w.TrueChildren) > 0 || len(*w.FalseChildren) > 0
+	return len(w.TrueChildren) > 0 || len(w.FalseChildren) > 0
 }

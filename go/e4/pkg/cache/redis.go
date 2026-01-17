@@ -43,6 +43,14 @@ func (r *RedisClient) Get(ctx context.Context, key string, dest interface{}) err
 	return json.Unmarshal([]byte(val), dest)
 }
 
+func (r *RedisClient) GetString(ctx context.Context, key string) (string, error) {
+	val, err := r.client.Get(ctx, key).Result()
+	if err != nil {
+		return "", err
+	}
+	return val, nil
+}
+
 func (r *RedisClient) Delete(ctx context.Context, keys ...string) error {
 	return r.client.Del(ctx, keys...).Err()
 }

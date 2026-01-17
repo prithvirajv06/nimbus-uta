@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, SimpleChanges, ViewChild, input } from '@angular/core';
 import { Option, SelectComponent } from "../../../../shared/components/form/select/select.component";
 import { LabelComponent } from "../../../../shared/components/form/label/label.component";
 import { DtService } from '../../../../shared/services/dt.service';
@@ -7,13 +7,14 @@ import { DecisionTable } from '../../../../shared/types/dt.type';
 import { LogicFlow } from '../../../../shared/types/logic-flow.type';
 import { JsonPipe, UpperCasePipe } from '@angular/common';
 import { ButtonComponent } from "../../../../shared/components/ui/button/button.component";
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { VariablePackageService } from '../../../../shared/services/variable-package.service';
 import { SimulationService } from '../../../../shared/services/simulation.service';
+import { JsonEditorComponent, JsonEditorOptions } from 'ang-jsoneditor';
 
 @Component({
   selector: 'app-simulation-window',
-  imports: [SelectComponent, LabelComponent, UpperCasePipe, ButtonComponent, FormsModule, JsonPipe],
+  imports: [SelectComponent, LabelComponent, UpperCasePipe, ButtonComponent, FormsModule, FormsModule, ReactiveFormsModule, JsonEditorComponent],
   templateUrl: './simulation-window.component.html',
   styleUrl: './simulation-window.component.css',
 })
@@ -36,7 +37,25 @@ export class SimulationWindowComponent implements OnChanges {
   responseJson: any = {};
   executionLog: any[] = [];
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public editorOptions: JsonEditorOptions;
+  public respEditorOptions: JsonEditorOptions = new JsonEditorOptions();
+  public data: any;
+  // optional
+  @ViewChild(JsonEditorComponent, { static: false }) editor!: JsonEditorComponent;
+  formGroup: FormGroup;
+
+  constructor() {
+    this.editorOptions = new JsonEditorOptions()
+    this.editorOptions.modes = ['code']; // set all allowed modes
+    this.editorOptions.mode = 'code'; //set only one mode
+    this.respEditorOptions.modes = ['view'];
+    this.respEditorOptions.mode = 'view';
+    this.formGroup = new FormGroup({
+      request: new FormControl({}),
+      response: new FormControl({})
+    });
+  }
+ngOnChanges(changes: SimpleChanges): void {
     if (changes['type']) {
       this.getSimulation(this.type);
     }
@@ -63,7 +82,7 @@ export class SimulationWindowComponent implements OnChanges {
     this.variablePackageService.get(varPackageId, parseInt(varPackageVersion, 10)).subscribe({
       next: (res) => {
         if (res.status === 'success' && res.data) {
-          this.requestJson = res.data.sample_json ? JSON.parse(res.data.sample_json) : {};
+          this.formGroup.get('request')?.setValue(res.data.sample_json ? JSON.parse(res.data.sample_json) : {});
         }
       }
     });
@@ -112,12 +131,13 @@ export class SimulationWindowComponent implements OnChanges {
       nimb_id: this.nimId,
       version: parseInt(this.version, 10),
       minor_version: parseInt(this.minorVersion, 10),
-      input_data: this.requestJson
+      input_data: this.formGroup.get('request')?.value
     };
     this.simulationService.runSimulation(payload, this.type).subscribe({
       next: (res) => {
         if (res) {
-          this.responseJson = res.data.response ? res.data.response : {};
+          this.responseJson = res.data ? res.data : {};
+          this.formGroup.get('response')?.setValue(this.responseJson);
           this.executionLog = res.data.log ? res.data.log : [];
         }
       }

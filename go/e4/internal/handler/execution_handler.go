@@ -16,11 +16,5 @@ func NewExecutionHandler(svc *service.ExecutionService) *ExecutionHandler {
 }
 
 func (h *ExecutionHandler) RegisterRoutes(router *gin.RouterGroup) {
-	router.POST("/engines", h.service.CreateNewEngine)
-	router.PUT("/engines", h.service.UpdateEngine)
-	router.GET("/engine", h.service.GetEngineByNIMBID)
-	router.POST("/engines/list", h.service.GetAllEngines)
-	router.DELETE("/engine", h.service.ArchiveEngine)
-	router.PUT("/engine/clone", h.service.CloneEngine)
-	router.POST("/engine/logic-flow", h.service.HandleRuleExecution)
+	router.POST("/execute/logic-flow", h.service.HandleRuleExecution)
 }

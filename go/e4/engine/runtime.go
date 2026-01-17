@@ -1,31 +1,15 @@
 package engine
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/dop251/goja"
 )
 
 // Execute runs the compiled script against the input data
-func Execute(script string, inputData map[string]interface{}) (map[string]interface{}, []string, error) {
+func Execute(script string, inputData map[string]interface{}) (map[string]interface{}, []interface{}, error) {
 	vm := goja.New()
 
-	// 1. Setup Input Data
-	// We wrap input in a container so "data.Age" in script works naturally
-	vm.Set("data", inputData)
-
-	// 2. Register Capabilities (The "Bridge")
-	vm.Set("$http", func(method, url string) map[string]interface{} {
-		fmt.Printf("[Network] Calling %s %s...\n", method, url)
-		// Mock Response for demo
-		return map[string]interface{}{
-			"status": "success",
-			"score":  95,
-		}
-	})
-
-	// 3. Run with Timeout
 	time.AfterFunc(200*time.Millisecond, func() {
 		vm.Interrupt("timeout")
 	})
@@ -34,9 +18,18 @@ func Execute(script string, inputData map[string]interface{}) (map[string]interf
 	if err != nil {
 		return nil, nil, err
 	}
-
+	executeWorkflow, ok := goja.AssertFunction(vm.Get("executeWorkflow"))
+	if !ok {
+		panic("Not a function")
+	}
+	response, err := executeWorkflow(goja.Undefined(), vm.ToValue(inputData))
+	if err != nil {
+		return nil, nil, err
+	}
+	calculatedResp := response.ToObject(vm).Export().(map[string]interface{})
+	jsonResponse := calculatedResp["data"].(map[string]interface{})
+	logsInterface := calculatedResp["log"].([]interface{})
+	print(response)
 	// 4. Extract Modified Data
-	res := vm.Get("data")
-	logs := vm.Get("log")
-	return res.Export().(map[string]interface{}), logs.Export().([]string), nil
+	return jsonResponse, logsInterface, nil
 }

@@ -1,0 +1,90 @@
+/* 1. Main Container & Glass Effect */
+:host ::ng-deep json-editor,
+:host ::ng-deep json-editor .jsoneditor,
+:host ::ng-deep json-editor > div,
+:host ::ng-deep json-editor .jsoneditor-outer {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+  background: rgba(28, 28, 45, 0.95) !important; /* Deep navy glass */
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  font-family: 'Inter', 'Segoe UI', sans-serif !important;
+  overflow: hidden;
+}
+
+/* 2. Header / Menu Bar (Modernized) */
+:host ::ng-deep .jsoneditor-menu {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  height: 45px !important;
+  padding: 5px 10px !important;
+}
+
+/* Make buttons look like floating icons */
+:host ::ng-deep .jsoneditor-menu > button {
+  background-color: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  opacity: 0.7;
+  transform: scale(0.9);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+:host ::ng-deep .jsoneditor-menu > button:hover {
+  opacity: 1;
+  transform: scale(1.05);
+  background: rgba(123, 97, 255, 0.2) !important; /* Purple glow */
+  border-color: #7b61ff !important;
+}
+
+/* 3. The Code/Tree Area */
+:host ::ng-deep .jsoneditor-tree {
+  padding: 15px !important;
+  background: transparent !important;
+}
+
+/* JSON Keys (The Properties) */
+:host ::ng-deep .jsoneditor-field {
+  color: #a5b4fc !important; /* Soft Indigo */
+  font-weight: 600 !important;
+  letter-spacing: 0.5px;
+}
+
+/* String Values (Cyan Neon) */
+:host ::ng-deep .jsoneditor-value.jsoneditor-string {
+  color: #2dd4bf !important; 
+}
+
+/* Number & Boolean Values (Gold/Amber) */
+:host ::ng-deep .jsoneditor-value.jsoneditor-number,
+:host ::ng-deep .jsoneditor-value.jsoneditor-boolean {
+  color: #fbbf24 !important;
+}
+
+/* 4. Customizing the Navigation Tree Lines */
+:host ::ng-deep .jsoneditor-separator {
+  color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Hover effect on lines */
+:host ::ng-deep .jsoneditor-tree tr:hover {
+  background-color: rgba(123, 97, 255, 0.05) !important;
+}
+
+/* 5. Custom Scrollbar for the "Cool" look */
+:host ::ng-deep .jsoneditor-tree::-webkit-scrollbar {
+  width: 8px;
+}
+
+:host ::ng-deep .jsoneditor-tree::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+:host ::ng-deep .jsoneditor-tree::-webkit-scrollbar-thumb {
+  background: rgba(123, 97, 255, 0.3);
+  border-radius: 10px;
+}
+
+:host ::ng-deep .jsoneditor-tree::-webkit-scrollbar-thumb:hover {
+  background: rgba(123, 97, 255, 0.6);
+}
