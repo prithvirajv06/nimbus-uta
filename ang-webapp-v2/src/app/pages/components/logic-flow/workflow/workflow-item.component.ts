@@ -68,7 +68,8 @@ export class WorkflowItemComponent {
 
 
   openStepOption(step: WorkflowStep, prefix: string = "") {
-    this.isAddStepOpen[step.step_id + prefix] = true;
+    this.isAddStepOpen[step.step_id+prefix] = true;
+
   }
 
   addStep(step: WorkflowStep, option: any, isTrue: boolean = false, isFalse: boolean = false, prefix: string = "") {
@@ -103,7 +104,7 @@ export class WorkflowItemComponent {
         step.true_children = [];
       }
       step.true_children.push(newStep);
-      this.isAddStepOpen[step.step_id + prefix] = false;
+      this.isAddStepOpen[step.step_id+ (isTrue ? '_true' : isFalse ? '_false' : '')] = false;
       return;
     }
     if (isFalse) {
@@ -111,14 +112,14 @@ export class WorkflowItemComponent {
         step.false_children = [];
       }
       step.false_children.push(newStep);
-      this.isAddStepOpen[step.step_id] = false;
+      this.isAddStepOpen[step.step_id+ (isTrue ? '_true' : isFalse ? '_false' : '')] = false;
       return;
     }
     if (!step.children) {
       step.children = [];
     }
     step.children.push(newStep);
-    this.isAddStepOpen[step.step_id] = false;
+    this.isAddStepOpen[step.step_id+ (isTrue ? '_true' : isFalse ? '_false' : '')] = false;
   }
 
   generateUniqueId(): string {

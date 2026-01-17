@@ -46,6 +46,9 @@
   @else if(node.type == 'network_call') {
   <ng-container *ngTemplateOutlet="networkCallTemplate; context:{node:node, parentVar:parentVar}"></ng-container>
   }
+  @if (isAddStepOpen[node.step_id] && node.type != 'condition') {
+  <ng-component *ngTemplateOutlet="stepOptionTemplate; context:{node:node, isTrue:false, isFalse:false}"></ng-component>
+  }
 </ng-template>
 
 
@@ -226,6 +229,10 @@
       </div>
       }
       }
+      @if (isAddStepOpen[node.step_id+'_true']) {
+      <ng-component
+        *ngTemplateOutlet="stepOptionTemplate; context:{node:node, isTrue:true, isFalse:false}"></ng-component>
+      }
     </div>
 
     <div class="pl-6 mt-3">
@@ -239,7 +246,7 @@
           (click)="openStepOption(node, '_false')">
           <i class="fas fa-plus-circle"></i>
         </button>
-            <button class="text-slate-400 hover:text-indigo-500 dark:text-slate-500 dark:hover:text-indigo-400"
+        <button class="text-slate-400 hover:text-indigo-500 dark:text-slate-500 dark:hover:text-indigo-400"
           (click)="isNodeColapsed[node.step_id+'_false'] = !isNodeColapsed[node.step_id+'_false']">
           <i class="fas"
             [ngClass]="{'fa-chevron-up': !isNodeColapsed[node.step_id+'_false'], 'fa-chevron-down': isNodeColapsed[node.step_id+'_false']}"></i>
@@ -252,8 +259,12 @@
         <ng-component *ngTemplateOutlet="logicFlowEditor; context:{node:item, parentVar:parentVar}"></ng-component>
       </div>
       }
-    }
+      }
     </div>
+    @if (isAddStepOpen[node.step_id+'_false']) {
+    <ng-component
+      *ngTemplateOutlet="stepOptionTemplate; context:{node:node, isTrue:false, isFalse:true}"></ng-component>
+    }
   </div>
 </ng-template>
 
@@ -342,9 +353,8 @@
   </div>
 </ng-template>
 
-
 <ng-template #stepOptionTemplate let-node="node" let-isTrue="isTrue" let-isFalse="isFalse">
-  <app-side-draw [isOpen]="isConfigPanOpen" [title]="'Add New Step'" className="w-full w-80 min-w-[40%] md:w-96"
+  <app-side-draw [isOpen]="true" [title]="'Add New Step'" className="w-full w-80 min-w-[40%] md:w-96"
     (close)="isAddStepOpen[node.step_id + (isTrue ? '_true' : isFalse ? '_false' : '')] = false">
     <div class="p-6">
       <!-- Simple List -->
@@ -378,6 +388,9 @@
 @if (isConfigPanOpen) {
 <app-side-draw [isOpen]="isConfigPanOpen" [title]="configDrawTitle" className="w-full w-80 min-w-[40%] md:w-96"
   (close)="closeConditionConfig()">
+  <span class="text-sm text-slate-500 dark:text-slate-400">
+    Show Expression <i class="fas fa-code text-xs ml-1"></i>
+  </span>
   @switch (configType) {
   @case ('condition') {
   <app-condition-configure [conditionNode]="selectedNodeForConfig" [parentVar]="parentVar"

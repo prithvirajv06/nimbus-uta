@@ -7,11 +7,11 @@
         [value]="selectedVariable ? selectedVariable.label : ''" readonly
         (click)="isVariableFilterOpen = true; filteredVars = variables; $event.stopPropagation()"
         (input)="filterSelection($event)" />
-
     <!-- Dropdown Icon -->
     <div class="absolute top-0 right-0 mt-3.5 mr-4 pointer-events-none text-gray-500 dark:text-gray-400">
         <i class="fa fa-caret-down text-lg"></i>
     </div>
+
 
     <!-- Dropdown Menu -->
     @if (isVariableFilterOpen) {
@@ -48,13 +48,13 @@
                         </span>
                         }
                         <!-- Variable Type Icon -->
-                        <i [ngClass]="getVarTypeIcon(_var)" class="mr-3 text-orange-500 transition-colors dark:text-pink-400"
+                        <i [ngClass]="getVarTypeIcon(_var)"
+                            class="mr-3 text-orange-500 transition-colors dark:text-pink-400"
                             [class.text-gray-400]="!isSelected(_var)" [class.dark:text-gray-500]="!isSelected(_var)"
                             [class.text-white]="isSelected(_var)"></i>
 
                         <!-- Variable Label -->
-                        <span class=""
-                            (click)="_var.isClickable ? setSelectVariable(_var) : null"
+                        <span class="" (click)="_var.isClickable ? setSelectVariable(_var) : null"
                             [ngClass]="_var.isClickable ? 'underline' : 'opacity-50 cursor-not-allowed hover:bg-transparent dark:hover:bg-transparent'">
                             {{ _var.label }}</span>
                         <!-- Expand Arrow for Children -->

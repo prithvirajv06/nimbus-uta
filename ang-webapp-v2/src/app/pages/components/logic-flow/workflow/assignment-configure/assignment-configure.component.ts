@@ -39,7 +39,6 @@ export class AssignmentConfigureComponent {
   });
   constructor() { }
 
-
   ngAfterContentInit(): void {
     this.applicableVariables = this.getApplicableTypeVars(this.variables, ['string', 'number', 'boolean', 'object'], false);
     this.formGroup().setControlValue({

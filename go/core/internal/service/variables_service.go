@@ -214,7 +214,7 @@ func extractVariableJSONV2(jsonStr string) ([]models.Variables, error) {
 		return nil, fmt.Errorf("failed to parse JSON: %w", err)
 	}
 	var variables []models.Variables
-	extractVariablesV2(data, "data", &variables)
+	extractVariablesV2(data, "", &variables)
 	return variables, nil
 }
 

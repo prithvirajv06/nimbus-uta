@@ -1,0 +1,12 @@
+{
+    "name": "Alice",
+    "creditScore": 780,
+    "employmentStatus": "EMPLOYED",
+    "financials": {
+        "monthlyDebt": 1000,
+        "monthlyIncome": 5000
+    },
+    "requestedAmount": 20000,
+    "collateralValue": 30000,
+    "fraudFlag": false
+}

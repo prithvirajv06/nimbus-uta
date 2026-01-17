@@ -3,8 +3,6 @@ package service
 import (
 	"fmt"
 	"net/http"
-	"os"
-	"path/filepath"
 	"strconv"
 	"time"
 
@@ -52,28 +50,9 @@ func (lfs *ExecutionService) HandleRuleExecution(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
 		return
 	}
-
-	// 3. Generate/Get Compiled Script
-	// In production, we cache the generated jsCode string based on a version hash
-	var redisCacheKey = "engine_script_" + eng.NIMB_ID + "_v" + strconv.Itoa(eng.Audit.Version)
-	var jsCode string
-	cached, err := lfs.redis.GetString(c.Request.Context(), redisCacheKey)
-	if err == nil {
-		jsCode = cached
-	}
-	// if err != nil || cached == "" {
-	jsCode = engine.GenerateScript(*eng)
-	// Cache for future use
-	_ = lfs.redis.Set(c.Request.Context(), redisCacheKey, jsCode, 10*time.Minute)
-	// }
-
-	// 4. Execute in the Sandboxed Runtime
 	start := time.Now()
-	finalData, logs, err := engine.Execute(jsCode, req)
-	duration := time.Since(start)
-	//Save jsCode in file
-	path1 := filepath.Join(os.TempDir(), "dat1")
-	_ = os.WriteFile(path1, []byte(jsCode), 0644)
+	engine := engine.NewRuleEngine(req)
+	err = engine.ExecuteWorkflow(*eng)
 	if err != nil {
 		fmt.Print(err)
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -82,16 +61,14 @@ func (lfs *ExecutionService) HandleRuleExecution(c *gin.Context) {
 		})
 		return
 	}
-
-	// 5. Return the modified facts and audit info
+	duration := time.Since(start)
 	c.Header("X_TIME-TAKEN", strconv.FormatInt(duration.Milliseconds(), 10))
 	if c.GetHeader("X-NIMBUS-DEBUG") == "YES" {
 		c.JSON(http.StatusOK, gin.H{
-			"data": finalData,
-			"logs": logs,
+			"data": engine.Input,
+			"logs": engine.GetLog(),
 		})
-		return
 	} else {
-		c.JSON(http.StatusOK, finalData)
+		c.JSON(http.StatusOK, engine.Input)
 	}
 }

@@ -4998,3 +4998,448 @@
 {"time":"2026-01-17T22:37:41.5650386+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
 {"time":"2026-01-17T22:37:41.576652+05:30","level":"INFO","msg":"Looking for error"}
 {"time":"2026-01-17T22:37:41.576652+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T22:48:31.587937+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T22:48:31.587937+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T22:48:31.6698951+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T22:48:31.6704007+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T22:48:32.0424758+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T22:48:32.0424758+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T22:48:32.1299093+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T22:48:32.1299093+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T22:59:54.0186912+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T22:59:54.0186912+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T22:59:54.2202219+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T22:59:54.2202219+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T22:59:54.3053915+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T22:59:54.3053915+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T22:59:54.4140513+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T22:59:54.4140513+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:00:51.495982+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:00:51.495982+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:00:51.5663834+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:00:51.5663834+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:01:58.1082027+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:01:58.1082027+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:01:58.1147326+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:01:58.1147326+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:01:58.2913196+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:01:58.2913196+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:01:58.3304856+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:01:58.3304856+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:02:03.3965727+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:02:03.3965727+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:02:03.5664794+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:02:03.5664794+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:03:25.3599231+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:03:25.3599231+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:03:28.8827332+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:03:28.8827332+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:08:23.1017003+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:08:23.1022226+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:08:23.1638156+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:08:23.1638156+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:08:23.2940817+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:08:23.2945873+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:08:28.9756281+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:08:28.9756281+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:09:42.043114+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:09:42.043114+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:09:42.9474034+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:09:42.9474034+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:09:43.0704431+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:09:43.0704431+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:09:45.7147817+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:09:45.7147817+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:10:44.8729482+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:10:44.8729482+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:10:45.8147457+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:10:45.8147457+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:10:45.9198803+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:10:45.9198803+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:10:46.581725+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:10:46.581725+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:10:54.3105916+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:10:54.3105916+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:10:55.080745+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:10:55.080745+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:10:55.186242+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:10:55.186242+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:10:56.2165091+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:10:56.2165091+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:15:55.005015+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:15:55.005015+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:15:55.083841+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:15:55.083841+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:15:55.198976+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:15:55.198976+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:16:31.0626367+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:16:31.0626367+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:16:31.1208781+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:16:31.1213474+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:16:31.3314629+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:16:31.3314629+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:17:09.6428183+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:17:09.6428183+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:20:05.0229316+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:20:05.0229316+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:20:05.1253525+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:20:05.1253525+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:23:41.0277712+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:23:41.0282785+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:23:41.0778964+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:23:41.0778964+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:23:41.1807333+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:23:41.1807333+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:26:06.6055955+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:26:06.6055955+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:26:06.7370205+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:26:06.7370205+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:28:07.3376408+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:28:07.3376408+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:28:07.4381562+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:28:07.4381562+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:28:08.3610676+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:28:08.3610676+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:30:10.6381645+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:30:10.6381645+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:30:10.8140874+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:30:10.8140874+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:30:11.1471793+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:30:11.1471793+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:32:35.4585919+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:32:35.459455+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_680aad3fb2d1","userID":"PrithvirajV"}
+{"time":"2026-01-17T23:32:35.4657911+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:32:35.4674376+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:32:35.4674376+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-17T23:32:39.4216663+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:32:39.4216663+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:33:17.9496548+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:33:17.9496548+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:33:18.1874213+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:33:18.1874213+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:33:18.3454447+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:33:18.3454447+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:33:21.0259734+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:33:21.0259734+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:36:31.2150031+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:36:31.2150031+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:36:31.2226753+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:36:31.2247241+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:36:31.2247241+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-17T23:36:33.4819879+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:36:33.4840143+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:36:33.4840143+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-17T23:36:33.4880674+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:36:33.4895616+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:36:33.4895616+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-17T23:36:56.3350208+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:36:56.3353864+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:36:56.3353864+05:30","level":"INFO","msg":"Getting next version number for","nimbID":"VAR_PKG_22679d3a408d"}
+{"time":"2026-01-17T23:36:56.3402434+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:36:56.3402434+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable pacakage created"}
+{"time":"2026-01-17T23:36:56.3440517+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:36:56.345193+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:36:56.345193+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-17T23:37:04.06488+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:37:04.06488+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:37:04.0673946+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:37:04.0694773+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:37:04.0694773+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-17T23:37:13.372408+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:37:13.3746953+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:37:13.3746953+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-17T23:37:13.3785689+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:37:13.3811246+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:37:13.3811246+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-17T23:37:15.0135689+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:37:15.0135689+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:38:44.2489404+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:38:44.2489404+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:38:44.2514322+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:38:44.2524989+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:38:44.2524989+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-17T23:38:46.73351+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:38:46.73351+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:38:46.7431831+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:38:46.7431831+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:38:54.8002856+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:38:54.8002856+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:38:56.5742112+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:38:56.5742112+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:39:34.7645801+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:39:34.7645801+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_680aad3fb2d1","userID":"PrithvirajV"}
+{"time":"2026-01-17T23:39:34.7663231+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:39:34.7673883+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:39:34.7673883+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-17T23:41:44.0976833+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:41:44.0976833+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:41:44.1389545+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:41:44.1389545+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:41:44.3201165+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:41:44.3201165+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:42:25.0174919+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:42:25.0174919+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:42:25.0847221+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:42:25.0852489+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:42:25.2715716+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:42:25.2715716+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:44:14.8907747+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:44:14.8907747+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:44:15.0142752+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:44:15.0142752+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-17T23:44:15.1582211+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:44:15.1582211+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-17T23:56:35.4275136+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:56:35.4275136+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-17T23:56:35.5084365+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-17T23:56:35.5084365+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T00:01:24.0301145+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T00:01:24.0301145+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T00:01:24.1693881+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T00:01:24.1693881+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T00:05:28.4544345+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T00:05:28.4544345+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T00:05:28.5680783+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T00:05:28.5680783+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T00:05:29.0990372+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T00:05:29.0995428+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T02:09:42.9443117+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2026-01-18T02:10:31.2250076+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:10:31.2830309+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:10:31.2830309+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:10:31.2830309+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Login successful"}
+{"time":"2026-01-18T02:10:36.6171296+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:10:36.6171296+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T02:10:38.4284641+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:10:38.4284641+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T02:37:55.2167523+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:37:55.2203997+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:37:55.2203997+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Decision tables retrieved"}
+{"time":"2026-01-18T02:37:55.2229899+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:37:55.2246186+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:37:55.2246186+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-18T02:38:10.8713725+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:10.8737654+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:10.8737654+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-18T02:38:10.8770121+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:10.8775463+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:10.8775463+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-18T02:38:32.4833886+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:32.4839139+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:32.4844469+05:30","level":"INFO","msg":"Getting next version number for","nimbID":"VAR_PKG_3e2707b314ab"}
+{"time":"2026-01-18T02:38:32.4899447+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:32.4899447+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable pacakage created"}
+{"time":"2026-01-18T02:38:32.4940256+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:32.4955777+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:32.4955777+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-18T02:38:41.2911664+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:41.2932913+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:41.2932913+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-18T02:38:41.2957644+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:41.2968517+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:41.2968517+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-18T02:38:42.4101111+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:42.4101111+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T02:38:42.4151897+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:42.4168227+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:42.4168227+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-18T02:38:54.7693369+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:54.7693369+05:30","level":"INFO","msg":"Getting next version number for","nimbID":"N_L_FLOW_e67eef7d2a98"}
+{"time":"2026-01-18T02:38:54.7722474+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:54.7722474+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow created"}
+{"time":"2026-01-18T02:38:54.7776718+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:54.7776718+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T02:38:56.7971646+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:56.7971646+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T02:38:56.8107281+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:38:56.8107281+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T02:40:05.8920937+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:40:05.8920937+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T02:40:05.9749924+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:40:05.9749924+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T02:42:03.4309236+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:42:03.4309236+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T02:42:03.522586+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:42:03.522586+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T02:45:14.5128957+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:45:14.5128957+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_e67eef7d2a98","userID":"PrithvirajV"}
+{"time":"2026-01-18T02:45:14.5173183+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:45:14.5181763+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:45:14.5181763+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-18T02:54:30.2492927+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:54:30.2492927+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_e67eef7d2a98","userID":"PrithvirajV"}
+{"time":"2026-01-18T02:54:30.2513264+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:54:30.252202+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:54:30.252202+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-18T02:54:35.3595197+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:54:35.3595197+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T02:54:37.6533623+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:54:37.6533623+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T02:59:22.0347728+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2026-01-18T02:59:22.226571+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:22.2271049+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:22.2302617+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:22.2307879+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:22.2307879+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-18T02:59:22.2307879+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-18T02:59:45.7476406+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:45.7476406+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:45.7476406+05:30","level":"INFO","msg":"Getting next version number for","nimbID":"VAR_PKG_974776154696"}
+{"time":"2026-01-18T02:59:45.7505959+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:45.7505959+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable pacakage created"}
+{"time":"2026-01-18T02:59:45.7578765+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:45.7595515+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:45.7595515+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-18T02:59:47.4758286+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:47.4758286+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T02:59:47.477285+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:47.4785614+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:47.4785614+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-18T02:59:53.9929682+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:53.9929682+05:30","level":"INFO","msg":"Getting next version number for","nimbID":"N_L_FLOW_b08d482fe52f"}
+{"time":"2026-01-18T02:59:53.9955951+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:53.9955951+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow created"}
+{"time":"2026-01-18T02:59:54.0098094+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:54.0098094+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T02:59:55.9772748+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:55.9772748+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T02:59:55.9850615+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T02:59:55.9850615+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:01:42.183835+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:01:42.183835+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_b08d482fe52f","userID":"PrithvirajV"}
+{"time":"2026-01-18T03:01:42.1857442+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:01:42.1862483+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:01:42.1862483+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-18T03:08:35.8756596+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:08:35.8756596+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:08:35.9123773+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:08:35.9123773+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:08:36.9448901+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:08:36.9453999+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:08:37.0754695+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:08:37.0754695+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:10:40.7106557+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:10:40.7106557+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:10:40.7525769+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:10:40.7525769+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:10:40.9199656+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:10:40.9199656+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:10:41.0283828+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:10:41.0283828+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:11:22.1814966+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:11:22.1814966+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:11:22.3037147+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:11:22.3037147+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:11:22.5348475+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:11:22.5348475+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:11:22.5726229+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:11:22.5726229+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:14:21.4541009+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:14:21.4541009+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_e67eef7d2a98","userID":"PrithvirajV"}
+{"time":"2026-01-18T03:14:21.4559129+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:14:21.4564167+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:14:21.4564167+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-18T03:14:52.6090563+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:14:52.6090563+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T03:14:55.7317678+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:14:55.7317678+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:21:33.9137745+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:21:33.9137745+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_e67eef7d2a98","userID":"PrithvirajV"}
+{"time":"2026-01-18T03:21:33.9158468+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:21:33.9165544+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:21:33.9165544+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-18T03:26:20.1739356+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:26:20.1739356+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_e67eef7d2a98","userID":"PrithvirajV"}
+{"time":"2026-01-18T03:26:20.1755408+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:26:20.1760694+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:26:20.1760694+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-18T03:27:24.101067+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:27:24.101067+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_e67eef7d2a98","userID":"PrithvirajV"}
+{"time":"2026-01-18T03:27:24.102739+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:27:24.1035699+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:27:24.1035699+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-18T03:34:16.7672616+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:34:16.7672616+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:34:39.2757448+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:34:39.2757448+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:35:24.4095288+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:35:24.4095288+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T03:35:24.4171828+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:35:24.4187777+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:35:24.4187777+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable packages retrieved successfully"}
+{"time":"2026-01-18T03:35:27.0597417+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:35:27.0597417+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:35:27.0647685+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:35:27.0647685+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:35:27.0751883+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:35:27.0751883+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:35:27.0788079+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:35:27.0788079+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:36:14.1008415+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:36:14.1008415+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_b08d482fe52f","userID":"PrithvirajV"}
+{"time":"2026-01-18T03:36:14.1025829+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:36:14.1025829+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:36:14.1025829+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-18T03:39:55.6720945+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:39:55.6726181+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T03:39:56.0910053+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:39:56.0910053+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:39:56.217724+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:39:56.217724+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:40:08.9566377+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:40:08.9566377+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_b08d482fe52f","userID":"PrithvirajV"}
+{"time":"2026-01-18T03:40:08.9583646+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:40:08.9589383+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:40:08.9589383+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-18T03:40:16.3219156+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:40:16.3219156+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:45:50.548776+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:45:50.548776+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_b08d482fe52f","userID":"PrithvirajV"}
+{"time":"2026-01-18T03:45:50.5506681+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:45:50.5511751+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:45:50.5511751+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-18T03:49:49.8386145+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:49:49.8386145+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T03:49:50.1436912+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:49:50.1436912+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:49:50.2431064+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:49:50.2431064+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:49:55.7369173+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:49:55.7369173+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T03:49:56.1062776+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:49:56.1062776+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:49:56.1803832+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:49:56.1803832+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:51:31.7032233+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:51:31.7032233+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T03:51:31.8557248+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:51:31.8572383+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:51:31.9699759+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:51:31.9699759+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:51:50.0097989+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:51:50.0097989+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:51:50.1321183+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:51:50.1321183+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:51:50.5899537+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:51:50.5899537+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T03:52:02.6991489+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:52:02.6991489+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T03:52:02.8360207+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:52:02.8360207+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:52:02.9226557+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:52:02.9226557+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:54:46.3664448+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:54:46.3664448+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T03:54:46.6388331+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:54:46.6388331+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:54:46.72249+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:54:46.72249+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:56:30.9418483+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:56:30.9418483+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T03:56:31.3129531+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:56:31.3129531+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T03:56:31.4088113+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:56:31.4088113+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:57:29.5120378+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:57:29.5120378+05:30","level":"ERROR","msg":"error occurred","error":"json: cannot unmarshal bool into Go struct field WorkflowStep.logical_steps.children.true_children.value of type string"}
+{"time":"2026-01-18T03:57:29.5120378+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Unable to unmarshel payload"}

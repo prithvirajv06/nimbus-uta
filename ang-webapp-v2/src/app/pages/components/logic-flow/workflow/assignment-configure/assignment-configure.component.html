@@ -15,8 +15,7 @@
     <app-text-area [field]="formGroup.value_to_assign"></app-text-area>
     }
     @case ('boolean') {
-    <app-switch label="True" leftLabel="False" [defaultChecked]="false"
-        [field]="formGroup.value_to_assign"></app-switch>
+    <app-switch label="True" leftLabel="False" [defaultChecked]="false" (valueChange)="formGroup.value_to_assign().setControlValue($event)"></app-switch>
     }
     @default {
     <app-input-field type="text" [field]="formGroup.value_to_assign"></app-input-field>
