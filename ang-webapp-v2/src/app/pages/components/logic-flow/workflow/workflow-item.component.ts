@@ -1,5 +1,5 @@
 
-import { CommonModule, JsonPipe, NgClass } from '@angular/common';
+import { CommonModule, JsonPipe, NgClass, NgStyle } from '@angular/common';
 import { Component, Host, HostListener, input, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatExpansionModule } from "@angular/material/expansion";
@@ -12,13 +12,15 @@ import { SideDrawComponent } from "../../../../shared/components/ui/side-draw/si
 import { AssignmentConfigureComponent } from './assignment-configure/assignment-configure.component';
 import { Variable, VariablePackage } from '../../../../shared/types/variable_package';
 import { LoopConfigureComponent } from './loop-configure/loop-configure.component';
+import { ModalComponent } from "../../../../shared/components/ui/modal/modal.component";
 
 @Component({
   selector: 'app-workflow-item',
   imports: [CommonModule, FormsModule, MatExpansionModule, ɵEmptyOutletComponent,
     DragDropModule, ConditionConfigureComponent, NgClass, SideDrawComponent,
+    NgStyle,
     LoopConfigureComponent,
-    AssignmentConfigureComponent],
+    AssignmentConfigureComponent, ModalComponent],
   styleUrls: ['./workflow-item.component.css'],
   templateUrl: './workflow-editor.component.html',
 })
@@ -28,13 +30,31 @@ export class WorkflowItemComponent {
   @Input() variablePackage: VariablePackage = {} as VariablePackage;
   parentVar: Variable = {} as Variable;
   isAddStepOpen: { [key: string]: boolean } = {};
+  isNodeColapsed: { [key: string]: boolean } = {};
   configDrawTitle = '';
+  stepSearchQuery: string = '';
   stepOptions = [
     { type: 'assignment', label: 'Assignment', icon: 'fas fa-edit' },
-    { type: 'for_each', label: 'Loop for Each', icon: 'fas fa-sync-alt' },
+    { type: 'push_array', label: 'Push to Array', icon: 'fas fa-plus-square' },
+    { type: 'to_uppercase', label: 'To Uppercase', icon: 'fas fa-text-height' },
+    { type: 'increment', label: 'Increment', icon: 'fas fa-arrow-up' },
+    { type: 'decrement', label: 'Decrement', icon: 'fas fa-arrow-down' },
+    { type: 'append_prefix', label: 'Append Prefix', icon: 'fas fa-level-up-alt' },
+    { type: 'append_suffix', label: 'Append Suffix', icon: 'fas fa-level-down-alt' },
+    { type: 'multiply', label: 'Multiply', icon: 'fas fa-times' },
+    { type: 'divide', label: 'Divide', icon: 'fas fa-divide' },
     { type: 'condition', label: 'Condition', icon: 'fas fa-code-branch' },
+    { type: 'network_call', label: 'Network Call', icon: 'fas fa-network-wired' },
+    { type: 'for_each', label: 'Loop for Each', icon: 'fas fa-sync-alt' },
   ];
+  filteredStepOptions = this.stepOptions
 
+  searchStep() {
+    const query = this.stepSearchQuery.toLowerCase();
+    this.filteredStepOptions = this.stepOptions.filter(option =>
+      option.label.toLowerCase().includes(query)
+    );
+  }
 
   // ... inside your component class
   drop(event: CdkDragDrop<any[]>) {
@@ -57,7 +77,7 @@ export class WorkflowItemComponent {
     if (step.type == 'for_each') {
       const newLevel = contextMap.length > 0 ? loopLevel + 1 : 1;
       contextMap.push({
-        var_key: step.target.var_key+"[*]",
+        var_key: step.target.var_key + "[*]",
         context_key: step.context_var || `item_${newLevel}`,
         level: newLevel
       });
@@ -268,5 +288,38 @@ export class WorkflowItemComponent {
     this.closeAssignmentConfig();
     this.isConfigPanOpen = false;
     this.selectedNodeForConfig = {} as WorkflowStep;
+  }
+
+  private nodeBgClasses: { [key: string]: string[] } = {};
+
+  private tailwindBorderPairs = [
+    ['border-l-4', 'border-red-400', 'dark:border-red-600'],
+    ['border-l-4', 'border-orange-400', 'dark:border-orange-600'],
+    ['border-l-4', 'border-yellow-400', 'dark:border-yellow-600'],
+    ['border-l-4', 'border-green-400', 'dark:border-green-600'],
+    ['border-l-4', 'border-teal-400', 'dark:border-teal-600'],
+    ['border-l-4', 'border-blue-400', 'dark:border-blue-600'],
+    ['border-l-4', 'border-indigo-400', 'dark:border-indigo-600'],
+    ['border-l-4', 'border-purple-400', 'dark:border-purple-600'],
+    ['border-l-4', 'border-pink-400', 'dark:border-pink-600'],
+  ];
+
+  getNodeBgClass(node: any): string[] {
+    if (!node || !node.step_id) return [];
+    if (!this.nodeBgClasses[node.step_id]) {
+      const idx = Math.floor(Math.random() * this.tailwindBorderPairs.length);
+      this.nodeBgClasses[node.step_id] = this.tailwindBorderPairs[idx];
+    }
+    return this.nodeBgClasses[node.step_id];
+  }
+
+  openConfig(node: WorkflowStep) {
+    if (node.type === 'condition') {
+      this.openConditionConfig(node, this.parentVar);
+    } else if (node.type === 'for_each') {
+      this.openLoopConfig(node, this.parentVar);
+    } else if (node.type === 'assignment') {
+      this.openAssignmentConfig(node, this.parentVar);
+    }
   }
 }

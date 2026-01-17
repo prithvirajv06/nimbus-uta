@@ -1,5 +1,4 @@
 {
-  "data": {
     "applicants": [
       {
         "name": "Alice",
@@ -62,5 +61,4 @@
         "fraudFlag": false
       }
     ]
-  }
 }
