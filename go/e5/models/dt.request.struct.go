@@ -11,3 +11,18 @@ type DTRule struct {
 	Action      string    `json:"action,omitempty"`
 	Condition   Condition `json:"condition,omitempty"`
 }
+
+type Condition struct {
+	Operator string                 `json:"operator,omitempty"`
+	Operands map[string]interface{} `json:"operands,omitempty"`
+}
+
+func NewDTRequestStruct() *DTRequestStruct {
+	return &DTRequestStruct{
+		DTRules: []DTRule{},
+	}
+}
+
+func (dtr *DTRequestStruct) AddDTRule(rule DTRule) {
+	dtr.DTRules = append(dtr.DTRules, rule)
+}

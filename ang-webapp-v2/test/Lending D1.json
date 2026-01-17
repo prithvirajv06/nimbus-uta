@@ -1,0 +1,66 @@
+{
+  "data": {
+    "applicants": [
+      {
+        "name": "Alice",
+        "creditScore": 780,
+        "employmentStatus": "EMPLOYED",
+        "financials": {
+          "monthlyDebt": 1000,
+          "monthlyIncome": 5000
+        },
+        "requestedAmount": 20000,
+        "collateralValue": 30000,
+        "fraudFlag": false
+      },
+      {
+        "name": "Bob",
+        "creditScore": 650,
+        "employmentStatus": "UNEMPLOYED",
+        "financials": {
+          "monthlyDebt": 500,
+          "monthlyIncome": 2000
+        },
+        "requestedAmount": 10000,
+        "collateralValue": 8000,
+        "fraudFlag": false
+      },
+      {
+        "name": "Charlie",
+        "creditScore": 590,
+        "employmentStatus": "EMPLOYED",
+        "financials": {
+          "monthlyDebt": 800,
+          "monthlyIncome": 2500
+        },
+        "requestedAmount": 5000,
+        "collateralValue": 10000,
+        "fraudFlag": false
+      },
+      {
+        "name": "Diana",
+        "creditScore": 720,
+        "employmentStatus": "EMPLOYED",
+        "financials": {
+          "monthlyDebt": 2500,
+          "monthlyIncome": 4000
+        },
+        "requestedAmount": 15000,
+        "collateralValue": 20000,
+        "fraudFlag": true
+      },
+      {
+        "name": "Eve",
+        "creditScore": 710,
+        "employmentStatus": "EMPLOYED",
+        "financials": {
+          "monthlyDebt": 1800,
+          "monthlyIncome": 3000
+        },
+        "requestedAmount": 25000,
+        "collateralValue": 20000,
+        "fraudFlag": false
+      }
+    ]
+  }
+}

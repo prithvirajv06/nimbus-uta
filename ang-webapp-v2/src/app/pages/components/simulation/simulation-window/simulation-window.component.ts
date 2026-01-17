@@ -41,15 +41,16 @@ export class SimulationWindowComponent implements OnChanges {
   public respEditorOptions: JsonEditorOptions = new JsonEditorOptions();
   public data: any;
   // optional
-  @ViewChild(JsonEditorComponent, { static: false }) editor!: JsonEditorComponent;
+  @ViewChild(JsonEditorComponent, { static: false }) requestEditor!: JsonEditorComponent;
+
   formGroup: FormGroup;
 
   constructor() {
     this.editorOptions = new JsonEditorOptions()
     this.editorOptions.modes = ['code']; // set all allowed modes
     this.editorOptions.mode = 'code'; //set only one mode
-    this.respEditorOptions.modes = ['view'];
-    this.respEditorOptions.mode = 'view';
+    this.respEditorOptions.modes = ['code', 'view']; // set all allowed modes
+    this.respEditorOptions.mode = 'code';
     this.formGroup = new FormGroup({
       request: new FormControl({}),
       response: new FormControl({})
@@ -131,7 +132,7 @@ ngOnChanges(changes: SimpleChanges): void {
       nimb_id: this.nimId,
       version: parseInt(this.version, 10),
       minor_version: parseInt(this.minorVersion, 10),
-      input_data: this.formGroup.get('request')?.value
+      input_data:this.requestEditor.get()
     };
     this.simulationService.runSimulation(payload, this.type).subscribe({
       next: (res) => {
