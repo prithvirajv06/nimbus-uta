@@ -5443,3 +5443,22 @@
 {"time":"2026-01-18T03:57:29.5120378+05:30","level":"INFO","msg":"Looking for error"}
 {"time":"2026-01-18T03:57:29.5120378+05:30","level":"ERROR","msg":"error occurred","error":"json: cannot unmarshal bool into Go struct field WorkflowStep.logical_steps.children.true_children.value of type string"}
 {"time":"2026-01-18T03:57:29.5120378+05:30","level":"INFO","msg":"Responding JSON","status":"failure","message":"Unable to unmarshel payload"}
+{"time":"2026-01-18T03:58:47.6826837+05:30","level":"INFO","msg":"Starting server on port 8080"}
+{"time":"2026-01-18T03:58:58.9589298+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:58:58.9589298+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_b08d482fe52f","userID":"PrithvirajV"}
+{"time":"2026-01-18T03:58:58.9614032+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:58:58.9619076+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:58:58.9619076+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-18T03:59:04.3795616+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:59:04.3795616+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}
+{"time":"2026-01-18T03:59:38.7246588+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:59:38.7246588+05:30","level":"INFO","msg":"Archiving entity","nimbID":"N_L_FLOW_b08d482fe52f","userID":"PrithvirajV"}
+{"time":"2026-01-18T03:59:38.7262835+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:59:38.7268691+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T03:59:38.7268691+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow updated"}
+{"time":"2026-01-18T04:27:15.1244199+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T04:27:15.1244199+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flows retrieved"}
+{"time":"2026-01-18T04:27:15.5137315+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T04:27:15.5137315+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Logic flow retrieved"}
+{"time":"2026-01-18T04:27:15.6155955+05:30","level":"INFO","msg":"Looking for error"}
+{"time":"2026-01-18T04:27:15.6155955+05:30","level":"INFO","msg":"Responding JSON","status":"success","message":"Variable package retrieved successfully"}

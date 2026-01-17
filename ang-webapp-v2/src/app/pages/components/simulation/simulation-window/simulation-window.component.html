@@ -34,11 +34,9 @@
         <app-button variant="secondary" class="mb-4 mr-2">
             Upload Input File <i class="fa-solid fa-upload ml-2"></i>
         </app-button>
-
         <div class="text-gray-600 dark:text-white/80 mt-8">
-            <b>Input</b>
         </div>
-        <json-editor #request [options]="editorOptions"  formControlName="request"></json-editor>
+        <json-editor #request [options]="editorOptions" formControlName="request"></json-editor>
 
     </div>
     <div class="flex-1 flex flex-col items-center mt-20 space-y-2">
@@ -62,8 +60,7 @@
         <app-button variant="secondary" class="mb-4 mr-2">
             View Logs <i class="fa-solid fa-file-lines ml-2"></i>
         </app-button>
-        <div class="text-gray-600 dark:text-white/80 mt-8">
-            <b>Response Output</b>
+        <div class="text-gray-600 dark:text-white/80">
         </div>
         <json-editor #response [options]="respEditorOptions" formControlName="response"></json-editor>
     </div>
