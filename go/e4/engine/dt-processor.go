@@ -60,125 +60,154 @@ func NewDTEngine() *Engine {
 // --- Decision Table Execution ---
 
 func (e *Engine) ProcessDecisionTable(ctx context.Context, table models.DecisionTable, data []byte) ([]byte, []models.LogStackEntry, error) {
-	output := data
 	logStack := []models.LogStackEntry{}
 
-	// Check if any input column is of type array
-	isArrayInput := false
-	var arrayInputKey string
-	for _, inputDef := range table.InputsColumns {
-		if strings.Contains(inputDef.VarKey, "[*]") {
-			isArrayInput = true
-			arrayInputKey = inputDef.VarKey
-			break
-		}
-	}
-
-	if isArrayInput {
-		// Process each object in the array
-		arr := gjson.GetBytes(output, strings.Split(arrayInputKey, "[*]")[0])
-		if arr.IsArray() {
-			var newArr []interface{}
-			for _, item := range arr.Array() {
-				itemBytes := []byte(item.Raw)
-				// Process DT for each object
-				var matchedRows [][]models.Variables
-				for _, ruleRow := range table.Rules {
-					if ctx.Err() != nil {
-						addErrorLog(&logStack, "Context cancelled during decision table processing")
-						return nil, logStack, ctx.Err()
-					}
-					isMatch := true
-					for i, inputDef := range table.InputsColumns {
-						addInfoLog(&logStack, fmt.Sprintf("Evaluating Input Column: %s", inputDef))
-						actualVal := gjson.GetBytes(itemBytes, strings.Split(inputDef.VarKey, "[*].")[1])
-						if cond, logs := e.evaluateCell(ruleRow[i].Value.(string), actualVal, &logStack); !cond {
-							addLogs(&logStack, logs)
-							isMatch = false
-							break
-						}
-					}
-					if isMatch {
-						addInfoLog(&logStack, fmt.Sprintf("Rule Matched: %v", ruleRow))
-						matchedRows = append(matchedRows, ruleRow)
-						if table.HitPolicy == "FIRST" {
-							addInfoLog(&logStack, "Hit Policy FIRST - stopping after first match")
-							break
-						}
-					}
+	// Helper: recursively process arrays in data for all input columns with [*]
+	var processRecursive func(ctx context.Context, table models.DecisionTable, data []byte, prefix string) ([]byte, error)
+	processRecursive = func(ctx context.Context, table models.DecisionTable, data []byte, prefix string) ([]byte, error) {
+		// Find all array input columns at this level
+		arrayInputs := []string{}
+		for _, inputDef := range table.InputsColumns {
+			if strings.Contains(inputDef.VarKey, "[*]") {
+				arrKey := inputDef.VarKey
+				if prefix != "" && strings.HasPrefix(arrKey, prefix+".") {
+					arrKey = arrKey[len(prefix)+1:]
 				}
-				finalValues, logs, err := e.applyHitPolicy(table, matchedRows, &logStack)
-				addLogs(&logStack, logs)
-				if err != nil {
-					addErrorLog(&logStack, fmt.Sprintf("Error applying hit policy: %v", err))
-					return nil, logStack, err
+				arrKey = strings.Split(arrKey, "[*]")[0]
+				if arrKey != "" && !contains(arrayInputs, arrKey) {
+					arrayInputs = append(arrayInputs, arrKey)
 				}
-				// Set values for this object
-				var obj map[string]interface{}
-				if err := json.Unmarshal([]byte(item.Raw), &obj); err != nil {
-					addErrorLog(&logStack, fmt.Sprintf("Failed to unmarshal array item: %v", err))
-					return nil, logStack, err
-				}
-				for variable, value := range finalValues {
-					if strings.Contains(variable, "[*]") {
-						obj[strings.Split(variable, "[*].")[1]] = value
-					} else {
-						output, err = sjson.SetBytes(output, variable, value)
-						if err != nil {
-							return nil, logStack, err
-						}
-					}
-				}
-				newArr = append(newArr, obj)
 			}
-			// Set the processed array back to the output
-			output, err := sjson.SetBytes(output, strings.Split(arrayInputKey, "[*]")[0], newArr)
+		}
+		if len(arrayInputs) == 0 {
+			// No array input at this level, process as single object
+			var matchedRows [][]models.Variables
+			for _, ruleRow := range table.Rules {
+				if ctx.Err() != nil {
+					addErrorLog(&logStack, "Context cancelled during decision table processing")
+					return nil, ctx.Err()
+				}
+				isMatch := true
+				for i, inputDef := range table.InputsColumns {
+					addInfoLog(&logStack, fmt.Sprintf("Evaluating Input Column: %+v", inputDef))
+					actualVal := gjson.GetBytes(data, inputDef.VarKey)
+					if cond, logs := e.evaluateCell(ruleRow[i].Value.(string), actualVal, &logStack); !cond {
+						addLogs(&logStack, logs)
+						isMatch = false
+						break
+					}
+				}
+				if isMatch {
+					addInfoLog(&logStack, fmt.Sprintf("Rule Matched: %v", ruleRow))
+					matchedRows = append(matchedRows, ruleRow)
+					if table.HitPolicy == "FIRST" {
+						addInfoLog(&logStack, "Hit Policy FIRST - stopping after first match")
+						break
+					}
+				}
+			}
+			finalValues, logs, err := e.applyHitPolicy(table, matchedRows, &logStack)
+			addLogs(&logStack, logs)
 			if err != nil {
-				return nil, logStack, err
+				addErrorLog(&logStack, fmt.Sprintf("Error applying hit policy: %v", err))
+				return nil, err
 			}
-			return output, logStack, nil
+			// Set output values
+			output := data
+			for variable, value := range finalValues {
+				output, err = sjson.SetBytes(output, variable, value)
+				if err != nil {
+					return nil, err
+				}
+			}
+			return output, nil
 		}
+
+		// If there are array inputs, process each array recursively
+		output := data
+		for _, arrKey := range arrayInputs {
+			arr := gjson.GetBytes(output, arrKey)
+			if arr.IsArray() {
+				var newArr []interface{}
+				for _, item := range arr.Array() {
+					itemBytes := []byte(item.Raw)
+					// Recursively process nested arrays in this item
+					processedItem, err := processRecursive(ctx, table, itemBytes, arrKey)
+					if err != nil {
+						return nil, err
+					}
+					// Now process DT for this object (with all nested arrays already processed)
+					var matchedRows [][]models.Variables
+					for _, ruleRow := range table.Rules {
+						if ctx.Err() != nil {
+							addErrorLog(&logStack, "Context cancelled during decision table processing")
+							return nil, ctx.Err()
+						}
+						isMatch := true
+						for i, inputDef := range table.InputsColumns {
+							// Only match columns that are for this array level
+							if strings.HasPrefix(inputDef.VarKey, arrKey+"[*].") {
+								subKey := strings.TrimPrefix(inputDef.VarKey, arrKey+"[*].")
+								actualVal := gjson.GetBytes(processedItem, subKey)
+								addInfoLog(&logStack, fmt.Sprintf("Evaluating Input Column: %+v", inputDef))
+								if cond, logs := e.evaluateCell(ruleRow[i].Value.(string), actualVal, &logStack); !cond {
+									addLogs(&logStack, logs)
+									isMatch = false
+									break
+								}
+							}
+						}
+						if isMatch {
+							addInfoLog(&logStack, fmt.Sprintf("Rule Matched: %v", ruleRow))
+							matchedRows = append(matchedRows, ruleRow)
+							if table.HitPolicy == "FIRST" {
+								addInfoLog(&logStack, "Hit Policy FIRST - stopping after first match")
+								break
+							}
+						}
+					}
+					finalValues, logs, err := e.applyHitPolicy(table, matchedRows, &logStack)
+					addLogs(&logStack, logs)
+					if err != nil {
+						addErrorLog(&logStack, fmt.Sprintf("Error applying hit policy: %v", err))
+						return nil, err
+					}
+					// Set values for this object
+					var obj map[string]interface{}
+					if err := json.Unmarshal([]byte(item.Raw), &obj); err != nil {
+						addErrorLog(&logStack, fmt.Sprintf("Failed to unmarshal array item: %v", err))
+						return nil, err
+					}
+					for variable, value := range finalValues {
+						if strings.HasPrefix(variable, arrKey+"[*].") {
+							obj[strings.TrimPrefix(variable, arrKey+"[*].")] = value
+						}
+					}
+					newArr = append(newArr, obj)
+				}
+				// Set the processed array back to the output
+				var err error
+				output, err = sjson.SetBytes(output, arrKey, newArr)
+				if err != nil {
+					return nil, err
+				}
+			}
+		}
+		return output, nil
 	}
 
-	// Default: process as single object
-	var matchedRows [][]models.Variables
-	for _, ruleRow := range table.Rules {
-		if ctx.Err() != nil {
-			addErrorLog(&logStack, "Context cancelled during decision table processing")
-			return nil, logStack, ctx.Err()
-		}
-		isMatch := true
-		for i, inputDef := range table.InputsColumns {
-			addInfoLog(&logStack, fmt.Sprintf("Evaluating Input Column: %s", inputDef))
-			actualVal := gjson.GetBytes(output, inputDef.VarKey)
-			if cond, logs := e.evaluateCell(ruleRow[i].Value.(string), actualVal, &logStack); !cond {
-				addLogs(&logStack, logs)
-				isMatch = false
-				break
-			}
-		}
-		if isMatch {
-			addInfoLog(&logStack, fmt.Sprintf("Rule Matched: %v", ruleRow))
-			matchedRows = append(matchedRows, ruleRow)
-			if table.HitPolicy == "FIRST" {
-				addInfoLog(&logStack, "Hit Policy FIRST - stopping after first match")
-				break
-			}
+	output, err := processRecursive(ctx, table, data, "")
+	return output, logStack, err
+}
+
+// Helper: check if a string is in a slice
+func contains(slice []string, s string) bool {
+	for _, v := range slice {
+		if v == s {
+			return true
 		}
 	}
-	finalValues, logs, err := e.applyHitPolicy(table, matchedRows, &logStack)
-	addLogs(&logStack, logs)
-	if err != nil {
-		addErrorLog(&logStack, fmt.Sprintf("Error applying hit policy: %v", err))
-		return nil, logStack, err
-	}
-	for variable, value := range finalValues {
-		output, err = sjson.SetBytes(output, variable, value)
-		if err != nil {
-			return nil, logStack, err
-		}
-	}
-	return output, logStack, nil
+	return false
 }
 
 func (e *Engine) applyHitPolicy(table models.DecisionTable, matchedRows [][]models.Variables, logStack *[]models.LogStackEntry) (map[string]interface{}, []models.LogStackEntry, error) {
