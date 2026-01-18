@@ -2,6 +2,7 @@ package engine
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"math"
 	"regexp"
@@ -52,7 +53,7 @@ func addLogs(logStack *[]models.LogStackEntry, logs []models.LogStackEntry) {
 	*logStack = append(*logStack, logs...)
 }
 
-func NewEngine() *Engine {
+func NewDTEngine() *Engine {
 	return &Engine{}
 }
 
@@ -60,16 +61,85 @@ func NewEngine() *Engine {
 
 func (e *Engine) ProcessDecisionTable(ctx context.Context, table models.DecisionTable, data []byte) ([]byte, []models.LogStackEntry, error) {
 	output := data
-	var matchedRows [][]models.Variables
 	logStack := []models.LogStackEntry{}
-	// 1. Collect ALL Matching Rows
+
+	// Check if any input column is of type array
+	isArrayInput := false
+	var arrayInputKey string
+	for _, inputDef := range table.InputsColumns {
+		if strings.Contains(inputDef.VarKey, "[*]") {
+			isArrayInput = true
+			arrayInputKey = inputDef.VarKey
+			break
+		}
+	}
+
+	if isArrayInput {
+		// Process each object in the array
+		arr := gjson.GetBytes(output, strings.Split(arrayInputKey, "[*]")[0])
+		if arr.IsArray() {
+			var newArr []interface{}
+			for _, item := range arr.Array() {
+				itemBytes := []byte(item.Raw)
+				// Process DT for each object
+				var matchedRows [][]models.Variables
+				for _, ruleRow := range table.Rules {
+					if ctx.Err() != nil {
+						addErrorLog(&logStack, "Context cancelled during decision table processing")
+						return nil, logStack, ctx.Err()
+					}
+					isMatch := true
+					for i, inputDef := range table.InputsColumns {
+						addInfoLog(&logStack, fmt.Sprintf("Evaluating Input Column: %s", inputDef))
+						actualVal := gjson.GetBytes(itemBytes, strings.Split(inputDef.VarKey, "[*].")[1])
+						if cond, logs := e.evaluateCell(ruleRow[i].Value.(string), actualVal, &logStack); !cond {
+							addLogs(&logStack, logs)
+							isMatch = false
+							break
+						}
+					}
+					if isMatch {
+						addInfoLog(&logStack, fmt.Sprintf("Rule Matched: %v", ruleRow))
+						matchedRows = append(matchedRows, ruleRow)
+						if table.HitPolicy == "FIRST" {
+							addInfoLog(&logStack, "Hit Policy FIRST - stopping after first match")
+							break
+						}
+					}
+				}
+				finalValues, logs, err := e.applyHitPolicy(table, matchedRows, &logStack)
+				addLogs(&logStack, logs)
+				if err != nil {
+					addErrorLog(&logStack, fmt.Sprintf("Error applying hit policy: %v", err))
+					return nil, logStack, err
+				}
+				// Set values for this object
+				var obj map[string]interface{}
+				if err := json.Unmarshal([]byte(item.Raw), &obj); err != nil {
+					addErrorLog(&logStack, fmt.Sprintf("Failed to unmarshal array item: %v", err))
+					return nil, logStack, err
+				}
+				for variable, value := range finalValues {
+					obj[strings.Split(variable, "[*].")[1]] = value
+				}
+				newArr = append(newArr, obj)
+			}
+			// Set the processed array back to the output
+			output, err := sjson.SetBytes(output, strings.Split(arrayInputKey, "[*]")[0], newArr)
+			if err != nil {
+				return nil, logStack, err
+			}
+			return output, logStack, nil
+		}
+	}
+
+	// Default: process as single object
+	var matchedRows [][]models.Variables
 	for _, ruleRow := range table.Rules {
-		// Check context for cancellation
 		if ctx.Err() != nil {
 			addErrorLog(&logStack, "Context cancelled during decision table processing")
 			return nil, logStack, ctx.Err()
 		}
-
 		isMatch := true
 		for i, inputDef := range table.InputsColumns {
 			addInfoLog(&logStack, fmt.Sprintf("Evaluating Input Column: %s", inputDef))
@@ -80,7 +150,6 @@ func (e *Engine) ProcessDecisionTable(ctx context.Context, table models.Decision
 				break
 			}
 		}
-
 		if isMatch {
 			addInfoLog(&logStack, fmt.Sprintf("Rule Matched: %v", ruleRow))
 			matchedRows = append(matchedRows, ruleRow)
@@ -90,22 +159,18 @@ func (e *Engine) ProcessDecisionTable(ctx context.Context, table models.Decision
 			}
 		}
 	}
-
 	finalValues, logs, err := e.applyHitPolicy(table, matchedRows, &logStack)
 	addLogs(&logStack, logs)
-
 	if err != nil {
 		addErrorLog(&logStack, fmt.Sprintf("Error applying hit policy: %v", err))
 		return nil, logStack, err
 	}
-
 	for variable, value := range finalValues {
 		output, err = sjson.SetBytes(output, variable, value)
 		if err != nil {
 			return nil, logStack, err
 		}
 	}
-
 	return output, logStack, nil
 }
 

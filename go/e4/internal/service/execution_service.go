@@ -86,7 +86,7 @@ func (lfs *ExecutionService) HandleDTExecution(c *gin.Context) {
 	var body []byte = make([]byte, c.Request.ContentLength)
 	_, err = c.Request.Body.Read(body)
 	start := time.Now()
-	engine := engine.NewEngine()
+	engine := engine.NewDTEngine()
 	output, logs, err := engine.ProcessDecisionTable(c.Request.Context(), *table, body)
 	if err != nil {
 		fmt.Print(err)
