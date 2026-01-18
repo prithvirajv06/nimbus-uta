@@ -38,8 +38,8 @@
             <app-input-field type="text" placeholder="Value to compare" [field]="item.right_value"/>
         </div>
         <div class="col-span-1 sm:col-span-1 flex justify-center items-center">
-            <app-switch label="AND" leftLabel="OR" [defaultChecked]="true" [field]="item.preceeding_logic"
-                (change)="item?.preceeding_logic()?.setControlValue(($event) ? 'AND' : 'OR');"></app-switch>
+            <app-switch label="AND" leftLabel="OR" [defaultChecked]="true" 
+                (valueChange)="item?.preceeding_logic()?.setControlValue(($event) ? 'AND' : 'OR');"></app-switch>
                 <i class="fas fa-times text-red-500 ml-4 cursor-pointer" (click)="removeCondition($index)"></i>
         </div>
     </div>
