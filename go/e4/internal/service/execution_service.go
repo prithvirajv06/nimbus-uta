@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -70,5 +71,41 @@ func (lfs *ExecutionService) HandleRuleExecution(c *gin.Context) {
 		})
 	} else {
 		c.JSON(http.StatusOK, engine.Input)
+	}
+}
+
+func (lfs *ExecutionService) HandleDTExecution(c *gin.Context) {
+	nimbID := c.Query("nimb_id")
+	versionStr := c.Query("version")
+	version, _ := strconv.Atoi(versionStr)
+	repo := repository.NewGenericRepository[models.DecisionTable](c.Request.Context(), lfs.mongo.Database, "decision_tables")
+	table, err := repo.FindOne(map[string]interface{}{"nimb_id": nimbID, "audit.is_archived": false, "audit.version": version})
+	if HandleError(c, err, "Failed to fetch decision table for execution") {
+		return
+	}
+	var body []byte = make([]byte, c.Request.ContentLength)
+	_, err = c.Request.Body.Read(body)
+	start := time.Now()
+	engine := engine.NewEngine()
+	output, logs, err := engine.ProcessDecisionTable(c.Request.Context(), *table, body)
+	if err != nil {
+		fmt.Print(err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "Execution failed",
+			"details": err.Error(),
+		})
+		return
+	}
+	duration := time.Since(start)
+	c.Header("X_TIME-TAKEN", strconv.FormatInt(duration.Milliseconds(), 10))
+	var response interface{}
+	json.Unmarshal(output, &response)
+	if c.GetHeader("X-NIMBUS-DEBUG") == "YES" {
+		c.JSON(http.StatusOK, gin.H{
+			"data": response,
+			"logs": logs,
+		})
+	} else {
+		c.JSON(http.StatusOK, response)
 	}
 }

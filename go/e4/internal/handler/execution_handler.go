@@ -17,4 +17,5 @@ func NewExecutionHandler(svc *service.ExecutionService) *ExecutionHandler {
 
 func (h *ExecutionHandler) RegisterRoutes(router *gin.RouterGroup) {
 	router.POST("/execute/logic-flow", h.service.HandleRuleExecution)
+	router.POST("/execute/decision-table", h.service.HandleDTExecution)
 }

@@ -8,16 +8,21 @@ const (
 	Unique  HitPolicy = "UNIQUE"  // Error if more than one match
 )
 
-type DTAction struct {
-	Path  string      `json:"path"`
-	Value interface{} `json:"value"`
+type DTRuleSet struct {
+	InputColumns  []DTColumnMetadata       `json:"columns"`
+	OutputColumns []DTColumnMetadata       `json:"output_columns"`
+	Rules         []map[string]interface{} `json:"rules"`
+	HitPolicy     HitPolicy                `json:"hit_policy"`
 }
 
-type DTRule struct {
-	NIMB_ID    string            `json:"nimb_id"`
-	ID         string            `json:"id"`
-	Priority   int               `json:"priority"` // Used for sorting or selection
-	Conditions map[string]string `json:"conditions"`
-	Actions    []DTAction        `json:"actions"`
-	Audit      Audit             `bson:"audit" json:"audit"`
+type DTAction struct {
+	Target Variables   `json:"target"`
+	Value  interface{} `json:"value"`
+}
+
+type DTColumnMetadata struct {
+	ID         string       `json:"id"`
+	Priority   int          `json:"priority"` // Used for sorting or selection
+	Conditions WorkflowStep `json:"conditions"`
+	Actions    []DTAction   `json:"actions"`
 }

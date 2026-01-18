@@ -54,16 +54,19 @@ export class VariableSelectorComponent extends RulesCommons implements OnChanges
   }
 
   highlightSelectedVariable(path: string): void {
-    // if (path && this.variables.length > 0) {
-    //   const foundVar = this.variables.find((v: Variable) => v.var_key === path);
-    //   if (foundVar) {
-    //     this.selectedVariable = foundVar;
-    //     return;
-    //   } else {
-    //     path = path.substring(0, path.lastIndexOf('[*') != -1 ? path.lastIndexOf('[*') : path.lastIndexOf('.'));
-    //     this.highlightSelectedVariable(path);
-    //   }
-    // }
+    if (!this.isSelectBox) {
+      if (path && this.variables.length > 0) {
+        const foundVar = this.variables.find((v: Variable) => v.var_key === path);
+        if (foundVar) {
+          this.selectedVariable = foundVar;
+          return;
+        } else {
+          path = path.substring(0, path.lastIndexOf('[*') != -1 ? path.lastIndexOf('[*') : path.lastIndexOf('.'));
+          this.highlightSelectedVariable(path);
+        }
+      }
+      return
+    }
     for (let variable of this.variables) {
       const result = this.searchVariableByPath(variable, path);
       if (result) {
@@ -94,9 +97,10 @@ export class VariableSelectorComponent extends RulesCommons implements OnChanges
 
 
   setSelectVariable(variable: Variable) {
+    this.selectedVariablePath = variable.var_key;
     this.selectedVariable = variable;
     this.isVariableFilterOpen = false
-    if (variable.isClickable) {
+    if (variable.isClickable || (!this.isSelectBox && (variable.type !== 'object' && variable.type !== 'array'))) {
       this.variableSelectedEvent.emit(variable);
     }
   }
