@@ -120,7 +120,14 @@ func (e *Engine) ProcessDecisionTable(ctx context.Context, table models.Decision
 					return nil, logStack, err
 				}
 				for variable, value := range finalValues {
-					obj[strings.Split(variable, "[*].")[1]] = value
+					if strings.Contains(variable, "[*]") {
+						obj[strings.Split(variable, "[*].")[1]] = value
+					} else {
+						output, err = sjson.SetBytes(output, variable, value)
+						if err != nil {
+							return nil, logStack, err
+						}
+					}
 				}
 				newArr = append(newArr, obj)
 			}
